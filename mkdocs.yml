@@ -49,17 +49,17 @@ plugins:
   - search
 
 nav:
-  - Home: README.md
-  - Master Guide (ACI vs OCI): docs/ACI_VS_OCI_MASTER_GUIDE.md
+  - Home: index.md
+  - Master Guide (ACI vs OCI): ACI_VS_OCI_MASTER_GUIDE.md
   - The Paradigm Shift:
-    - Beyond ASI: docs/BEYOND_ASI_THE_ACI_PARADIGM.md
-    - ACI Definition: docs/ACI_DEFINITION.md
-    - Origin & Provenance: docs/ACI_ORIGIN_AND_PROVENANCE.md
-    - ACI vs AGI vs ASI: docs/ACI_VS_AGI_VS_ASI.md
+    - Beyond ASI: BEYOND_ASI_THE_ACI_PARADIGM.md
+    - ACI Definition: ACI_DEFINITION.md
+    - Origin & Provenance: ACI_ORIGIN_AND_PROVENANCE.md
+    - ACI vs AGI vs ASI: ACI_VS_AGI_VS_ASI.md
   - System Architecture:
-    - Target Architecture: docs/architecture/ACI_SYSTEM_ARCHITECTURE.md
+    - Target Architecture: architecture/ACI_SYSTEM_ARCHITECTURE.md
   - Research & Evaluation:
-    - ACI-001 Benchmark: docs/research/ACI_001_BENCHMARK.md
-    - OCI Research Report: docs/ACI_AUDIT_REPORT.md
+    - ACI-001 Benchmark: research/ACI_001_BENCHMARK.md
+    - OCI Research Report: ACI_AUDIT_REPORT.md
   - Deep Notes (Math & Theory):
     - Mathematical Foundations: notes/OCI_MATHEMATICAL_FOUNDATIONS.md
