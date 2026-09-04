@@ -16,6 +16,7 @@ Read our foundational manifesto: [Beyond ASI: The ACI Paradigm](docs/BEYOND_ASI_
 
 ## Core Documentation Index
 - [The ACI Paradigm (Beyond ASI)](docs/BEYOND_ASI_THE_ACI_PARADIGM.md)
+- [Master Guide: From ACI to OCI](docs/ACI_VS_OCI_MASTER_GUIDE.md)
 - [ACI Definition](docs/ACI_DEFINITION.md)
 - [Origin and Provenance](docs/ACI_ORIGIN_AND_PROVENANCE.md)
 - [ACI vs AGI vs ASI](docs/ACI_VS_AGI_VS_ASI.md)
