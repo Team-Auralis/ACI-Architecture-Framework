@@ -1002,51 +1002,56 @@
 
 <h1 id="aci-system-architecture">ACI System Architecture</h1>
 <h2 id="target-architecture">Target Architecture</h2>
-<div class="highlight"><pre><span></span><code>                    ARTIFICIAL CIVILIZATION INTELLIGENCE
-                                │
-                                ▼
-                         AURA INTELLIGENCE
-                                │
-              ┌─────────────────┼─────────────────┐
-              │                 │                 │
-              ▼                 ▼                 ▼
-           MEMORY          WORLD MODEL       REASONING
-              │                 │                 │
-              └─────────────────┼─────────────────┘
-                                ▼
-                         NEXUS AGENT FABRIC
-                                │
-          ┌─────────────┬───────┼───────┬─────────────┐
-          ▼             ▼       ▼       ▼             ▼
-       Science      Engineering Medicine Economics Infrastructure
-          │             │       │       │             │
-          └─────────────┴───────┼───────┴─────────────┘
-                                ▼
-                         FORGE SCIENCE ENGINE
-                                │
-                                ▼
-                         ASCEND PLANNER
-                                │
-                                ▼
-                         SIMULATION LAYER
-                                │
-                                ▼
-                         GOVERNANCE LAYER
-                                │
-                                ▼
-                       HUMAN / AUTHORIZED AGENT
-                                │
-                                ▼
-                         REAL-WORLD ACTION
-                                │
-                                ▼
-                         OBSERVATION / TELEMETRY
-                                │
-                                ▼
-                         WORLD MODEL UPDATE
-                                │
-                                └───────────────► CONTINUOUS LOOP
-</code></pre></div>
+<pre class="mermaid"><code>graph TD
+    %% Styling
+    classDef ai fill:#2d1b4e,stroke:#9d72ff,stroke-width:2px,color:#fff
+    classDef memory fill:#113247,stroke:#2b8abb,stroke-width:2px,color:#fff
+    classDef agents fill:#1a4138,stroke:#3bb38d,stroke-width:2px,color:#fff
+    classDef physical fill:#4a2b10,stroke:#d98436,stroke-width:2px,color:#fff
+    classDef gov fill:#4a1515,stroke:#d93d3d,stroke-width:2px,color:#fff
+
+    sublayer1[("🧠 AURA Intelligence Core")]:::ai
+
+    subgraph Cognitive Layer [Cognitive &amp; Memory Layer]
+        mem[(Institutional Memory)]:::memory
+        world((OMNIS World Model)):::memory
+        reason[Reasoning Engine]:::memory
+    end
+
+    sublayer1 --&gt; Cognitive Layer
+
+    subgraph NEXUS [NEXUS Agent Fabric]
+        direction LR
+        sci[🧬 Science Agents]:::agents
+        eng[⚙️ Engineering Agents]:::agents
+        med[🏥 Medical Agents]:::agents
+        econ[📈 Economics Agents]:::agents
+        infra[🏗️ Infrastructure Agents]:::agents
+    end
+
+    Cognitive Layer --&gt; NEXUS
+
+    forge{{FORGE Science Engine}}:::ai
+    ascend&gt;ASCEND Long-Horizon Planner]:::ai
+    sim((Mirror Digital Twin Simulation)):::memory
+
+    NEXUS --&gt; forge
+    forge --&gt; ascend
+    ascend --&gt; sim
+
+    veil{VEIL Security &amp; Governance}:::gov
+    sim --&gt; veil
+
+    human([Human / Authorized Operators]):::agents
+    veil --&gt; human
+
+    action[⚡ Real-World Action / Execution]:::physical
+    human --&gt; action
+
+    telemetry[/📡 Observation &amp; Edge Telemetry/]:::physical
+    action --&gt; telemetry
+
+    telemetry -. "Continuous Learning Loop" .-&gt; world</code></pre>
 <h2 id="legacy-to-aci-mapping">Legacy to ACI Mapping</h2>
 <p>Existing ORION components map into the new architecture as follows:
 - <strong>TITAN CLOUD</strong> -&gt; OMNIS Backend / Data Lake
