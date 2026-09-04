@@ -8,6 +8,7 @@ copyright: Copyright &copy; 2026 Shaurya Sanyal (Team Auralis). The term "ACI" w
 
 theme:
   name: material
+  custom_dir: overrides
   icon:
     logo: material/orbit
     favicon: material/orbit
