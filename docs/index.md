@@ -1,4 +1,4 @@
-﻿---
+---
 hide:
   - toc
 ---
@@ -54,7 +54,7 @@ ACI is not a smarter chatbot. It is a new class of intelligence — one that ope
 
 ## What is ACI?
 
-Artificial Civilization Intelligence (ACI) is a post-AGI architectural paradigm proposed by Raja Dharma Tej Maddala under Team Auralis. Where Artificial General Intelligence (AGI) targets human-level reasoning and Artificial Super Intelligence (ASI) targets maximal cognitive performance in an individual system, **ACI targets civilizational-scale institutional function**: the capacity to run, maintain, and improve entire societies under adversarial, resource-constrained, and catastrophically uncertain conditions.
+Artificial Civilization Intelligence (ACI) is a post-AGI architectural paradigm, with the term first coined by Raja Dharma Tej Maddala. Team Auralis builds the concrete engineering implementation. Where Artificial General Intelligence (AGI) targets human-level reasoning and Artificial Super Intelligence (ASI) targets maximal cognitive performance in an individual system, **ACI targets civilizational-scale institutional function**: the capacity to run, maintain, and improve entire societies under adversarial, resource-constrained, and catastrophically uncertain conditions.
 
 An ACI system is not judged by IQ or benchmark scores alone. It is judged by whether it can:
 
