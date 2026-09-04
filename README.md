@@ -5,7 +5,34 @@
 ## Overview
 Artificial Civilization Intelligence (ACI) is a proposed class of intelligent system architecture designed to maintain a persistent model of civilization and its environment, coordinate heterogeneous intelligent agents and humans, reason across interconnected domains, conduct scientific and technological discovery, plan over long horizons, interact with real-world infrastructure, learn from outcomes, and operate under explicit governance and authority constraints.
 
+```mermaid
+graph TD
+    subaxis1[Real World Infrastructure] -->|Telemetry| OMNIS[(OMNIS<br>Causal World Model)]
+    OMNIS --> NEXUS{NEXUS<br>Agent Fabric}
+    NEXUS <-->|Dispute Resolution| AURA[AURA<br>Reasoning Core]
+    NEXUS --> ASCEND[ASCEND<br>Decadal Planner]
+    ASCEND -->|Scientific Validation| FORGE[FORGE<br>Science Engine]
+    FORGE -->|Action| subaxis1
+    
+    %% OCI Subsystems %%
+    GENESIS((GENESIS<br>Architecture Synthesis)) -.->|Proposes New OS| CRUCIBLE{{CRUCIBLE<br>Sandbox Validation}}
+    CRUCIBLE -.->|Hot-Swaps Code| CHIRON[CHIRON<br>Integration & Rollback]
+    CHIRON -.->|Upgrades| NEXUS
+    
+    style OMNIS fill:#1e1e2f,stroke:#4a4a75,color:#fff
+    style NEXUS fill:#2a2a40,stroke:#666699,color:#fff
+    style AURA fill:#3a3a5c,stroke:#8888cc,color:#fff
+    style ASCEND fill:#2a2a40,stroke:#666699,color:#fff
+    style FORGE fill:#1e1e2f,stroke:#4a4a75,color:#fff
+    style GENESIS fill:#4a1e35,stroke:#993366,color:#fff,stroke-dasharray: 5 5
+    style CRUCIBLE fill:#4a1e35,stroke:#993366,color:#fff,stroke-dasharray: 5 5
+    style CHIRON fill:#4a1e35,stroke:#993366,color:#fff,stroke-dasharray: 5 5
+```
+
 This repository contains the foundational architectural definitions, whitepapers, and the **ACI-001 Benchmark** for evaluating such systems.
+
+### 💻 Reference Implementation
+Looking for code? The official reference implementation and executable MVP for the ACI architecture is located in the [**ORION Repository**](https://github.com/Team-Auralis/orion). 
 
 ## Beyond ASI
 For decades, the AI industry has pursued Artificial Superintelligence (ASI)—a monolithic, hyper-intelligent oracle. We propose that this is a structural fallacy. **Intelligence without infrastructure, continuity, and coordination is just computation.** 
