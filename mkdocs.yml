@@ -1,34 +1,43 @@
-site_name: ACI Architecture Framework
-site_description: The official specification and engineering framework for Artificial Civilization Intelligence (ACI) and Open-ended Civilizational Intelligence (OCI).
-site_author: Team Auralis
+﻿site_name: ACI Architecture Framework
+site_url: https://team-auralis.github.io/ACI-Architecture-Framework/
+site_description: The official specification, benchmark, and research ledger for Artificial Civilization Intelligence (ACI).
+site_author: Raja Dharma Tej Maddala / Team Auralis
 repo_url: https://github.com/Team-Auralis/ACI-Architecture-Framework
 repo_name: Team-Auralis/ACI-Architecture-Framework
+copyright: Copyright &copy; 2026 Raja Dharma Tej Maddala. Published under Team Auralis.
 
 theme:
   name: material
+  icon:
+    logo: material/orbit
+    favicon: material/orbit
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.expand
+    - navigation.top
+    - navigation.path
     - toc.integrate
     - search.suggest
     - search.highlight
     - content.code.copy
+    - content.tooltips
+    - header.autohide
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: deep purple
-      accent: deep purple
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: deep purple
-      accent: deep purple
+      primary: indigo
+      accent: cyan
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
 
 markdown_extensions:
   - admonition
@@ -42,24 +51,54 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - attr_list
   - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - def_list
 
 plugins:
-  - search
+  - search:
+      lang: en
 
 nav:
   - Home: index.md
-  - Master Guide (ACI vs OCI): ACI_VS_OCI_MASTER_GUIDE.md
-  - The Paradigm Shift:
+  - The Paradigm:
     - Beyond ASI: BEYOND_ASI_THE_ACI_PARADIGM.md
     - ACI Definition: ACI_DEFINITION.md
-    - Origin & Provenance: ACI_ORIGIN_AND_PROVENANCE.md
     - ACI vs AGI vs ASI: ACI_VS_AGI_VS_ASI.md
-  - System Architecture:
-    - Target Architecture: architecture/ACI_SYSTEM_ARCHITECTURE.md
-  - Research & Evaluation:
+    - ACI vs OCI Master Guide: ACI_VS_OCI_MASTER_GUIDE.md
+    - Origin and Provenance: ACI_ORIGIN_AND_PROVENANCE.md
+  - Architecture:
+    - System Overview: architecture/ACI_SYSTEM_ARCHITECTURE.md
+    - OMNIS World Model: architecture/OMNIS_WORLD_MODEL.md
+    - NEXUS Agent Fabric: architecture/NEXUS_AGENT_FABRIC.md
+    - FORGE Science Engine: architecture/FORGE_SCIENTIFIC_ENGINE.md
+    - ASCEND Long-Horizon Planner: architecture/ASCEND_LONG_HORIZON_PLANNER.md
+    - AURA Intelligence Core: architecture/AURA_INTELLIGENCE_ARCHITECTURE.md
+  - Empirical Research:
+    - Empirical Methodology: ACI_EMPIRICAL_METHODOLOGY.md
     - ACI-001 Benchmark: research/ACI_001_BENCHMARK.md
-    - OCI Research Report: ACI_AUDIT_REPORT.md
-  - Deep Notes (Math & Theory):
-    - Mathematical Foundations: notes/OCI_MATHEMATICAL_FOUNDATIONS.md
+    - Recursive Improvement: research/RECURSIVE_IMPROVEMENT.md
+  - Subsystems:
+    - Core Vision: 00-core-vision/README.md
+    - NEXUS Architecture: 01-nexus-architecture/README.md
+    - HAVEN Civilian Platform: 02-haven-civilian-platform/README.md
+    - AEGIS Communications: 03-aegis-communications/README.md
+    - SENTIENCE AI: 04-sentience-ai/README.md
+    - VEIL Security: 05-veil-security/README.md
+    - PHOENIX Resilience: 06-phoenix-resilience/README.md
+    - MIRROR Digital Twin: 07-mirror-digital-twin/README.md
+    - ATLAS Infrastructure: 08-atlas-infrastructure/README.md
+    - OMNIS Data: 09-omnis-data/README.md
+    - FORGE Research: 10-forge-research/README.md
+    - ASCEND Expansion: 11-ascend-expansion/README.md
+  - Roadmap: roadmap/ACI_ROADMAP.md
+  - Governance: governance/README.md

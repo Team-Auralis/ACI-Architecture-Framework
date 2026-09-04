@@ -1066,6 +1066,30 @@
 
 <h1 id="master-guide-from-aci-to-oci">Master Guide: From ACI to OCI</h1>
 <p>This document is the definitive guide to understanding the evolution of machine intelligence frameworks proposed by Team Auralis. It details the transition from <strong>Artificial Civilization Intelligence (ACI)</strong> to the ultimate frontier: <strong>Open-ended Civilizational Intelligence (OCI)</strong>.</p>
+<pre class="mermaid"><code>graph LR
+    %% Styling
+    classDef aci fill:#1a3a42,stroke:#2b8abb,stroke-width:2px,color:#fff
+    classDef oci fill:#3a1a42,stroke:#9d72ff,stroke-width:2px,color:#fff
+    classDef both fill:#222,stroke:#555,stroke-width:1px,color:#ccc
+
+    subgraph ACI [ACI: Fixed Architecture]
+        OMNIS[(OMNIS)]:::aci
+        NEXUS((NEXUS)):::aci
+        FORGE{{FORGE}}:::aci
+        ASCEND&gt;ASCEND]:::aci
+        OMNIS &lt;--&gt; NEXUS &lt;--&gt; FORGE &lt;--&gt; ASCEND
+    end
+
+    subgraph OCI [OCI: Structural Plasticity]
+        direction TB
+        GENESIS[💡 GENESIS&lt;br/&gt;Novelty Search]:::oci
+        CRUCIBLE{{🔥 CRUCIBLE&lt;br/&gt;Gödel Proofs}}:::oci
+        CHIRON[⚙️ CHIRON&lt;br/&gt;Hot-Swap Topology]:::oci
+        GENESIS --&gt; CRUCIBLE --&gt; CHIRON
+    end
+
+    ACI -- "Recursive Self-Improvement" --&gt; OCI
+    CHIRON -. "Rewires Architecture" .-&gt; ACI</code></pre>
 <hr />
 <h2 id="1-the-fallacy-of-the-monolithic-asi">1. The Fallacy of the Monolithic ASI</h2>
 <p>For decades, the AI industry has pursued Artificial Superintelligence (ASI)—a single, hyper-intelligent oracle that sits in a server and answers questions. Team Auralis proposes that this is structurally flawed. A single mind, no matter how intelligent, is fragile, static, and disconnected from reality. </p>

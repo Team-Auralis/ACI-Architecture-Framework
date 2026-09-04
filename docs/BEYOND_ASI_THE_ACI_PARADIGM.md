@@ -23,7 +23,7 @@ We propose that pursuing ASI is a pursuit of raw cognitive horsepower, whereas p
 ## 📄 Foundational Paper
 The theoretical and empirical foundations of the ACI paradigm are further elaborated in:
 
-> **Beyond ASI** — *Raja Dharma Tej Maddala (Raja MagRex AI)*  
+> **Beyond ASI** — *Shaurya Sanyal (Mr Fool)*  
 > `docs/papers/Beyond_ASI.pdf`
 
 This paper formally defines ACI, distinguishes it from ASI and AGI, and outlines the architectural and empirical basis for why civilization-level coordination supersedes raw intelligence as a design objective.
