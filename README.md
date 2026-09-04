@@ -1,10 +1,10 @@
-﻿# ACI Architecture Framework
+# ACI Architecture Framework
 
 [![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://team-auralis.github.io/ACI-Architecture-Framework/)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-lightgrey)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases)
 
-The official specification, benchmark, and research ledger for **Artificial Civilization Intelligence (ACI)** — a post-AGI architectural paradigm for planetary-scale governance, authored by **Raja Dharma Tej Maddala** under **Team Auralis**.
+The official specification, benchmark, and research ledger for **Artificial Civilization Intelligence (ACI)** — a post-AGI architectural paradigm for planetary-scale governance. Built by **Team Auralis** (Shaurya Sanyal and contributors). The term "ACI" was coined by Raja Dharma Tej Maddala.
 
 **Documentation site:** [https://team-auralis.github.io/ACI-Architecture-Framework/](https://team-auralis.github.io/ACI-Architecture-Framework/)
 
