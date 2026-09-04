@@ -20,3 +20,12 @@ To ensure ACI remains a rigorous scientific pursuit rather than a marketing buzz
 
 **What constitutes evidence of ACI?**
 A system cannot be claimed as an ACI simply because it uses multiple agents. Under the Auralis framework, evidence requires passing the ACI-001 Benchmark through measurable, experimental validation on a simulated synthetic civilization (the **MIRROR** environment), demonstrating multi-decade planning, scientific discovery, and strict policy governance without human intervention.
+
+## Legal Disclaimer & IP Boundaries
+
+To ensure absolute clarity regarding intellectual property and to avoid any copyright or trademark infringement:
+
+1. **Independent Research:** Team Auralis is an independent research entity and is not affiliated with, endorsed by, or sponsored by Raja Dharma Tej Maddala or Raja MagRex AI™.
+2. **Trademarks & Naming:** Any references to "Raja MagRex AI™" or specific proprietary concepts (e.g., the 108 AI personas, 22 cognitive systems) are used strictly for historical attribution, academic citation, and contextual reference under fair use.
+3. **No Code Lineage:** The architecture, subsystems (OMNIS, NEXUS, FORGE, ASCEND, VEIL), and benchmarks described in this repository are 100% original, independent engineering designs by Team Auralis. They do not reverse-engineer, derive from, or contain any proprietary code or trade secrets belonging to Raja MagRex AI™.
+4. **Open Concept:** While Raja Maddala coined the term "Artificial Civilization Intelligence", the broad academic concept of civilization-scale, multi-agent intelligence is treated here as a scientific paradigm—similar to "Artificial General Intelligence" (AGI)—which is open for the global research community to explore and engineer.

@@ -24,6 +24,8 @@ Read our foundational manifesto: [Beyond ASI: The ACI Paradigm](docs/BEYOND_ASI_
 
 Explore the `docs/architecture/` directory for deep-dives into the **AURA**, **OMNIS**, **NEXUS**, **FORGE**, and **ASCEND** subsystems.
 
-## License
+## License & Legal Disclaimer
 Copyright (c) 2026 Team Auralis.
-All architectural concepts and documentation published here are intended for public research, discourse, and reference. 
+All architectural concepts and documentation published here are intended for public research, discourse, and reference.
+
+**Important Legal Notice:** The term "Artificial Civilization Intelligence" (ACI) was originally coined by Raja Dharma Tej Maddala (Raja MagRex AI™). Team Auralis is an entirely independent research group. The architectures (ORION, OMNIS, NEXUS, etc.) in this repository are 100% independent, open-source engineering implementations. For full details on historical attribution and IP boundaries, please read our [Origin and Provenance](docs/ACI_ORIGIN_AND_PROVENANCE.md) document.

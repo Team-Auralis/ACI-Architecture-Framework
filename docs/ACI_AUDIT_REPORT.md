@@ -135,3 +135,12 @@ The framework currently relies heavily on proposed architecture and theoretical 
 ### Recommended Positioning
 *To be used in the GitHub repository and research papers:*
 "Team Auralis provides an open engineering architecture and empirical evaluation framework (ACI-001) for Artificial Civilization Intelligence, building upon the foundational concepts introduced by Raja Dharma Tej Maddala and broader research in collective superintelligence."
+
+## Part 11 — Legal and IP Safety Recommendations
+
+To guarantee that Team Auralis faces absolutely no copyright, trademark, or legal disputes regarding the ACI concept, the following operational rules must be maintained across all repositories, whitepapers, and codebases:
+
+1. **Clear Trademark Acknowledgment:** Always attribute the original conceptual framing of ACI to Raja Dharma Tej Maddala and Raja MagRex AI™. Never attempt to trademark the term "Artificial Civilization Intelligence" for Team Auralis, as prior art clearly establishes its origin elsewhere. Treat ACI as an open scientific paradigm (like AGI or LLM).
+2. **Strict Code Independence (Clean Room Design):** Ensure that the ORION architecture (OMNIS, NEXUS, ASCEND, etc.) is built entirely from scratch or from open-source MIT/Apache-licensed dependencies. Do not incorporate, reference, or attempt to reverse-engineer the "108 personas" or "87 functional modules" specifically claimed by Raja MagRex AI.
+3. **Explicit Disclaimers in Repositories:** All public-facing materials must contain a disclaimer stating: *"Team Auralis is an independent research entity and is not affiliated with, endorsed by, or sponsored by Raja Dharma Tej Maddala or Raja MagRex AI™. All engineering architectures described herein are 100% original, independent designs."*
+4. **Focus on the Engineering Novelty:** By keeping Team Auralis's focus strictly on the **open architecture**, **systems engineering**, and **benchmarks** (ACI-001), you cleanly separate your work from the proprietary, philosophical, and conceptual models of earlier originators. You cannot copyright an idea or a paradigm (ACI), but you *can* copyright and own the specific open-source engineering implementation (ORION) of that paradigm.
