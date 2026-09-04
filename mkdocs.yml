@@ -1,10 +1,10 @@
-﻿site_name: ACI Architecture Framework
+site_name: ACI Architecture Framework
 site_url: https://team-auralis.github.io/ACI-Architecture-Framework/
 site_description: The official specification, benchmark, and research ledger for Artificial Civilization Intelligence (ACI).
-site_author: Raja Dharma Tej Maddala / Team Auralis
+site_author: Shaurya Sanyal (Team Auralis)
 repo_url: https://github.com/Team-Auralis/ACI-Architecture-Framework
 repo_name: Team-Auralis/ACI-Architecture-Framework
-copyright: Copyright &copy; 2026 Raja Dharma Tej Maddala. Published under Team Auralis.
+copyright: Copyright &copy; 2026 Shaurya Sanyal (Team Auralis). The term "ACI" was coined by Raja Dharma Tej Maddala.
 
 theme:
   name: material
