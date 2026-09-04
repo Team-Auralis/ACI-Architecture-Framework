@@ -1,4 +1,4 @@
-﻿# Artificial Civilization Intelligence (ACI) Framework
+# Artificial Civilization Intelligence (ACI) Framework
 
 **Proposed by Team Auralis**
 
@@ -7,20 +7,22 @@ Artificial Civilization Intelligence (ACI) is a proposed class of intelligent sy
 
 This repository contains the foundational architectural definitions, whitepapers, and the **ACI-001 Benchmark** for evaluating such systems.
 
-## Why ACI?
-ACI describes a different dimension of intelligence scaling than AGI or ASI:
-**SCALE + CONTINUITY + COORDINATION + WORLD MODEL + INSTITUTIONAL MEMORY + ACTION + GOVERNANCE**
+## Beyond ASI
+For decades, the AI industry has pursued Artificial Superintelligence (ASI)—a monolithic, hyper-intelligent oracle. We propose that this is a structural fallacy. **Intelligence without infrastructure, continuity, and coordination is just computation.** 
 
-It is a system-level architecture focused on civilization-scale continuity rather than raw individual cognitive capacity.
+ACI is the necessary paradigm shift. It proposes that the ultimate evolution of machine intelligence is not a singular mind, but a **distributed, antifragile, institutional intelligence** that functions as a civilization itself. 
 
-## Documentation Index
+Read our foundational manifesto: [Beyond ASI: The ACI Paradigm](docs/BEYOND_ASI_THE_ACI_PARADIGM.md).
+
+## Core Documentation Index
+- [The ACI Paradigm (Beyond ASI)](docs/BEYOND_ASI_THE_ACI_PARADIGM.md)
 - [ACI Definition](docs/ACI_DEFINITION.md)
 - [Origin and Provenance](docs/ACI_ORIGIN_AND_PROVENANCE.md)
 - [ACI vs AGI vs ASI](docs/ACI_VS_AGI_VS_ASI.md)
 - [System Architecture](docs/architecture/ACI_SYSTEM_ARCHITECTURE.md)
 - [ACI-001 Benchmark](docs/research/ACI_001_BENCHMARK.md)
 
-Explore the docs/ directory for deep-dives into the **AURA**, **OMNIS**, **NEXUS**, **FORGE**, and **ASCEND** subsystems.
+Explore the `docs/architecture/` directory for deep-dives into the **AURA**, **OMNIS**, **NEXUS**, **FORGE**, and **ASCEND** subsystems.
 
 ## License
 Copyright (c) 2026 Team Auralis.
