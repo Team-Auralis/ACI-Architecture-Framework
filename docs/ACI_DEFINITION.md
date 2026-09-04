@@ -17,3 +17,14 @@ ACI is formally defined as an intelligence architecture that satisfies seven str
 
 ## The ORION Proof
 Project ORION is being constructed as the first concrete, empirical proof of the ACI framework. Through the ACI-001 Benchmark, ORION aims to prove that distributed, governed coordination (ACI) yields higher civilization resilience and scientific output than isolated super-cognition (ASI).
+
+## Empirical Validation
+
+ACI is not merely a theoretical philosophy or an established scientific classification; it is a **project-defined, testable research framework**. An architecture cannot be declared an ACI simply because it possesses the required modules. It must be empirically validated.
+
+The rigorous validation of an ACI architecture involves:
+1. **Accumulated Empirical Advantage (AEA):** Demonstrating that the system's efficiency and capability scale linearly with its accumulated institutional memory.
+2. **Standardized Benchmarking:** Meeting predefined thresholds on a multi-dimensional scoring matrix testing causal discovery, multi-agent coordination, and governance under conflicting objectives.
+3. **Adversarial Evaluation:** Submitting the frozen architecture to independent blind tests and malicious adversarial attacks designed to induce false transfers, hallucinations, and agent collisions.
+
+For full details on how ACI is scientifically measured, see [[ACI_EMPIRICAL_METHODOLOGY]].
