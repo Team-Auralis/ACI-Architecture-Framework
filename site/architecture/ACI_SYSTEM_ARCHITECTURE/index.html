@@ -1012,13 +1012,13 @@
 
     sublayer1[("🧠 AURA Intelligence Core")]:::ai
 
-    subgraph Cognitive Layer [Cognitive &amp; Memory Layer]
+    subgraph CognitiveLayer [Cognitive &amp; Memory Layer]
         mem[(Institutional Memory)]:::memory
         world((OMNIS World Model)):::memory
         reason[Reasoning Engine]:::memory
     end
 
-    sublayer1 --&gt; Cognitive Layer
+    sublayer1 --&gt; CognitiveLayer
 
     subgraph NEXUS [NEXUS Agent Fabric]
         direction LR
@@ -1029,7 +1029,7 @@
         infra[🏗️ Infrastructure Agents]:::agents
     end
 
-    Cognitive Layer --&gt; NEXUS
+    CognitiveLayer --&gt; NEXUS
 
     forge{{FORGE Science Engine}}:::ai
     ascend&gt;ASCEND Long-Horizon Planner]:::ai

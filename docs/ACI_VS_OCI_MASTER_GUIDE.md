@@ -2,6 +2,33 @@
 
 This document is the definitive guide to understanding the evolution of machine intelligence frameworks proposed by Team Auralis. It details the transition from **Artificial Civilization Intelligence (ACI)** to the ultimate frontier: **Open-ended Civilizational Intelligence (OCI)**.
 
+```mermaid
+graph LR
+    %% Styling
+    classDef aci fill:#1a3a42,stroke:#2b8abb,stroke-width:2px,color:#fff
+    classDef oci fill:#3a1a42,stroke:#9d72ff,stroke-width:2px,color:#fff
+    classDef both fill:#222,stroke:#555,stroke-width:1px,color:#ccc
+
+    subgraph ACI [ACI: Fixed Architecture]
+        OMNIS[(OMNIS)]:::aci
+        NEXUS((NEXUS)):::aci
+        FORGE{{FORGE}}:::aci
+        ASCEND>ASCEND]:::aci
+        OMNIS <--> NEXUS <--> FORGE <--> ASCEND
+    end
+
+    subgraph OCI [OCI: Structural Plasticity]
+        direction TB
+        GENESIS[💡 GENESIS<br/>Novelty Search]:::oci
+        CRUCIBLE{{🔥 CRUCIBLE<br/>Gödel Proofs}}:::oci
+        CHIRON[⚙️ CHIRON<br/>Hot-Swap Topology]:::oci
+        GENESIS --> CRUCIBLE --> CHIRON
+    end
+    
+    ACI -- "Recursive Self-Improvement" --> OCI
+    CHIRON -. "Rewires Architecture" .-> ACI
+```
+
 ---
 
 ## 1. The Fallacy of the Monolithic ASI
