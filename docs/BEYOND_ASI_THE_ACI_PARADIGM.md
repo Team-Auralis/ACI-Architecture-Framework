@@ -17,3 +17,13 @@ Artificial Civilization Intelligence (ACI) proposes that the ultimate evolution 
 
 ## The Paradigm Shift
 We propose that pursuing ASI is a pursuit of raw cognitive horsepower, whereas pursuing ACI is the pursuit of a **functioning, autonomous, digital civilization**. ACI is the necessary evolutionary step to make machine intelligence actually useful on a planetary scale.
+
+---
+
+## 📄 Foundational Paper
+The theoretical and empirical foundations of the ACI paradigm are further elaborated in:
+
+> **Beyond ASI** — *Raja Dharma Tej Maddala (Raja MagRex AI)*  
+> `docs/papers/Beyond_ASI.pdf`
+
+This paper formally defines ACI, distinguishes it from ASI and AGI, and outlines the architectural and empirical basis for why civilization-level coordination supersedes raw intelligence as a design objective.
