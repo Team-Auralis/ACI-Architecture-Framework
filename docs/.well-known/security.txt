@@ -1,0 +1,4 @@
+﻿Contact: https://github.com/Team-Auralis/ACI-Architecture-Framework/issues
+Expires: 2027-09-04T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://team-auralis.github.io/ACI-Architecture-Framework/.well-known/security.txt

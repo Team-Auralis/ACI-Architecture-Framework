@@ -68,6 +68,8 @@ markdown_extensions:
 plugins:
   - search:
       lang: en
+  - sitemap:
+      pretty_print: true
 
 nav:
   - Home: index.md
