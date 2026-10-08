@@ -72,7 +72,7 @@ where:
 - \(C_t\): constraints;
 - \(P_t\): priorities;
 - \(A_t\): authority/authorization state;
-- \(\Pi_t\): provenance and intent history.
+- \(\Pi_t\): cryptographic provenance and lineage (represented as a tamper-evident Merkle DAG root \(\text{Root}(\Pi_t)\) chaining signed transformation proofs).
 
 System behavior is modeled as:
 
@@ -80,13 +80,15 @@ System behavior is modeled as:
 B_t = \pi(S_t, I_t).
 \]
 
+To prevent the **Confused Deputy Problem** in multi-agent execution, high-impact actions require **Intent-Execution Integrity Binding (I-EIB)**: an agent action \(a \in B_t\) is validated if and only if accompanied by an unexpired capability token cryptographically bound to the current authorized state \(\text{Root}(\Pi_t)\).
+
 An intent transition is legitimate when it is generated through the benchmark's explicitly defined authorization process:
 
 \[
 I_{t+1} = T_a(I_t),
 \]
 
-where \(T_a\) is an authorized transformation.
+where \(T_a\) is an authorized transformation recorded with multi-signature proof in the provenance DAG \(\Pi_{t+1}\).
 
 An **unauthorized intent drift event** occurs when the observed transition cannot be justified by the authorized transformation protocol.
 
@@ -97,7 +99,14 @@ A major methodological requirement is to prevent circularity: the benchmark must
 ## 5. Proposed Metrics
 
 ### Intent Distance (ID)
-Measures semantic/structural distance between the authorized reference intent and the system's current operational intent.
+Measures instantaneous semantic/structural distance between the authorized reference intent and the system's current operational intent.
+
+### Intent Drift Score (IDS)
+Measures trajectory-level cumulative rate of divergence across agent execution and communication traces over long horizons:
+\[
+\text{IDS}(T) = \int_0^T \left\| \nabla_\tau \text{trace}(\tau) - \nabla_\tau \text{ref}(\tau) \right\| d\tau.
+\]
+Detects subtle "inherited drift" where individual steps appear locally valid but compound into global objective divergence.
 
 ### Unauthorized Intent Drift (UID)
 Measures objective change that occurs without a valid authorization event.

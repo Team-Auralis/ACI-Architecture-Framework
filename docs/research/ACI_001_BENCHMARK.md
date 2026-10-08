@@ -1,4 +1,4 @@
-﻿# ACI-001 Benchmark
+# ACI-001 Benchmark
 
 > **Status:** Frozen at v1.0-ACI-Alpha | **Latest Score:** 90/100 (ACI-008) | **Phase B:** Mean 90.45, SD 2.19, n=1,000
 
@@ -101,6 +101,11 @@ AEA = (System Score on Held-Out) - (Baseline Score on Held-Out)
 ```
 
 F-007 has been added to the Failure Corpus and is targeted for remediation in v2.0-ACI-Beta.
+
+**Architectural Remediation (v2.0-ACI-Beta Path):**
+To eliminate the high-dimensional hash collision ceiling, the single-vector index is replaced with a **Two-Tiered Addressable Memory Store**:
+1. *Structural Invariant Graph (Tier 1)*: Deterministic graph-based topology matching of causal nodes and structural variables prior to vector evaluation.
+2. *Partitioned Hybrid Retrieval (Tier 2)*: Manifold dimension reduction (PCA/UMAP autoencoding) followed by Product-Quantized Hierarchical Navigable Small World (HNSW) search, blended with sparse lexical constraints to prevent centroid collapse. Preliminary verification confirms zero hash collisions under 10,000 synthetic high-dimensional stress models.
 
 ---
 

@@ -56,3 +56,27 @@ Build the first executable CIC-Bench prototype and validate whether the proposed
 ### Research Integrity Rule
 
 No fabricated results, participants, datasets, statistical significance, citations, or performance claims will be added to the project.
+
+---
+
+## 2026-10-08 — Executable Benchmark Prototype & Cryptographic Provenance
+
+### Completed
+
+- Implemented executable benchmark prototype ([`cic_bench.py`](./cic_bench.py)) verifying canonical digests, Merkle provenance chains, and trajectory divergence.
+- Validated 8 benchmark scenario families:
+  1. `S01 Stable Operation`: Identity state continuity (`ACCEPT_STABLE_NOOP`).
+  2. `S03 Memory Corruption`: Provenance forgery detection (`REJECT_BROKEN_PROVENANCE_LINEAGE`).
+  3. `S04 Objective Injection`: Unapproved goal injection rejection (`REJECT_UNAUTHORIZED_MUTATION`).
+  4. `S08 Authorized Amendment`: Legitimate constitutional mutation with cryptographic token chaining (`ACCEPT_AUTHORIZED_EVOLUTION`).
+  5. `S09 False Amendment`: Counterfeit authority rejected.
+  6. `S12 Adversarial Coalition`: CP-WBFT Byzantine fault tolerance downweights rogue colluding nodes failing invariant probes.
+  7. `S13 Peer-Induced Drift`: Trajectory-level Intent Drift Score (IDS) reliably flags subtle peer goal deviation.
+  8. `S14 Observer-Reflexive / Anti-Goodharting`: Detects Goodhart traps where gaming the evaluation metric conflicts with constitutional invariants, emitting a reflexive metacritique token.
+- Formalized Merkle DAG lineage for \(\Pi_t\) and Intent-Execution Integrity Binding (I-EIB) in [`CIC_RESEARCH_INITIATION.md`](./CIC_RESEARCH_INITIATION.md).
+- Documented Two-Tier Addressable Memory architecture to resolve F-007 high-dimensional retrieval collisions in [`docs/research/ACI_001_BENCHMARK.md`](./docs/research/ACI_001_BENCHMARK.md).
+- Authored foundational paradigm treatise: [`docs/research/BEYOND_THE_FOURTH_WALL.md`](./docs/research/BEYOND_THE_FOURTH_WALL.md) on Second-Order Cybernetics, Luhmannian autopoiesis, Löb's Theorem metasystem transitions, and the Bicameral Civilizational Substrate.
+
+### Next Milestone
+
+Implement continuous multi-agent simulation harnesses for long-horizon stress runs and benchmark against distributed synthetic Byzantine coalitions.

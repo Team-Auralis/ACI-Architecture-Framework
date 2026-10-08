@@ -75,6 +75,7 @@ nav:
   - Home: index.md
   - The Paradigm:
     - Beyond ASI: BEYOND_ASI_THE_ACI_PARADIGM.md
+    - Beyond the Fourth Wall: research/BEYOND_THE_FOURTH_WALL.md
     - ACI Definition: ACI_DEFINITION.md
     - ACI vs AGI vs ASI: ACI_VS_AGI_VS_ASI.md
     - ACI vs OCI Master Guide: ACI_VS_OCI_MASTER_GUIDE.md
@@ -88,8 +89,10 @@ nav:
     - AURA Intelligence Core: architecture/AURA_INTELLIGENCE_ARCHITECTURE.md
   - Empirical Research:
     - Empirical Methodology: ACI_EMPIRICAL_METHODOLOGY.md
+    - Mathematical Foundations: research/MATHEMATICAL_FOUNDATIONS_OF_ACI.md
     - ACI-001 Benchmark: research/ACI_001_BENCHMARK.md
     - Recursive Improvement: research/RECURSIVE_IMPROVEMENT.md
+    - Civilizational Intent Conservation: research/CIVILIZATIONAL_INTENT_CONSERVATION.md
   - Subsystems:
     - Core Vision: 00-core-vision/README.md
     - NEXUS Architecture: 01-nexus-architecture/README.md
