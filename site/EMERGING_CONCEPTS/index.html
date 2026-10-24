@@ -2117,10 +2117,10 @@
 </tbody>
 </table>
 <h3 id="mathematical-formulation">Mathematical Formulation<a class="headerlink" href="#mathematical-formulation" title="Permanent link">&para;</a></h3>
-<p>Let $\mathbf{v}_0$ be the founding intent vector and $\mathbf{v}_t$ the measured intent at time $t$. The drift score is:</p>
-<p>$$\Delta I_t = 1 - \frac{\mathbf{v}_0 \cdot \mathbf{v}_t}{|\mathbf{v}_0| |\mathbf{v}_t|}$$</p>
+<p>Let <span class="arithmatex">\(\mathbf{v}_0\)</span> be the founding intent vector and <span class="arithmatex">\(\mathbf{v}_t\)</span> the measured intent at time <span class="arithmatex">\(t\)</span>. The drift score is:</p>
+<div class="arithmatex">\[\Delta I_t = 1 - \frac{\mathbf{v}_0 \cdot \mathbf{v}_t}{\|\mathbf{v}_0\| \|\mathbf{v}_t\|}\]</div>
 <p>The CIC constraint requires:</p>
-<p>$$\forall t: \quad \Delta I_t \leq \tau \quad \text{OR} \quad \text{MetaConsensus}(\Delta I_t) = \text{APPROVED}$$</p>
+<div class="arithmatex">\[\forall t: \quad \Delta I_t \leq \tau \quad \text{OR} \quad \text{MetaConsensus}(\Delta I_t) = \text{APPROVED}\]</div>
 <p>This ensures drift is either bounded or explicitly sanctioned by governance.</p>
 <h3 id="proposed-benchmark-cic-001">Proposed Benchmark: CIC-001<a class="headerlink" href="#proposed-benchmark-cic-001" title="Permanent link">&para;</a></h3>
 <table>
@@ -2495,6 +2495,10 @@
     
     
       <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

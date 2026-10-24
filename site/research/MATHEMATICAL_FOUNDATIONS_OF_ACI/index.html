@@ -1137,12 +1137,12 @@
   <a href="#2-differential-causal-geometry-pearls-do-calculus" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Differential Causal Geometry &amp; Pearl's $do$-Calculus
+        2. Differential Causal Geometry &amp; Pearl's \(do\)-Calculus
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Differential Causal Geometry &amp; Pearl&#39;s $do$-Calculus">
+    <nav class="md-nav" aria-label="2. Differential Causal Geometry &amp; Pearl&#39;s \(do\)-Calculus">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1199,7 +1199,7 @@
   <a href="#31-wasserstein-2-w_2-metric-on-priority-distributions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Wasserstein-2 ($W_2$) Metric on Priority Distributions
+        3.1 Wasserstein-2 (\(W_2\)) Metric on Priority Distributions
       
     </span>
   </a>
@@ -2094,7 +2094,7 @@
 <h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
 <p>The ACI/OCI architecture departs from heuristic prompt-engineering by establishing rigorous mathematical models for every civilizational layer. This monograph unifies:
 1. <strong>Information-Theoretic Proof of Radix Economy</strong> (Shannon entropy and optimal packing);
-2. <strong>Differential Causal Geometry &amp; Pearl's $do$-Calculus</strong> (OMNIS world modeling);
+2. <strong>Differential Causal Geometry &amp; Pearl's <span class="arithmatex">\(do\)</span>-Calculus</strong> (OMNIS world modeling);
 3. <strong>Optimal Transport &amp; Riemannian Geometry</strong> (Intent distance and trajectory drift);
 4. <strong>Stochastic Dynamic Programming &amp; HJB Equations</strong> (ASCEND decadal planning);
 5. <strong>Neuro-Symbolic Dung Semantics &amp; Cooperative Game Theory</strong> (NEXUS coordination);
@@ -2103,100 +2103,100 @@
 <h2 id="1-information-theoretic-proof-the-radix-economy-theorem">1. Information-Theoretic Proof: The Radix Economy Theorem<a class="headerlink" href="#1-information-theoretic-proof-the-radix-economy-theorem" title="Permanent link">&para;</a></h2>
 <p>In <code>docs/research/multi-valued-computing/README.md</code>, empirical benchmarks proved that ternary packing outperforms binary compression on uniform random data, while standard binary compression dominates on sparse/bursty telemetry. Here is the formal proof.</p>
 <h3 id="11-the-radix-economy-function">1.1 The Radix Economy Function<a class="headerlink" href="#11-the-radix-economy-function" title="Permanent link">&para;</a></h3>
-<p>Let $N$ be the maximum magnitude of numbers representable in a hardware or network system. In base $r$, the number of digits (characters) required is $D(r) = \lceil \log_r N \rceil$.</p>
-<p>The hardware/storage cost $E(r, N)$ is proportional to the product of the radix $r$ (number of signal levels per digit) and the number of digits $D(r)$:</p>
-<p>$$E(r, N) = r \cdot \log_r N = r \cdot \frac{\ln N}{\ln r} = \ln N \cdot \frac{r}{\ln r}$$</p>
-<p>To find the mathematically optimal radix $r^*$ that minimizes storage and transmission cost, we differentiate $f(r) = \frac{r}{\ln r}$ with respect to $r$:</p>
-<p>$$\frac{d}{dr}\left( \frac{r}{\ln r} \right) = \frac{1 \cdot \ln r - r \cdot \frac{1}{r}}{(\ln r)^2} = \frac{\ln r - 1}{(\ln r)^2}$$</p>
+<p>Let <span class="arithmatex">\(N\)</span> be the maximum magnitude of numbers representable in a hardware or network system. In base <span class="arithmatex">\(r\)</span>, the number of digits (characters) required is <span class="arithmatex">\(D(r) = \lceil \log_r N \rceil\)</span>.</p>
+<p>The hardware/storage cost <span class="arithmatex">\(E(r, N)\)</span> is proportional to the product of the radix <span class="arithmatex">\(r\)</span> (number of signal levels per digit) and the number of digits <span class="arithmatex">\(D(r)\)</span>:</p>
+<div class="arithmatex">\[E(r, N) = r \cdot \log_r N = r \cdot \frac{\ln N}{\ln r} = \ln N \cdot \frac{r}{\ln r}\]</div>
+<p>To find the mathematically optimal radix <span class="arithmatex">\(r^*\)</span> that minimizes storage and transmission cost, we differentiate <span class="arithmatex">\(f(r) = \frac{r}{\ln r}\)</span> with respect to <span class="arithmatex">\(r\)</span>:</p>
+<div class="arithmatex">\[\frac{d}{dr}\left( \frac{r}{\ln r} \right) = \frac{1 \cdot \ln r - r \cdot \frac{1}{r}}{(\ln r)^2} = \frac{\ln r - 1}{(\ln r)^2}\]</div>
 <p>Setting the derivative to zero:</p>
-<p>$$\ln r - 1 = 0 \implies \ln r = 1 \implies r^* = e \approx 2.71828$$</p>
+<div class="arithmatex">\[\ln r - 1 = 0 \implies \ln r = 1 \implies r^* = e \approx 2.71828\]</div>
 <p>Evaluating discrete integer radices:
-- <strong>Base 2 (Binary)</strong>: $f(2) = \frac{2}{\ln 2} \approx \frac{2}{0.6931} \approx 2.8854$
-- <strong>Base 3 (Ternary)</strong>: $f(3) = \frac{3}{\ln 3} \approx \frac{3}{1.0986} \approx \mathbf{2.7307}$ (Optimal discrete integer)
-- <strong>Base 4 (Quaternary)</strong>: $f(4) = \frac{4}{\ln 4} \approx \frac{4}{1.3863} \approx 2.8854$</p>
-<p><strong>Theorem 1 (Optimal Uncompressed Packing):</strong> <em>For uniform high-entropy data ($H(X) \to H_{\max}$), base 3 (ternary) is mathematically the most economical representation, saving approximately 5.36% raw symbol complexity over binary.</em></p>
+- <strong>Base 2 (Binary)</strong>: <span class="arithmatex">\(f(2) = \frac{2}{\ln 2} \approx \frac{2}{0.6931} \approx 2.8854\)</span>
+- <strong>Base 3 (Ternary)</strong>: <span class="arithmatex">\(f(3) = \frac{3}{\ln 3} \approx \frac{3}{1.0986} \approx \mathbf{2.7307}\)</span> (Optimal discrete integer)
+- <strong>Base 4 (Quaternary)</strong>: <span class="arithmatex">\(f(4) = \frac{4}{\ln 4} \approx \frac{4}{1.3863} \approx 2.8854\)</span></p>
+<p><strong>Theorem 1 (Optimal Uncompressed Packing):</strong> <em>For uniform high-entropy data (<span class="arithmatex">\(H(X) \to H_{\max}\)</span>), base 3 (ternary) is mathematically the most economical representation, saving approximately 5.36% raw symbol complexity over binary.</em></p>
 <h3 id="12-the-entropy-discrepancy-why-binary-wins-on-telemetry">1.2 The Entropy Discrepancy (Why Binary Wins on Telemetry)<a class="headerlink" href="#12-the-entropy-discrepancy-why-binary-wins-on-telemetry" title="Permanent link">&para;</a></h3>
-<p>Real-world SCADA and IoT sensor telemetry is rarely uniform random noise. For an incident state variable $X$:</p>
-<p>$$H(X) = -\sum_{i=1}^n P(x_i) \log_2 P(x_i)$$</p>
-<p>When the system is in normal operation ($P(\text{NORMAL}) \approx 0.98$):
-$$H(X) \approx - (0.98 \log_2 0.98 + 0.02 \log_2 0.02) \approx 0.141 \text{ bits/sample}$$</p>
-<p>Under Shannon's Source Coding Theorem, the minimal expected code length $L$ satisfies $L \ge H(X)$. Fixed-width ternary packing consumes $\log_2(3) \approx 1.585$ bits/trit regardless of the distribution. Dictionary-based binary LZ77/Zlib run-length encodes repeating zero/normal states, achieving $L \to 0.15$ bits/sample, outperforming fixed ternary packing by <strong>over 87%</strong>.</p>
+<p>Real-world SCADA and IoT sensor telemetry is rarely uniform random noise. For an incident state variable <span class="arithmatex">\(X\)</span>:</p>
+<div class="arithmatex">\[H(X) = -\sum_{i=1}^n P(x_i) \log_2 P(x_i)\]</div>
+<p>When the system is in normal operation (<span class="arithmatex">\(P(\text{NORMAL}) \approx 0.98\)</span>):
+$<span class="arithmatex">\(H(X) \approx - (0.98 \log_2 0.98 + 0.02 \log_2 0.02) \approx 0.141 \text{ bits/sample}\)</span>$</p>
+<p>Under Shannon's Source Coding Theorem, the minimal expected code length <span class="arithmatex">\(L\)</span> satisfies <span class="arithmatex">\(L \ge H(X)\)</span>. Fixed-width ternary packing consumes <span class="arithmatex">\(\log_2(3) \approx 1.585\)</span> bits/trit regardless of the distribution. Dictionary-based binary LZ77/Zlib run-length encodes repeating zero/normal states, achieving <span class="arithmatex">\(L \to 0.15\)</span> bits/sample, outperforming fixed ternary packing by <strong>over 87%</strong>.</p>
 <hr />
-<h2 id="2-differential-causal-geometry-pearls-do-calculus">2. Differential Causal Geometry &amp; Pearl's $do$-Calculus<a class="headerlink" href="#2-differential-causal-geometry-pearls-do-calculus" title="Permanent link">&para;</a></h2>
+<h2 id="2-differential-causal-geometry-pearls-do-calculus">2. Differential Causal Geometry &amp; Pearl's <span class="arithmatex">\(do\)</span>-Calculus<a class="headerlink" href="#2-differential-causal-geometry-pearls-do-calculus" title="Permanent link">&para;</a></h2>
 <p>OMNIS formulates civilizational state as an open-ended <strong>Structural Causal Model (SCM)</strong>:
-$$\mathcal{M} = \langle \mathcal{U}, \mathcal{V}, \mathcal{F}, P(\mathcal{U}) \rangle$$</p>
+$<span class="arithmatex">\(\mathcal{M} = \langle \mathcal{U}, \mathcal{V}, \mathcal{F}, P(\mathcal{U}) \rangle\)</span>$</p>
 <h3 id="21-the-backdoor-adjustment-formula">2.1 The Backdoor Adjustment Formula<a class="headerlink" href="#21-the-backdoor-adjustment-formula" title="Permanent link">&para;</a></h3>
-<p>Given a directed graph $G$, an action $X \in \mathcal{V}$ and outcome $Y \in \mathcal{V}$, a set of conditioning covariates $\mathbf{Z}$ satisfies the Backdoor Criterion if:
-1. No node in $\mathbf{Z}$ is a causal descendant of $X$;
-2. $\mathbf{Z}$ blocks every backdoor path between $X$ and $Y$.</p>
-<p>The interventional distribution $P(Y \mid do(X = x))$ is computed without real-world experimentation by:</p>
-<p>$$P(Y = y \mid do(X = x)) = \sum_{\mathbf{z}} P(Y = y \mid X = x, \mathbf{Z} = \mathbf{z}) P(\mathbf{Z} = \mathbf{z})$$</p>
+<p>Given a directed graph <span class="arithmatex">\(G\)</span>, an action <span class="arithmatex">\(X \in \mathcal{V}\)</span> and outcome <span class="arithmatex">\(Y \in \mathcal{V}\)</span>, a set of conditioning covariates <span class="arithmatex">\(\mathbf{Z}\)</span> satisfies the Backdoor Criterion if:
+1. No node in <span class="arithmatex">\(\mathbf{Z}\)</span> is a causal descendant of <span class="arithmatex">\(X\)</span>;
+2. <span class="arithmatex">\(\mathbf{Z}\)</span> blocks every backdoor path between <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>.</p>
+<p>The interventional distribution <span class="arithmatex">\(P(Y \mid do(X = x))\)</span> is computed without real-world experimentation by:</p>
+<div class="arithmatex">\[P(Y = y \mid do(X = x)) = \sum_{\mathbf{z}} P(Y = y \mid X = x, \mathbf{Z} = \mathbf{z}) P(\mathbf{Z} = \mathbf{z})\]</div>
 <h3 id="22-the-frontdoor-adjustment-formula">2.2 The Frontdoor Adjustment Formula<a class="headerlink" href="#22-the-frontdoor-adjustment-formula" title="Permanent link">&para;</a></h3>
-<p>When unobserved confounding $\mathcal{U}$ exists between $X$ and $Y$ (e.g., hidden socioeconomic factors), but an observable mediating mechanism $\mathbf{M}$ exists satisfying:
-1. $\mathbf{M}$ intercepts all directed causal paths from $X$ to $Y$;
-2. No unblocked backdoor path exists from $X$ to $\mathbf{M}$;
-3. All backdoor paths from $\mathbf{M}$ to $Y$ are blocked by $X$.</p>
+<p>When unobserved confounding <span class="arithmatex">\(\mathcal{U}\)</span> exists between <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span> (e.g., hidden socioeconomic factors), but an observable mediating mechanism <span class="arithmatex">\(\mathbf{M}\)</span> exists satisfying:
+1. <span class="arithmatex">\(\mathbf{M}\)</span> intercepts all directed causal paths from <span class="arithmatex">\(X\)</span> to <span class="arithmatex">\(Y\)</span>;
+2. No unblocked backdoor path exists from <span class="arithmatex">\(X\)</span> to <span class="arithmatex">\(\mathbf{M}\)</span>;
+3. All backdoor paths from <span class="arithmatex">\(\mathbf{M}\)</span> to <span class="arithmatex">\(Y\)</span> are blocked by <span class="arithmatex">\(X\)</span>.</p>
 <p>OMNIS computes exact policy interventions via the Frontdoor Formula:</p>
-<p>$$P(Y = y \mid do(X = x)) = \sum_{\mathbf{m}} P(\mathbf{M} = \mathbf{m} \mid X = x) \sum_{x'} P(Y = y \mid X = x', \mathbf{M} = \mathbf{m}) P(X = x')$$</p>
+<div class="arithmatex">\[P(Y = y \mid do(X = x)) = \sum_{\mathbf{m}} P(\mathbf{M} = \mathbf{m} \mid X = x) \sum_{x'} P(Y = y \mid X = x', \mathbf{M} = \mathbf{m}) P(X = x')\]</div>
 <h3 id="23-counterfactual-potential-outcome-formulation">2.3 Counterfactual Potential Outcome Formulation<a class="headerlink" href="#23-counterfactual-potential-outcome-formulation" title="Permanent link">&para;</a></h3>
-<p>To answer: <em>"Given observed telemetry $\mathbf{e} = {X = x', Y = y'}$, what would $Y$ have been had we intervened $do(X = x)$?"</em></p>
-<p>$$P(Y_{X=x} = y \mid \mathbf{e}) = \sum_{\mathbf{u}} P(Y(\mathbf{u}) = y \mid X(\mathbf{u}) = x) P(\mathbf{U} = \mathbf{u} \mid \mathbf{e})$$</p>
-<p>Step 1 (Abduction): Update exogenous belief $P(\mathbf{U} \mid \mathbf{e})$.<br />
-Step 2 (Action): Replace structural equations with $X := x$.<br />
-Step 3 (Prediction): Compute expectation over target $Y$.</p>
+<p>To answer: <em>"Given observed telemetry <span class="arithmatex">\(\mathbf{e} = \{X = x', Y = y'\}\)</span>, what would <span class="arithmatex">\(Y\)</span> have been had we intervened <span class="arithmatex">\(do(X = x)\)</span>?"</em></p>
+<div class="arithmatex">\[P(Y_{X=x} = y \mid \mathbf{e}) = \sum_{\mathbf{u}} P(Y(\mathbf{u}) = y \mid X(\mathbf{u}) = x) P(\mathbf{U} = \mathbf{u} \mid \mathbf{e})\]</div>
+<p>Step 1 (Abduction): Update exogenous belief <span class="arithmatex">\(P(\mathbf{U} \mid \mathbf{e})\)</span>.<br />
+Step 2 (Action): Replace structural equations with <span class="arithmatex">\(X := x\)</span>.<br />
+Step 3 (Prediction): Compute expectation over target <span class="arithmatex">\(Y\)</span>.</p>
 <hr />
 <h2 id="3-civilizational-intent-conservation-optimal-transport-geometry">3. Civilizational Intent Conservation: Optimal Transport Geometry<a class="headerlink" href="#3-civilizational-intent-conservation-optimal-transport-geometry" title="Permanent link">&para;</a></h2>
-<p>In the CIC framework, intent is defined as $I_t = (G_t, V_t, C_t, P_t, A_t, \Pi_t)$.</p>
-<h3 id="31-wasserstein-2-w_2-metric-on-priority-distributions">3.1 Wasserstein-2 ($W_2$) Metric on Priority Distributions<a class="headerlink" href="#31-wasserstein-2-w_2-metric-on-priority-distributions" title="Permanent link">&para;</a></h3>
-<p>Rather than treating priority vector $P_t$ as Euclidean vectors (which collapse under high-dimensional cosine similarity), ACI models $P_t$ as a probability measure $\mu_t \in \mathcal{P}(\mathcal{X})$ over the goal manifold $\mathcal{X}$.</p>
-<p>The structural distance between founding intent $\mu_0$ and operational intent $\mu_t$ is defined by the <strong>Wasserstein-2 (Earth Mover's) Distance</strong>:</p>
-<p>$$W_2(\mu_0, \mu_t) = \left( \inf_{\gamma \in \Gamma(\mu_0, \mu_t)} \int_{\mathcal{X} \times \mathcal{X}} d_{\mathcal{X}}(x, y)^2 \, d\gamma(x, y) \right)^{1/2}$$</p>
-<p>Where $\Gamma(\mu_0, \mu_t)$ is the set of all joint distributions (couplings) whose marginals are $\mu_0$ and $\mu_t$. $W_2$ measures the minimum operational work required to morph collective goals.</p>
+<p>In the CIC framework, intent is defined as <span class="arithmatex">\(I_t = (G_t, V_t, C_t, P_t, A_t, \Pi_t)\)</span>.</p>
+<h3 id="31-wasserstein-2-w_2-metric-on-priority-distributions">3.1 Wasserstein-2 (<span class="arithmatex">\(W_2\)</span>) Metric on Priority Distributions<a class="headerlink" href="#31-wasserstein-2-w_2-metric-on-priority-distributions" title="Permanent link">&para;</a></h3>
+<p>Rather than treating priority vector <span class="arithmatex">\(P_t\)</span> as Euclidean vectors (which collapse under high-dimensional cosine similarity), ACI models <span class="arithmatex">\(P_t\)</span> as a probability measure <span class="arithmatex">\(\mu_t \in \mathcal{P}(\mathcal{X})\)</span> over the goal manifold <span class="arithmatex">\(\mathcal{X}\)</span>.</p>
+<p>The structural distance between founding intent <span class="arithmatex">\(\mu_0\)</span> and operational intent <span class="arithmatex">\(\mu_t\)</span> is defined by the <strong>Wasserstein-2 (Earth Mover's) Distance</strong>:</p>
+<div class="arithmatex">\[W_2(\mu_0, \mu_t) = \left( \inf_{\gamma \in \Gamma(\mu_0, \mu_t)} \int_{\mathcal{X} \times \mathcal{X}} d_{\mathcal{X}}(x, y)^2 \, d\gamma(x, y) \right)^{1/2}\]</div>
+<p>Where <span class="arithmatex">\(\Gamma(\mu_0, \mu_t)\)</span> is the set of all joint distributions (couplings) whose marginals are <span class="arithmatex">\(\mu_0\)</span> and <span class="arithmatex">\(\mu_t\)</span>. <span class="arithmatex">\(W_2\)</span> measures the minimum operational work required to morph collective goals.</p>
 <h3 id="32-trajectory-intent-drift-score-ids-on-the-fisher-manifold">3.2 Trajectory Intent Drift Score (IDS) on the Fisher Manifold<a class="headerlink" href="#32-trajectory-intent-drift-score-ids-on-the-fisher-manifold" title="Permanent link">&para;</a></h3>
-<p>To measure drift across continuous execution traces $\theta(\tau)$, we construct the <strong>Fisher Information Metric Tensor</strong>:</p>
-<p>$$g_{ij}(\theta) = \mathbb{E}<em>{\pi</em>\theta} \left[ \frac{\partial \ln \pi_\theta(a \mid s)}{\partial \theta^i} \frac{\partial \ln \pi_\theta(a \mid s)}{\partial \theta^j} \right]$$</p>
-<p>The <strong>Intent Drift Score (IDS)</strong> across planning horizon $T$ is the Riemannian geodesic length:</p>
-<p>$$\text{IDS}(T) = \int_0^T \sqrt{g_{ij}(\theta(\tau)) \frac{d\theta^i}{d\tau} \frac{d\theta^j}{d\tau}} \, d\tau$$</p>
+<p>To measure drift across continuous execution traces <span class="arithmatex">\(\theta(\tau)\)</span>, we construct the <strong>Fisher Information Metric Tensor</strong>:</p>
+<div class="arithmatex">\[g_{ij}(\theta) = \mathbb{E}_{\pi_\theta} \left[ \frac{\partial \ln \pi_\theta(a \mid s)}{\partial \theta^i} \frac{\partial \ln \pi_\theta(a \mid s)}{\partial \theta^j} \right]\]</div>
+<p>The <strong>Intent Drift Score (IDS)</strong> across planning horizon <span class="arithmatex">\(T\)</span> is the Riemannian geodesic length:</p>
+<div class="arithmatex">\[\text{IDS}(T) = \int_0^T \sqrt{g_{ij}(\theta(\tau)) \frac{d\theta^i}{d\tau} \frac{d\theta^j}{d\tau}} \, d\tau\]</div>
 <p>This ensures that circular or zigzagging policy mutations that attempt to evade threshold gates are penalised by their actual path integral in policy space.</p>
 <hr />
 <h2 id="4-decadal-temporal-planning-stochastic-dynamic-programming">4. Decadal Temporal Planning: Stochastic Dynamic Programming<a class="headerlink" href="#4-decadal-temporal-planning-stochastic-dynamic-programming" title="Permanent link">&para;</a></h2>
 <p>Civilizational state transitions are governed by a system of Stochastic Differential Equations (SDEs):</p>
-<p>$$dS_t = \mu(S_t, a_t) \, dt + \sigma(S_t, a_t) \, dW_t$$</p>
-<p>Where $W_t$ is an $m$-dimensional standard Brownian motion representing physical, meteorological, and economic shocks.</p>
+<div class="arithmatex">\[dS_t = \mu(S_t, a_t) \, dt + \sigma(S_t, a_t) \, dW_t\]</div>
+<p>Where <span class="arithmatex">\(W_t\)</span> is an <span class="arithmatex">\(m\)</span>-dimensional standard Brownian motion representing physical, meteorological, and economic shocks.</p>
 <h3 id="41-hamilton-jacobi-bellman-hjb-dynamic-programming-equation">4.1 Hamilton-Jacobi-Bellman (HJB) Dynamic Programming Equation<a class="headerlink" href="#41-hamilton-jacobi-bellman-hjb-dynamic-programming-equation" title="Permanent link">&para;</a></h3>
 <p>ASCEND maximizes cumulative discounted civilizational welfare:</p>
-<p>$$V(S) = \max_{{a_t}_{t \ge 0}} \mathbb{E}\left[ \int_0^\infty e^{-\rho t} \mathcal{R}(S_t, a_t) \, dt \,\Bigg|\, S_0 = S \right]$$</p>
-<p>Under Itô's Lemma, the value function $V(S)$ satisfies the continuous-time <strong>HJB Partial Differential Equation</strong>:</p>
-<p>$$\rho V(S) = \max_{a \in \mathcal{A}_{\text{macro}}} \left{ \mathcal{R}(S, a) + \nabla_S V(S)^\top \mu(S, a) + \frac{1}{2} \text{Tr}\left( \sigma(S, a) \sigma(S, a)^\top \nabla_S^2 V(S) \right) \right}$$</p>
-<p>Where $\nabla_S^2 V(S)$ is the Hessian matrix measuring the curvature and fragility of the civilizational state space.</p>
+<div class="arithmatex">\[V(S) = \max_{\{a_t\}_{t \ge 0}} \mathbb{E}\left[ \int_0^\infty e^{-\rho t} \mathcal{R}(S_t, a_t) \, dt \,\Bigg|\, S_0 = S \right]\]</div>
+<p>Under Itô's Lemma, the value function <span class="arithmatex">\(V(S)\)</span> satisfies the continuous-time <strong>HJB Partial Differential Equation</strong>:</p>
+<div class="arithmatex">\[\rho V(S) = \max_{a \in \mathcal{A}_{\text{macro}}} \left\{ \mathcal{R}(S, a) + \nabla_S V(S)^\top \mu(S, a) + \frac{1}{2} \text{Tr}\left( \sigma(S, a) \sigma(S, a)^\top \nabla_S^2 V(S) \right) \right\}\]</div>
+<p>Where <span class="arithmatex">\(\nabla_S^2 V(S)\)</span> is the Hessian matrix measuring the curvature and fragility of the civilizational state space.</p>
 <h3 id="42-lyapunov-stability-for-decadal-convergence">4.2 Lyapunov Stability for Decadal Convergence<a class="headerlink" href="#42-lyapunov-stability-for-decadal-convergence" title="Permanent link">&para;</a></h3>
-<p>To prove that a 50-year plan will not diverge exponentially under chaotic compounding, ASCEND bounds the <strong>Maximum Lyapunov Exponent</strong> $\lambda_{\max}$:</p>
-<p>$$\lambda_{\max} = \lim_{t \to \infty} \frac{1}{t} \ln \frac{|\delta S_t|}{|\delta S_0|}$$</p>
+<p>To prove that a 50-year plan will not diverge exponentially under chaotic compounding, ASCEND bounds the <strong>Maximum Lyapunov Exponent</strong> <span class="arithmatex">\(\lambda_{\max}\)</span>:</p>
+<div class="arithmatex">\[\lambda_{\max} = \lim_{t \to \infty} \frac{1}{t} \ln \frac{\|\delta S_t\|}{\|\delta S_0\|}\]</div>
 <p><strong>Convergence Invariant:</strong>
-$$\forall a^<em> \in \mathcal{A}<em _max="\max">{\text{macro}}, \quad \lambda</em>\big(\mu(\cdot, a^</em>)\big) &lt; -\kappa \quad (\kappa &gt; 0)$$</p>
+$<span class="arithmatex">\(\forall a^* \in \mathcal{A}_{\text{macro}}, \quad \lambda_{\max}\big(\mu(\cdot, a^*)\big) &lt; -\kappa \quad (\kappa &gt; 0)\)</span>$</p>
 <p>This guarantees asymptotic exponential contraction of perturbations toward the planned civilizational equilibrium.</p>
 <hr />
 <h2 id="5-neuro-symbolic-argumentation-game-theoretic-coordination">5. Neuro-Symbolic Argumentation &amp; Game-Theoretic Coordination<a class="headerlink" href="#5-neuro-symbolic-argumentation-game-theoretic-coordination" title="Permanent link">&para;</a></h2>
 <h3 id="51-dungs-abstract-argumentation-semantics">5.1 Dung's Abstract Argumentation Semantics<a class="headerlink" href="#51-dungs-abstract-argumentation-semantics" title="Permanent link">&para;</a></h3>
-<p>Let $\mathcal{AF} = \langle \mathcal{A}, \mathcal{R} \rangle$ be the argumentation graph formed by NEXUS domain agents.</p>
-<p>The <strong>Characteristic Function</strong> $F_{\mathcal{AF}}: 2^{\mathcal{A}} \to 2^{\mathcal{A}}$ is defined as:</p>
-<p>$$F_{\mathcal{AF}}(S) = { A \in \mathcal{A} \mid \forall B \in \mathcal{A}, (B, A) \in \mathcal{R} \implies \exists C \in S, (C, B) \in \mathcal{R} }$$</p>
-<p>By the Knaster-Tarski Theorem, because $F_{\mathcal{AF}}$ is monotonic with respect to set inclusion ($S \subseteq S' \implies F(S) \subseteq F(S')$), it possesses a unique least fixed point:</p>
-<p>$$\mathcal{GE} = \text{lfp}(F_{\mathcal{AF}}) = \bigcup_{k=0}^\infty F_{\mathcal{AF}}^k(\emptyset)$$</p>
-<p>$\mathcal{GE}$ is the <strong>Grounded Extension</strong>: the unique, polynomial-time computable, non-conflicted set of logically unassailable actions that NEXUS ratifies.</p>
+<p>Let <span class="arithmatex">\(\mathcal{AF} = \langle \mathcal{A}, \mathcal{R} \rangle\)</span> be the argumentation graph formed by NEXUS domain agents.</p>
+<p>The <strong>Characteristic Function</strong> <span class="arithmatex">\(F_{\mathcal{AF}}: 2^{\mathcal{A}} \to 2^{\mathcal{A}}\)</span> is defined as:</p>
+<div class="arithmatex">\[F_{\mathcal{AF}}(S) = \{ A \in \mathcal{A} \mid \forall B \in \mathcal{A}, (B, A) \in \mathcal{R} \implies \exists C \in S, (C, B) \in \mathcal{R} \}\]</div>
+<p>By the Knaster-Tarski Theorem, because <span class="arithmatex">\(F_{\mathcal{AF}}\)</span> is monotonic with respect to set inclusion (<span class="arithmatex">\(S \subseteq S' \implies F(S) \subseteq F(S')\)</span>), it possesses a unique least fixed point:</p>
+<div class="arithmatex">\[\mathcal{GE} = \text{lfp}(F_{\mathcal{AF}}) = \bigcup_{k=0}^\infty F_{\mathcal{AF}}^k(\emptyset)\]</div>
+<p><span class="arithmatex">\(\mathcal{GE}\)</span> is the <strong>Grounded Extension</strong>: the unique, polynomial-time computable, non-conflicted set of logically unassailable actions that NEXUS ratifies.</p>
 <h3 id="52-shapley-value-for-multi-agent-coalition-attribution">5.2 Shapley Value for Multi-Agent Coalition Attribution<a class="headerlink" href="#52-shapley-value-for-multi-agent-coalition-attribution" title="Permanent link">&para;</a></h3>
-<p>To prevent free-riding and resource capture among the NEXUS domain agents, the marginal contribution of agent $i \in N$ to civilizational outcome $v$ is computed via the <strong>Axiomatic Shapley Value</strong>:</p>
-<p>$$\phi_i(v) = \sum_{S \subseteq N \setminus {i}} \frac{|S|! (|N| - |S| - 1)!}{|N|!} \Big( v(S \cup {i}) - v(S) \Big)$$</p>
+<p>To prevent free-riding and resource capture among the NEXUS domain agents, the marginal contribution of agent <span class="arithmatex">\(i \in N\)</span> to civilizational outcome <span class="arithmatex">\(v\)</span> is computed via the <strong>Axiomatic Shapley Value</strong>:</p>
+<div class="arithmatex">\[\phi_i(v) = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|! (|N| - |S| - 1)!}{|N|!} \Big( v(S \cup \{i\}) - v(S) \Big)\]</div>
 <p>Satisfies Efficiency, Symmetry, Linearity, and Null Player axioms, guaranteeing mathematically fair credit attribution and resource distribution.</p>
 <hr />
 <h2 id="6-cryptographic-provenance-dag-algebra">6. Cryptographic Provenance DAG Algebra<a class="headerlink" href="#6-cryptographic-provenance-dag-algebra" title="Permanent link">&para;</a></h2>
-<p>Every intent transition $T_a(I_t)$ produces a state hash $H(I_t)$ chained into an append-only Directed Acyclic Graph (DAG):</p>
-<p>$$H(I_t) = \text{SHA256}\Big( H(G_t) \parallel H(V_t) \parallel H(C_t) \parallel H(P_t) \parallel \text{Root}(\Pi_{t-1}) \parallel \sigma_{\text{council}}(A_t) \Big)$$</p>
+<p>Every intent transition <span class="arithmatex">\(T_a(I_t)\)</span> produces a state hash <span class="arithmatex">\(H(I_t)\)</span> chained into an append-only Directed Acyclic Graph (DAG):</p>
+<div class="arithmatex">\[H(I_t) = \text{SHA256}\Big( H(G_t) \parallel H(V_t) \parallel H(C_t) \parallel H(P_t) \parallel \text{Root}(\Pi_{t-1}) \parallel \sigma_{\text{council}}(A_t) \Big)\]</div>
 <h3 id="61-constant-time-membership-proofs">6.1 Constant-Time Membership Proofs<a class="headerlink" href="#61-constant-time-membership-proofs" title="Permanent link">&para;</a></h3>
-<p>For any historical action $a_k$ executed at time $k \le t$, verification of constitutional legitimacy requires a Merkle audit path of length:</p>
-<p>$$|\text{Proof}(a_k)| = O(\log_2 K)$$</p>
-<p>Where $K$ is the number of historical civilizational decisions. Tamper-evidence is mathematically guaranteed by the collision resistance of the underlying cryptographic hash function:</p>
-<p>$$P\Big(\text{Forgery of } \Pi_t\Big) \le \frac{q^2}{2^{256}} \approx 0$$</p>
+<p>For any historical action <span class="arithmatex">\(a_k\)</span> executed at time <span class="arithmatex">\(k \le t\)</span>, verification of constitutional legitimacy requires a Merkle audit path of length:</p>
+<div class="arithmatex">\[|\text{Proof}(a_k)| = O(\log_2 K)\]</div>
+<p>Where <span class="arithmatex">\(K\)</span> is the number of historical civilizational decisions. Tamper-evidence is mathematically guaranteed by the collision resistance of the underlying cryptographic hash function:</p>
+<div class="arithmatex">\[P\Big(\text{Forgery of } \Pi_t\Big) \le \frac{q^2}{2^{256}} \approx 0\]</div>
 
 
 
@@ -2260,6 +2260,10 @@ $$\forall a^<em> \in \mathcal{A}<em _max="\max">{\text{macro}}, \quad \lambda</e
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

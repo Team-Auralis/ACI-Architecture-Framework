@@ -85,12 +85,16 @@ By the Cauchy-Schwarz inequality:
 
 $$-M_Q M_K \le \mathbf{q}_i^\top \mathbf{k}_j \le M_Q M_K \quad \forall j$$
 
-Therefore:
-1. The numerator is strictly upper-bounded by:
-   $$\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) \le L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)$$
+Therefore, we bound the numerator and denominator separately:
 
-2. Dropping the non-negative working term $\sum_{p \in \mathcal{S}_{\text{work}}} \exp(\cdot) \ge 0$, the denominator is lower-bounded by:
-   $$\sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) \ge (L_u + |\mathcal{S}_{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)$$
+**Numerator upper bound:**
+
+$$\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) \le L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)$$
+
+**Denominator lower bound:**
+Dropping the non-negative working memory term $\sum_{p \in \mathcal{S}_{\text{work}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_p}{\sqrt{d_k}} \right) \ge 0$:
+
+$$\sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) \ge (L_u + |\mathcal{S}_{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)$$
 
 Dividing numerator by denominator yields:
 
@@ -164,12 +168,15 @@ where the ratio $R_t$ is defined as:
 
 $$R_t = \frac{\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}$$
 
-Under the uniform bounded score assumption:
-1. The numerator of $R_t$ contains $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_{\text{bound}}$ terms, each bounded above by $\exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
-   $$\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right) \le C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$$
+Under the uniform bounded score assumption, we bound $R_t$ by evaluating its components:
 
-2. The denominator of $R_t$ contains $|\mathcal{S}_{\text{inv}}| = L_u$ terms, each bounded below by $\exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
-   $$\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) \ge L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$$
+**Numerator bound:** containing $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_{\text{bound}}$ terms, each bounded above by $\exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
+
+$$\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right) \le C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$$
+
+**Denominator bound:** containing $|\mathcal{S}_{\text{inv}}| = L_u$ terms, each bounded below by $\exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
+
+$$\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) \ge L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$$
 
 Combining these bounds yields an upper bound on the ratio $R_t$:
 
@@ -202,8 +209,10 @@ Assuming standard invariant instruction size $L_u = 100$ tokens and compact Gene
 1. **Low & Intermediate Contrast Regimes ($\Delta s \le 2.0$):** When score contrast between invariant and background tokens is moderate, Generational Context guarantees that invariant tokens retain a robust **$8.3\% - 19.7\%$** share of attention mass.
 2. **Adversarial & Extreme Contrast Regimes ($\Delta s \ge 6.0$):** If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This demonstrates that *bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast*. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).
 3. **Comparative Bound Analysis:** Under the uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:
-   $$R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}$$
-   which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends directly on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.
+
+    $$R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}$$
+
+    which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends directly on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.
 
 > [!NOTE] Scope & Boundary Conditions of Theorem 2
 > The lower bound establishes that bounding active distractor volume prevents volume-driven attention dilution. It assumes uniform bounded projection energy. If non-invariant distractor tokens are adversarially crafted to achieve disproportionately large dot products, or if invariant representations undergo representation collapse in deep layers, attention can still be diverted. Generational Context provides the necessary structural control over token volume to guarantee bounded background competition.

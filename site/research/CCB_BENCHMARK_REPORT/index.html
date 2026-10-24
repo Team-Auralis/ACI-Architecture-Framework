@@ -2031,10 +2031,10 @@
 <h2 id="2-key-analytical-findings">2. Key Analytical Findings<a class="headerlink" href="#2-key-analytical-findings" title="Permanent link">&para;</a></h2>
 <h3 id="finding-1-verification-of-the-softmax-inundation-bound">Finding 1: Verification of the Softmax Inundation Bound<a class="headerlink" href="#finding-1-verification-of-the-softmax-inundation-bound" title="Permanent link">&para;</a></h3>
 <p>In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to 5099 tokens. The simulated attention proxy on invariant constraints decayed asymptotically as predicted by Theorem 1:
-$$A_{i, \text{inv}} \propto \mathcal{O}\left(\frac{L_u}{|\mathcal{S}_{\text{noise}}|}\right)$$
+$<span class="arithmatex">\(A_{i, \text{inv}} \propto \mathcal{O}\left(\frac{L_u}{|\mathcal{S}_{\text{noise}}|}\right)\)</span>$
 Simulated invariant attention in Arm A reached 0.0425, demonstrating the dilution effect when high-entropy logs dominate active context.</p>
 <h3 id="finding-2-token-footprint-reduction-signal-concentration">Finding 2: Token Footprint Reduction &amp; Signal Concentration<a class="headerlink" href="#finding-2-token-footprint-reduction-signal-concentration" title="Permanent link">&para;</a></h3>
-<p>Generational Context reduced active memory footprint from 5099 tokens down to <strong>129 tokens</strong> (<strong>-97.5%</strong>), encompassing all distilled outputs, working memory, and structural formatting delimiters ($C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$). Simultaneously, it increased the proportion of task-relevant signal tokens (CSR) from 0.0059 to <strong>0.2000</strong> (<strong>33.9x concentration</strong>).</p>
+<p>Generational Context reduced active memory footprint from 5099 tokens down to <strong>129 tokens</strong> (<strong>-97.5%</strong>), encompassing all distilled outputs, working memory, and structural formatting delimiters (<span class="arithmatex">\(C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}\)</span>). Simultaneously, it increased the proportion of task-relevant signal tokens (CSR) from 0.0059 to <strong>0.2000</strong> (<strong>33.9x concentration</strong>).</p>
 <hr />
 <h2 id="3-publication-visualizations">3. Publication Visualizations<a class="headerlink" href="#3-publication-visualizations" title="Permanent link">&para;</a></h2>
 <h3 id="figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy">Figure 1: Attention Phase Transition Under Noise Inundation (Simulation Proxy)<a class="headerlink" href="#figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy" title="Permanent link">&para;</a></h3>
@@ -2111,6 +2111,10 @@ Simulated invariant attention in Arm A reached 0.0425, demonstrating the dilutio
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

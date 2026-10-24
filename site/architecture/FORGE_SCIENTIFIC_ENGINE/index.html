@@ -1972,28 +1972,28 @@
 <p>FORGE combines observational constraint search with continuous interventional optimization to discover true causal DAGs:</p>
 <h3 id="31-constraint-based-discovery-pc-fci">3.1 Constraint-Based Discovery (PC / FCI)<a class="headerlink" href="#31-constraint-based-discovery-pc-fci" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Tests conditional independence relations $X \perp!!!\perp Y \mid \mathbf{Z}$ across telemetry streams using kernel-based conditional independence tests.</li>
+<li>Tests conditional independence relations <span class="arithmatex">\(X \perp\!\!\!\perp Y \mid \mathbf{Z}\)</span> across telemetry streams using kernel-based conditional independence tests.</li>
 <li>Reconstructs the <strong>Markov Equivalence Class</strong> (CPDAG) of the underlying physical system.</li>
 </ul>
 <h3 id="32-continuous-optimization-notears-dcdi">3.2 Continuous Optimization (NOTEARS / DCDI)<a class="headerlink" href="#32-continuous-optimization-notears-dcdi" title="Permanent link">&para;</a></h3>
 <p>To resolve directionality among observationally equivalent graphs, FORGE solves a continuous constrained optimization problem:</p>
-<p>$$\min_{W \in \mathbb{R}^{d \times d}} \mathcal{L}(W) \quad \text{subject to} \quad h(W) = \text{tr}\left(e^{W \odot W}\right) - d = 0$$</p>
-<p>Where $h(W) = 0$ is the exact algebraic characterization of acyclicity (DAG constraint), enabling efficient gradient-based discovery of complex planetary-scale networks.</p>
+<div class="arithmatex">\[\min_{W \in \mathbb{R}^{d \times d}} \mathcal{L}(W) \quad \text{subject to} \quad h(W) = \text{tr}\left(e^{W \odot W}\right) - d = 0\]</div>
+<p>Where <span class="arithmatex">\(h(W) = 0\)</span> is the exact algebraic characterization of acyclicity (DAG constraint), enabling efficient gradient-based discovery of complex planetary-scale networks.</p>
 <hr />
 <h2 id="4-bayesian-experimental-design-discriminative-testing">4. Bayesian Experimental Design &amp; Discriminative Testing<a class="headerlink" href="#4-bayesian-experimental-design-discriminative-testing" title="Permanent link">&para;</a></h2>
-<p>When multiple competing hypotheses explain the observed data ($H_1, H_2, \dots, H_k$), FORGE does not guess. It computes the <strong>Expected Information Gain (EIG)</strong> to design an experiment $\xi^*$ that maximizes mutual information between the outcome $Y$ and the true hypothesis $H$:</p>
-<p>$$\xi^* = \arg\max_{\xi} \mathbb{E}<em _text_KL="\text{KL">{Y \mid \xi} \left[ D</em>\Big(P(H \mid Y, \xi) \parallel P(H)\Big) \right]$$}</p>
+<p>When multiple competing hypotheses explain the observed data (<span class="arithmatex">\(H_1, H_2, \dots, H_k\)</span>), FORGE does not guess. It computes the <strong>Expected Information Gain (EIG)</strong> to design an experiment <span class="arithmatex">\(\xi^*\)</span> that maximizes mutual information between the outcome <span class="arithmatex">\(Y\)</span> and the true hypothesis <span class="arithmatex">\(H\)</span>:</p>
+<div class="arithmatex">\[\xi^* = \arg\max_{\xi} \mathbb{E}_{Y \mid \xi} \left[ D_{\text{KL}}\Big(P(H \mid Y, \xi) \parallel P(H)\Big) \right]\]</div>
 <h3 id="41-the-role-of-the-mirror-digital-twin">4.1 The Role of the MIRROR Digital Twin<a class="headerlink" href="#41-the-role-of-the-mirror-digital-twin" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Before any physical experiment or real-world intervention is dispatched, it is run across $10^4$ stochastic rollouts inside the <strong>MIRROR</strong> simulation environment.</li>
+<li>Before any physical experiment or real-world intervention is dispatched, it is run across <span class="arithmatex">\(10^4\)</span> stochastic rollouts inside the <strong>MIRROR</strong> simulation environment.</li>
 <li>If an experiment has non-zero probability of exceeding safety boundaries (e.g., thermal runaway, chemical contamination), it is rejected immediately by VEIL.</li>
 </ul>
 <hr />
 <h2 id="5-epistemic-provenance-integrity-standards">5. Epistemic Provenance &amp; Integrity Standards<a class="headerlink" href="#5-epistemic-provenance-integrity-standards" title="Permanent link">&para;</a></h2>
 <p>In accordance with the ACI Research Integrity Protocol:
-1. <strong>Zero Hallucination Tolerance</strong>: Every proposed causal relationship $A \to B$ in OMNIS must link to an immutable Merkle cryptographic proof containing:
+1. <strong>Zero Hallucination Tolerance</strong>: Every proposed causal relationship <span class="arithmatex">\(A \to B\)</span> in OMNIS must link to an immutable Merkle cryptographic proof containing:
    - The originating observational sensor log;
-   - The mathematical test statistic ($\text{p-value} &lt; 10^{-6}$ or Bayes Factor $\ge 100$);
+   - The mathematical test statistic (<span class="arithmatex">\(\text{p-value} &lt; 10^{-6}\)</span> or Bayes Factor <span class="arithmatex">\(\ge 100\)</span>);
    - The digital signature of the human/laboratory executor that verified the experiment.
 2. <strong>Anti-Dogmatism Check</strong>: Periodically re-tests historical causal axioms against recent observational residuals to prevent <strong>Institutional Epistemic Lock-in</strong>.</p>
 
@@ -2059,6 +2059,10 @@
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

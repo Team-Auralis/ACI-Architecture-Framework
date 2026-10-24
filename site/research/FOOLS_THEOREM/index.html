@@ -2195,66 +2195,65 @@
 <hr />
 <h2 id="1-abstract">1. Abstract<a class="headerlink" href="#1-abstract" title="Permanent link">&para;</a></h2>
 <p>The standard execution architecture for autonomous AI agents treats the transformer context window as an append-only linear interaction transcript. In this paper, we analyze the mathematical and empirical limits of this paradigm in long-horizon problem-solving tasks.</p>
-<p>We formalize the <strong>Softmax Inundation Bound</strong>, an analytical upper bound showing that when raw environmental observations (compiler dumps, test logs, DOM trees) accumulate without eviction, the maximum aggregate attention probability mass allocated to founding system invariants and root user constraints decays as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$ under bounded projection energies. When noisy distractor tokens dominate context length, attention heads experience severe dilution, shifting probability mass away from foundational task constraints and toward high-volume symptom traces—an operational pathology we designate as <strong>The Fool's State</strong>.</p>
-<p>To resolve this limitation without relying on unbounded context expansion, we specify <strong>Generational Context</strong>, an operating-system-inspired memory management architecture that stratifies agent memory into <strong>Gen-0 Ephemeral</strong> (tool outputs distilled to 3-line signatures and evicted in 1 step), <strong>Gen-1 Evaporative</strong> (working memory paged dynamically via the Attention-Weighted Eviction algorithm), and <strong>Gen-2 Tenured</strong> (permanently pinned invariants). We prove that under Generational Context, invariant attention remains strictly lower-bounded independently of interaction horizon $t$, preventing volume-driven context dilution and stabilizing long-horizon autonomy.</p>
+<p>We formalize the <strong>Softmax Inundation Bound</strong>, an analytical upper bound showing that when raw environmental observations (compiler dumps, test logs, DOM trees) accumulate without eviction, the maximum aggregate attention probability mass allocated to founding system invariants and root user constraints decays as <span class="arithmatex">\(\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)\)</span> under bounded projection energies. When noisy distractor tokens dominate context length, attention heads experience severe dilution, shifting probability mass away from foundational task constraints and toward high-volume symptom traces—an operational pathology we designate as <strong>The Fool's State</strong>.</p>
+<p>To resolve this limitation without relying on unbounded context expansion, we specify <strong>Generational Context</strong>, an operating-system-inspired memory management architecture that stratifies agent memory into <strong>Gen-0 Ephemeral</strong> (tool outputs distilled to 3-line signatures and evicted in 1 step), <strong>Gen-1 Evaporative</strong> (working memory paged dynamically via the Attention-Weighted Eviction algorithm), and <strong>Gen-2 Tenured</strong> (permanently pinned invariants). We prove that under Generational Context, invariant attention remains strictly lower-bounded independently of interaction horizon <span class="arithmatex">\(t\)</span>, preventing volume-driven context dilution and stabilizing long-horizon autonomy.</p>
 <h3 id="11-formal-scope-attention-allocation-vs-cognitive-reasoning-success">1.1 Formal Scope: Attention Allocation vs. Cognitive Reasoning Success<a class="headerlink" href="#11-formal-scope-attention-allocation-vs-cognitive-reasoning-success" title="Permanent link">&para;</a></h3>
 <p>A foundational distinction must be maintained between the mathematical distribution of attention and an agent's behavioral task success:
-1. <strong>Theorem 1 (Attention Dilution)</strong> establishes that as unmanaged distractor tokens grow ($|\mathcal{S}<em i_text_inv="i,\text{inv">{\text{noise}}| \to \infty$), the softmax attention probability mass allocated to invariant tokens decays asymptotically toward zero under uniform bounded scores. This is a mathematical statement regarding the transformer's attention distribution. It does <em>not</em> assert inevitable cognitive reasoning failure in every model architecture (models may leverage residual stream bypasses, induction head specialization, or external memory tools). Rather, it formalizes the physical dilution that creates vulnerability to error gravitation.
-2. <strong>Theorem 2 (Attention Lower Bound)</strong> establishes that Generational Context maintains a strictly positive lower bound on invariant attention mass ($A</em> &gt; 0$) uniformly for all $t$. This is a mathematical guarantee of bounded background competition. It does }} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}<em>not</em> guarantee task success, because task success additionally requires semantic comprehension, correct tool invocation, valid environment feedback, and sound multi-step reasoning. Structural context management is a <em>necessary condition</em> to prevent volume-driven attention dilution, not a <em>sufficient condition</em> for general intelligence.</p>
+1. <strong>Theorem 1 (Attention Dilution)</strong> establishes that as unmanaged distractor tokens grow (<span class="arithmatex">\(|\mathcal{S}_{\text{noise}}| \to \infty\)</span>), the softmax attention probability mass allocated to invariant tokens decays asymptotically toward zero under uniform bounded scores. This is a mathematical statement regarding the transformer's attention distribution. It does <em>not</em> assert inevitable cognitive reasoning failure in every model architecture (models may leverage residual stream bypasses, induction head specialization, or external memory tools). Rather, it formalizes the physical dilution that creates vulnerability to error gravitation.
+2. <strong>Theorem 2 (Attention Lower Bound)</strong> establishes that Generational Context maintains a strictly positive lower bound on invariant attention mass (<span class="arithmatex">\(A_{i,\text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} &gt; 0\)</span>) uniformly for all <span class="arithmatex">\(t\)</span>. This is a mathematical guarantee of bounded background competition. It does <em>not</em> guarantee task success, because task success additionally requires semantic comprehension, correct tool invocation, valid environment feedback, and sound multi-step reasoning. Structural context management is a <em>necessary condition</em> to prevent volume-driven attention dilution, not a <em>sufficient condition</em> for general intelligence.</p>
 <hr />
 <h2 id="2-system-setting-formal-preliminaries">2. System Setting &amp; Formal Preliminaries<a class="headerlink" href="#2-system-setting-formal-preliminaries" title="Permanent link">&para;</a></h2>
 <h3 id="21-the-agent-interaction-tuple">2.1 The Agent Interaction Tuple<a class="headerlink" href="#21-the-agent-interaction-tuple" title="Permanent link">&para;</a></h3>
-<p>Let an autonomous agent interact with an external environment $\mathcal{E}$ over discrete turns $t \in \mathbb{N}$. At each turn $t$, the state of the interaction is represented as a context transcript:</p>
-<p>$$\mathcal{H}<em t-1="t-1">t = \left( \mathbf{u}, \; \mathbf{a}_1, \; \mathbf{o}_1, \; \mathbf{r}_1, \; \dots, \; \mathbf{a}</em>}, \; \mathbf{o<em t-1="t-1">{t-1}, \; \mathbf{r}</em> \right)$$</p>
+<p>Let an autonomous agent interact with an external environment <span class="arithmatex">\(\mathcal{E}\)</span> over discrete turns <span class="arithmatex">\(t \in \mathbb{N}\)</span>. At each turn <span class="arithmatex">\(t\)</span>, the state of the interaction is represented as a context transcript:</p>
+<div class="arithmatex">\[\mathcal{H}_t = \left( \mathbf{u}, \; \mathbf{a}_1, \; \mathbf{o}_1, \; \mathbf{r}_1, \; \dots, \; \mathbf{a}_{t-1}, \; \mathbf{o}_{t-1}, \; \mathbf{r}_{t-1} \right)\]</div>
 <p>Where:
-* $\mathbf{u} \in \mathcal{V}^{L_u}$ denotes the immutable user objective, system invariants, and task constraints.
-* $\mathbf{a}_k \in \mathcal{V}^{L_a}$ denotes action token sequences (tool calls, bash commands, code edits).
-* $\mathbf{o}_k \in \mathcal{V}^{L_o}$ denotes raw environmental observations (compiler stdout/stderr, API returns, test logs).
-* $\mathbf{r}_k \in \mathcal{V}^{L_r}$ denotes internal reasoning traces and hypotheses.
-* $\mathcal{V}$ denotes the discrete vocabulary, embedded into $\mathbb{R}^d$.</p>
-<p>The total context length at step $t$ is:</p>
-<p>$$N_t = L_u + \sum_{k=1}^{t-1} \left( L_a^{(k)} + L_o^{(k)} + L_r^{(k)} \right)$$</p>
+* <span class="arithmatex">\(\mathbf{u} \in \mathcal{V}^{L_u}\)</span> denotes the immutable user objective, system invariants, and task constraints.
+* <span class="arithmatex">\(\mathbf{a}_k \in \mathcal{V}^{L_a}\)</span> denotes action token sequences (tool calls, bash commands, code edits).
+* <span class="arithmatex">\(\mathbf{o}_k \in \mathcal{V}^{L_o}\)</span> denotes raw environmental observations (compiler stdout/stderr, API returns, test logs).
+* <span class="arithmatex">\(\mathbf{r}_k \in \mathcal{V}^{L_r}\)</span> denotes internal reasoning traces and hypotheses.
+* <span class="arithmatex">\(\mathcal{V}\)</span> denotes the discrete vocabulary, embedded into <span class="arithmatex">\(\mathbb{R}^d\)</span>.</p>
+<p>The total context length at step <span class="arithmatex">\(t\)</span> is:</p>
+<div class="arithmatex">\[N_t = L_u + \sum_{k=1}^{t-1} \left( L_a^{(k)} + L_o^{(k)} + L_r^{(k)} \right)\]</div>
 <h3 id="22-scaled-dot-product-attention">2.2 Scaled Dot-Product Attention<a class="headerlink" href="#22-scaled-dot-product-attention" title="Permanent link">&para;</a></h3>
-<p>For layer $l$, query position $i$, and key position $j$, the scaled dot-product attention score is:</p>
-<p>$$A_{i,j} = \text{Softmax}\left( \frac{\mathbf{q}<em m="1">i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) = \frac{\exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right)}{\sum</em>$$}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right)</p>
-<p>Where $\mathbf{q}<em t_i="t,i">i = \mathbf{X}</em>} \mathbf{W<em t_j="t,j">Q$ and $\mathbf{k}_j = \mathbf{X}</em>$.} \mathbf{W}_K$, with projection weights $\mathbf{W}_Q, \mathbf{W}_K \in \mathbb{R}^{d \times d_k</p>
+<p>For layer <span class="arithmatex">\(l\)</span>, query position <span class="arithmatex">\(i\)</span>, and key position <span class="arithmatex">\(j\)</span>, the scaled dot-product attention score is:</p>
+<div class="arithmatex">\[A_{i,j} = \text{Softmax}\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) = \frac{\exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right)}{\sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right)}\]</div>
+<p>Where <span class="arithmatex">\(\mathbf{q}_i = \mathbf{X}_{t,i} \mathbf{W}_Q\)</span> and <span class="arithmatex">\(\mathbf{k}_j = \mathbf{X}_{t,j} \mathbf{W}_K\)</span>, with projection weights <span class="arithmatex">\(\mathbf{W}_Q, \mathbf{W}_K \in \mathbb{R}^{d \times d_k}\)</span>.</p>
 <h3 id="23-partition-of-context-space">2.3 Partition of Context Space<a class="headerlink" href="#23-partition-of-context-space" title="Permanent link">&para;</a></h3>
-<p>We partition the context token positions $J = {1, \dots, N_t}$ into three mutually disjoint subsets:
-1. <strong>The Invariant Subspace $\mathcal{S}_{\text{inv}}$</strong>: Indices corresponding to $\mathbf{u}$ (system invariants, ground-truth constraints). Cardinality: $|\mathcal{S}<em k="k">{\text{inv}}| = L_u$.
-2. <strong>The Noise/Observation Subspace $\mathcal{S}_{\text{noise}}$</strong>: Indices corresponding to raw execution traces $\bigcup</em>} \mathbf{o<em _text_noise="\text{noise">k$ (terminal dumps, tracebacks). Cardinality: $|\mathcal{S}</em>$.
-3. }}| = \sum_k L_o^{(k)<strong>The Working Subspace $\mathcal{S}_{\text{work}}$</strong>: Indices corresponding to actions and reasoning $\bigcup_k (\mathbf{a}<em _text_work="\text{work">k \cup \mathbf{r}_k)$. Cardinality: $|\mathcal{S}</em>)$.}}| = \sum_k (L_a^{(k)} + L_r^{(k)</p>
+<p>We partition the context token positions <span class="arithmatex">\(J = \{1, \dots, N_t\}\)</span> into three mutually disjoint subsets:
+1. <strong>The Invariant Subspace <span class="arithmatex">\(\mathcal{S}_{\text{inv}}\)</span></strong>: Indices corresponding to <span class="arithmatex">\(\mathbf{u}\)</span> (system invariants, ground-truth constraints). Cardinality: <span class="arithmatex">\(|\mathcal{S}_{\text{inv}}| = L_u\)</span>.
+2. <strong>The Noise/Observation Subspace <span class="arithmatex">\(\mathcal{S}_{\text{noise}}\)</span></strong>: Indices corresponding to raw execution traces <span class="arithmatex">\(\bigcup_{k} \mathbf{o}_k\)</span> (terminal dumps, tracebacks). Cardinality: <span class="arithmatex">\(|\mathcal{S}_{\text{noise}}| = \sum_k L_o^{(k)}\)</span>.
+3. <strong>The Working Subspace <span class="arithmatex">\(\mathcal{S}_{\text{work}}\)</span></strong>: Indices corresponding to actions and reasoning <span class="arithmatex">\(\bigcup_k (\mathbf{a}_k \cup \mathbf{r}_k)\)</span>. Cardinality: <span class="arithmatex">\(|\mathcal{S}_{\text{work}}| = \sum_k (L_a^{(k)} + L_r^{(k)})\)</span>.</p>
 <hr />
 <h2 id="3-the-softmax-inundation-bound">3. The Softmax Inundation Bound<a class="headerlink" href="#3-the-softmax-inundation-bound" title="Permanent link">&para;</a></h2>
 <h3 id="theorem-1-the-softmax-inundation-upper-bound">Theorem 1: The Softmax Inundation Upper Bound<a class="headerlink" href="#theorem-1-the-softmax-inundation-upper-bound" title="Permanent link">&para;</a></h3>
 <p>Let the key and query projections satisfy bounded Euclidean norms:</p>
-<p>$$|\mathbf{q}_i|_2 \le M_Q \quad \text{and} \quad |\mathbf{k}_j|_2 \le M_K \quad \forall i, j$$</p>
-<p>Let $\kappa = \exp\left( \frac{2 M_Q M_K}{\sqrt{d_k}} \right)$ denote the dynamic range condition number of the attention exponent.</p>
-<p>Then for any query $\mathbf{q}<em _text_inv="\text{inv">i$, the aggregate attention probability mass allocated to the invariant subspace $\mathcal{S}</em>}}$, defined as $A_{i, \text{inv}} = \sum_{j \in \mathcal{S<em i_j="i,j">{\text{inv}}} A</em>$, satisfies:</p>
-<p>$$A_{i, \text{inv}} \le \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|}$$</p>
-<p>In particular, as raw observation tokens accumulate ($|\mathcal{S}_{\text{noise}}| \to \infty$):</p>
-<p>$$A_{i, \text{inv}} = \mathcal{O}\left( \frac{L_u}{|\mathcal{S}_{\text{noise}}|} \right)$$</p>
+<div class="arithmatex">\[\|\mathbf{q}_i\|_2 \le M_Q \quad \text{and} \quad \|\mathbf{k}_j\|_2 \le M_K \quad \forall i, j\]</div>
+<p>Let <span class="arithmatex">\(\kappa = \exp\left( \frac{2 M_Q M_K}{\sqrt{d_k}} \right)\)</span> denote the dynamic range condition number of the attention exponent.</p>
+<p>Then for any query <span class="arithmatex">\(\mathbf{q}_i\)</span>, the aggregate attention probability mass allocated to the invariant subspace <span class="arithmatex">\(\mathcal{S}_{\text{inv}}\)</span>, defined as <span class="arithmatex">\(A_{i, \text{inv}} = \sum_{j \in \mathcal{S}_{\text{inv}}} A_{i,j}\)</span>, satisfies:</p>
+<div class="arithmatex">\[A_{i, \text{inv}} \le \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|}\]</div>
+<p>In particular, as raw observation tokens accumulate (<span class="arithmatex">\(|\mathcal{S}_{\text{noise}}| \to \infty\)</span>):</p>
+<div class="arithmatex">\[A_{i, \text{inv}} = \mathcal{O}\left( \frac{L_u}{|\mathcal{S}_{\text{noise}}|} \right)\]</div>
 <h4 id="proof">Proof:<a class="headerlink" href="#proof" title="Permanent link">&para;</a></h4>
 <p>By definition of the softmax operator:</p>
-<p>$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right)}{\sum</em><em _in="\in" _mathcal_S="\mathcal{S" m="m">{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) + \sum</em><em _in="\in" _mathcal_S="\mathcal{S" p="p">{\text{noise}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) + \sum</em>$$}_{\text{work}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_p}{\sqrt{d_k}} \right)</p>
+<div class="arithmatex">\[A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) + \sum_{m \in \mathcal{S}_{\text{noise}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) + \sum_{p \in \mathcal{S}_{\text{work}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_p}{\sqrt{d_k}} \right)}\]</div>
 <p>By the Cauchy-Schwarz inequality:</p>
-<p>$$-M_Q M_K \le \mathbf{q}_i^\top \mathbf{k}_j \le M_Q M_K \quad \forall j$$</p>
-<p>Therefore:
-1. The numerator is strictly upper-bounded by:
-   $$\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) \le L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)$$</p>
-<ol>
-<li>Dropping the non-negative working term $\sum_{p \in \mathcal{S}<em m="1">{\text{work}}} \exp(\cdot) \ge 0$, the denominator is lower-bounded by:
-   $$\sum</em>}^{N_t} \exp\left( \frac{\mathbf{q<em _text_noise="\text{noise">i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) \ge (L_u + |\mathcal{S}</em> \right)$$}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}</li>
-</ol>
+<div class="arithmatex">\[-M_Q M_K \le \mathbf{q}_i^\top \mathbf{k}_j \le M_Q M_K \quad \forall j\]</div>
+<p>Therefore, we bound the numerator and denominator separately:</p>
+<p><strong>Numerator upper bound:</strong></p>
+<div class="arithmatex">\[\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) \le L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)\]</div>
+<p><strong>Denominator lower bound:</strong>
+Dropping the non-negative working memory term <span class="arithmatex">\(\sum_{p \in \mathcal{S}_{\text{work}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_p}{\sqrt{d_k}} \right) \ge 0\)</span>:</p>
+<div class="arithmatex">\[\sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) \ge (L_u + |\mathcal{S}_{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)\]</div>
 <p>Dividing numerator by denominator yields:</p>
-<p>$$A_{i, \text{inv}} \le \frac{L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)}{(L_u + |\mathcal{S}<em _text_noise="\text{noise">{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)} = \frac{\exp\left( \frac{2 M_Q M_K}{\sqrt{d_k}} \right) L_u}{L_u + |\mathcal{S}</em>$$}}|} = \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|</p>
-<p>As $|\mathcal{S}<em _text_inv="\text{inv" i_="i,">{\text{noise}}| \to \infty$, $A</em>)$. $\blacksquare$}} \to 0$ asymptotically as $\mathcal{O}(|\mathcal{S}_{\text{noise}}|^{-1</p>
+<div class="arithmatex">\[A_{i, \text{inv}} \le \frac{L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)}{(L_u + |\mathcal{S}_{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)} = \frac{\exp\left( \frac{2 M_Q M_K}{\sqrt{d_k}} \right) L_u}{L_u + |\mathcal{S}_{\text{noise}}|} = \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|}\]</div>
+<p>As <span class="arithmatex">\(|\mathcal{S}_{\text{noise}}| \to \infty\)</span>, <span class="arithmatex">\(A_{i, \text{inv}} \to 0\)</span> asymptotically as <span class="arithmatex">\(\mathcal{O}(|\mathcal{S}_{\text{noise}}|^{-1})\)</span>. <span class="arithmatex">\(\blacksquare\)</span></p>
 <hr />
 <h2 id="4-analytical-scope-critical-discussion-of-the-bound">4. Analytical Scope &amp; Critical Discussion of the Bound<a class="headerlink" href="#4-analytical-scope-critical-discussion-of-the-bound" title="Permanent link">&para;</a></h2>
 <h3 id="41-condition-number-and-bound-tightness">4.1 Condition Number and Bound Tightness<a class="headerlink" href="#41-condition-number-and-bound-tightness" title="Permanent link">&para;</a></h3>
-<p>The condition number $\kappa = \exp(2 M_Q M_K / \sqrt{d_k})$ measures the maximum theoretical contrast between the most favored and least favored token in a single attention head.
-* For typical normalized activations where $M_Q \sim \sqrt{d_k}$ and $M_K \sim \sqrt{d_k}$, $\kappa$ can be numerically large ($\sim 10^3$ to $10^7$).
+<p>The condition number <span class="arithmatex">\(\kappa = \exp(2 M_Q M_K / \sqrt{d_k})\)</span> measures the maximum theoretical contrast between the most favored and least favored token in a single attention head.
+* For typical normalized activations where <span class="arithmatex">\(M_Q \sim \sqrt{d_k}\)</span> and <span class="arithmatex">\(M_K \sim \sqrt{d_k}\)</span>, <span class="arithmatex">\(\kappa\)</span> can be numerically large (<span class="arithmatex">\(\sim 10^3\)</span> to <span class="arithmatex">\(10^7\)</span>).
 * Consequently, Theorem 1 represents an asymptotic envelope: it proves that regardless of query orientation, the attention mass on a fixed invariant set cannot avoid decay as the background token volume grows without bound.
-* In practice, modern transformers employ multi-head attention (MHA), where individual heads specialize (e.g., induction heads, positional sinks, copy heads). However, empirical evaluations demonstrate that when high-entropy distractor text expands $20\times$ beyond instruction size, the effective signal-to-noise ratio in multi-head attention suffers substantial degradation (<em>Lost in the Middle</em>, Liu et al., 2023).</p>
+* In practice, modern transformers employ multi-head attention (MHA), where individual heads specialize (e.g., induction heads, positional sinks, copy heads). However, empirical evaluations demonstrate that when high-entropy distractor text expands <span class="arithmatex">\(20\times\)</span> beyond instruction size, the effective signal-to-noise ratio in multi-head attention suffers substantial degradation (<em>Lost in the Middle</em>, Liu et al., 2023).</p>
 <h3 id="42-error-gravitation-as-an-empirical-system-pathology">4.2 Error Gravitation as an Empirical System Pathology<a class="headerlink" href="#42-error-gravitation-as-an-empirical-system-pathology" title="Permanent link">&para;</a></h3>
 <p>When an agent encounters a runtime failure (such as an unhandled exception or compiler error):
 1. The execution log contains hundreds of lines describing the symptom (e.g., <code>RedisConnectionError: port 6379</code>).
@@ -2266,7 +2265,7 @@
 <p>To solve Softmax Inundation without relying on brute-force context scaling, we introduce <strong>Generational Context</strong>, adapting operating-system generational garbage collection to LLM prompt management.</p>
 <h3 id="51-three-tier-memory-partition">5.1 Three-Tier Memory Partition<a class="headerlink" href="#51-three-tier-memory-partition" title="Permanent link">&para;</a></h3>
 <p>Agent context is partitioned into three distinct tiers:</p>
-<p>$$\mathcal{C}<em _text_distill="\text{distill">{\text{active}} = \mathcal{G}_2^{\text{Tenured}} \;\cup\; \mathcal{G}_1^{\text{Evaporative}} \;\cup\; \sigma</em>)$$}}(\mathcal{G}_0^{\text{Ephemeral}</p>
+<div class="arithmatex">\[\mathcal{C}_{\text{active}} = \mathcal{G}_2^{\text{Tenured}} \;\cup\; \mathcal{G}_1^{\text{Evaporative}} \;\cup\; \sigma_{\text{distill}}(\mathcal{G}_0^{\text{Ephemeral}})\]</div>
 <ol>
 <li><strong>Gen-2 Tenured (Permanently Pinned)</strong>: Founding user objectives, system invariants, and architectural constraints. Immune to eviction.</li>
 <li><strong>Gen-1 Evaporative (Paged Working Memory)</strong>: Active hypotheses, current plan checkpoints, and modified diffs. Managed dynamically via the <strong>Attention-Weighted Eviction (AWE)</strong> algorithm with strict capacity bounds.</li>
@@ -2274,58 +2273,56 @@
 </ol>
 <h3 id="52-the-generational-retention-guarantee">5.2 The Generational Retention Guarantee<a class="headerlink" href="#52-the-generational-retention-guarantee" title="Permanent link">&para;</a></h3>
 <h4 id="theorem-2-lower-bound-on-invariant-attention-under-generational-context">Theorem 2 (Lower Bound on Invariant Attention under Generational Context)<a class="headerlink" href="#theorem-2-lower-bound-on-invariant-attention-under-generational-context" title="Permanent link">&para;</a></h4>
-<p><em>Let memory be managed according to Generational Context with a bounded Gen-0 distillation $|\sigma_{\text{distill}}(\mathcal{G}<em _text_overhead="\text{overhead">0)| \le K_0$, a strictly bounded Gen-1 working capacity $|\mathcal{G}_1| \le C_1$, and bounded structural formatting overhead $C</em>$ (accounting for all retained delimiters, role tags, section headers, and metadata framing). Let the total active non-invariant token volume be strictly bounded by:}} \le M_{\max} \cdot \delta_{\text{env}</em></p>
-<p>$$C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}} &lt; \infty$$</p>
+<p><em>Let memory be managed according to Generational Context with a bounded Gen-0 distillation <span class="arithmatex">\(\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0\)</span>, a strictly bounded Gen-1 working capacity <span class="arithmatex">\(\|\mathcal{G}_1\| \le C_1\)</span>, and bounded structural formatting overhead <span class="arithmatex">\(C_{\text{overhead}} \le M_{\max} \cdot \delta_{\text{env}}\)</span> (accounting for all retained delimiters, role tags, section headers, and metadata framing). Let the total active non-invariant token volume be strictly bounded by:</em></p>
+<div class="arithmatex">\[C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}} &lt; \infty\]</div>
 <p><em>Assume that the bounded projection energy condition:</em></p>
-<p>$$-\frac{M_Q M_K}{\sqrt{d_k}} \le \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \le \frac{M_Q M_K}{\sqrt{d_k}}$$</p>
-<p><em>holds uniformly for all active keys, and let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:</em></p>
-<p>$$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} &gt; 0$$</p>
-<p><em>The attention allocated to founding system invariants remains strictly bounded away from zero, uniformly and independently of the total interaction turns $t$.</em></p>
+<div class="arithmatex">\[-\frac{M_Q M_K}{\sqrt{d_k}} \le \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \le \frac{M_Q M_K}{\sqrt{d_k}}\]</div>
+<p><em>holds uniformly for all active keys, and let <span class="arithmatex">\(\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)\)</span>. Then for all interaction turns <span class="arithmatex">\(t \in \mathbb{N}\)</span>, the aggregate attention probability mass on the invariant subspace satisfies:</em></p>
+<div class="arithmatex">\[A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} &gt; 0\]</div>
+<p><em>The attention allocated to founding system invariants remains strictly bounded away from zero, uniformly and independently of the total interaction turns <span class="arithmatex">\(t\)</span>.</em></p>
 <h4 id="proof_1">Proof:<a class="headerlink" href="#proof_1" title="Permanent link">&para;</a></h4>
-<p>Under Generational Context, Gen-0 raw outputs are evicted at every turn, leaving only the distilled representation $\le K_0$. Gen-1 is strictly capped at $C_1$ tokens by the AWE cache controller. Furthermore, all structural delimiters, role tags, turn headers, and markdown fencing are bounded by $C_{\text{overhead}}$.</p>
+<p>Under Generational Context, Gen-0 raw outputs are evicted at every turn, leaving only the distilled representation <span class="arithmatex">\(\le K_0\)</span>. Gen-1 is strictly capped at <span class="arithmatex">\(C_1\)</span> tokens by the AWE cache controller. Furthermore, all structural delimiters, role tags, turn headers, and markdown fencing are bounded by <span class="arithmatex">\(C_{\text{overhead}}\)</span>.</p>
 <p>Therefore, every non-invariant token entering the active context window is strictly encompassed by the bound:</p>
-<p>$$|\mathcal{S}<em _text_overhead="\text{overhead">{\text{non-inv}}^{(t)}| \le C_1 + K_0 + C</em>$$}} = C_{\text{bound}} &lt; \infty \quad \forall t \in \mathbb{N</p>
-<p>By definition of the softmax operator, express $A_{i, \text{inv}}$ in ratio form:</p>
-<p>$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum</em><em _mathcal_S="\mathcal{S" _notin="\notin" m="m">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum</em>$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)} = \frac{1}{1 + R_t</p>
-<p>where the ratio $R_t$ is defined as:</p>
-<p>$$R_t = \frac{\sum_{m \notin \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum</em>$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)</p>
-<p>Under the uniform bounded score assumption:
-1. The numerator of $R_t$ contains $|\mathcal{S}<em _text_bound="\text{bound">{\text{non-inv}}^{(t)}| \le C</em>\right)$:
-   $$\sum_{m \notin \mathcal{S}}}$ terms, each bounded above by $\exp\left(\frac{M_Q M_K}{\sqrt{d_k}<em _text_bound="\text{bound">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right) \le C</em>\right)$$}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}</p>
-<ol>
-<li>The denominator of $R_t$ contains $|\mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}| = L_u$ terms, each bounded below by $\exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
-   $$\sum</em>\right)$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) \ge L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}</li>
-</ol>
-<p>Combining these bounds yields an upper bound on the ratio $R_t$:</p>
-<p>$$R_t \le \frac{C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{C_{\text{bound}}}{L_u} \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right) = \frac{\kappa C_{\text{bound}}}{L_u}$$</p>
-<p>Since the function $f(R) = \frac{1}{1 + R}$ is strictly monotonically decreasing for all $R \ge 0$:</p>
-<p>$$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$</p>
-<p>Substituting $C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$</p>
+<div class="arithmatex">\[|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_1 + K_0 + C_{\text{overhead}} = C_{\text{bound}} &lt; \infty \quad \forall t \in \mathbb{N}\]</div>
+<p>By definition of the softmax operator, express <span class="arithmatex">\(A_{i, \text{inv}}\)</span> in ratio form:</p>
+<div class="arithmatex">\[A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)} = \frac{1}{1 + R_t}\]</div>
+<p>where the ratio <span class="arithmatex">\(R_t\)</span> is defined as:</p>
+<div class="arithmatex">\[R_t = \frac{\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}\]</div>
+<p>Under the uniform bounded score assumption, we bound <span class="arithmatex">\(R_t\)</span> by evaluating its components:</p>
+<p><strong>Numerator bound:</strong> containing <span class="arithmatex">\(|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_{\text{bound}}\)</span> terms, each bounded above by <span class="arithmatex">\(\exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)\)</span>:</p>
+<div class="arithmatex">\[\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right) \le C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)\]</div>
+<p><strong>Denominator bound:</strong> containing <span class="arithmatex">\(|\mathcal{S}_{\text{inv}}| = L_u\)</span> terms, each bounded below by <span class="arithmatex">\(\exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)\)</span>:</p>
+<div class="arithmatex">\[\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) \ge L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)\]</div>
+<p>Combining these bounds yields an upper bound on the ratio <span class="arithmatex">\(R_t\)</span>:</p>
+<div class="arithmatex">\[R_t \le \frac{C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{C_{\text{bound}}}{L_u} \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right) = \frac{\kappa C_{\text{bound}}}{L_u}\]</div>
+<p>Since the function <span class="arithmatex">\(f(R) = \frac{1}{1 + R}\)</span> is strictly monotonically decreasing for all <span class="arithmatex">\(R \ge 0\)</span>:</p>
+<div class="arithmatex">\[A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}\]</div>
+<p>Substituting <span class="arithmatex">\(C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}\)</span>, we obtain the stated uniform lower bound. Because <span class="arithmatex">\(C_{\text{bound}}\)</span> is a time-invariant constant fixed by the cache controller, <span class="arithmatex">\(A_{i, \text{inv}}\)</span> does not decay as <span class="arithmatex">\(t \to \infty\)</span>. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. <span class="arithmatex">\(\blacksquare\)</span></p>
 <h3 id="53-numerical-sensitivity-analysis-comparative-bound-analysis">5.3 Numerical Sensitivity Analysis &amp; Comparative Bound Analysis<a class="headerlink" href="#53-numerical-sensitivity-analysis-comparative-bound-analysis" title="Permanent link">&para;</a></h3>
-<p>A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across a parameter sweep of hypothetical attention logit contrast values $\Delta s = s_{\max} - s_{\min}$ (where $\kappa = \exp(\Delta s)$). </p>
+<p>A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute <span class="arithmatex">\(A_{i, \text{inv}}\)</span> across a parameter sweep of hypothetical attention logit contrast values <span class="arithmatex">\(\Delta s = s_{\max} - s_{\min}\)</span> (where <span class="arithmatex">\(\kappa = \exp(\Delta s)\)</span>). </p>
 <blockquote>
 <p>[!NOTE] Analytical Bound Context
 The flat-context columns below represent theoretical lower bounds computed under the exact same uniform score assumptions, rather than empirical measurements from specific model checkpoints. The logit-gap regimes are illustrative parameter sweeps selected to evaluate sensitivity across dynamic ranges.</p>
 </blockquote>
-<p>Assuming standard invariant instruction size $L_u = 100$ tokens and compact Generational Context working buffer $C_{\text{bound}} = 150$ tokens:</p>
+<p>Assuming standard invariant instruction size <span class="arithmatex">\(L_u = 100\)</span> tokens and compact Generational Context working buffer <span class="arithmatex">\(C_{\text{bound}} = 150\)</span> tokens:</p>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Parameter Regime</th>
-<th style="text-align: center;">Logit Gap $\Delta s$</th>
-<th style="text-align: center;">Dynamic Contrast $\kappa$</th>
-<th style="text-align: center;">GenContext Lower Bound ($C_{\text{bound}} = 150$)</th>
-<th style="text-align: center;">Flat Context Lower Bound ($N = 5{,}000$)</th>
-<th style="text-align: center;">Flat Context Lower Bound ($N = 50{,}000$)</th>
-<th style="text-align: center;">Theoretical Bound Ratio $R(\kappa, 5\text{k})$</th>
-<th style="text-align: center;">Theoretical Bound Ratio $R(\kappa, 50\text{k})$</th>
+<th style="text-align: center;">Logit Gap <span class="arithmatex">\(\Delta s\)</span></th>
+<th style="text-align: center;">Dynamic Contrast <span class="arithmatex">\(\kappa\)</span></th>
+<th style="text-align: center;">GenContext Lower Bound (<span class="arithmatex">\(C_{\text{bound}} = 150\)</span>)</th>
+<th style="text-align: center;">Flat Context Lower Bound (<span class="arithmatex">\(N = 5{,}000\)</span>)</th>
+<th style="text-align: center;">Flat Context Lower Bound (<span class="arithmatex">\(N = 50{,}000\)</span>)</th>
+<th style="text-align: center;">Theoretical Bound Ratio <span class="arithmatex">\(R(\kappa, 5\text{k})\)</span></th>
+<th style="text-align: center;">Theoretical Bound Ratio <span class="arithmatex">\(R(\kappa, 50\text{k})\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>Illustrative Low Contrast</strong></td>
-<td style="text-align: center;">$1.0$</td>
-<td style="text-align: center;">$2.72$</td>
+<td style="text-align: center;"><span class="arithmatex">\(1.0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2.72\)</span></td>
 <td style="text-align: center;"><strong>19.70%</strong></td>
 <td style="text-align: center;">0.73%</td>
 <td style="text-align: center;">0.074%</td>
@@ -2334,8 +2331,8 @@ The flat-context columns below represent theoretical lower bounds computed under
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Illustrative Intermediate Contrast</strong></td>
-<td style="text-align: center;">$2.0$</td>
-<td style="text-align: center;">$7.39$</td>
+<td style="text-align: center;"><span class="arithmatex">\(2.0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(7.39\)</span></td>
 <td style="text-align: center;"><strong>8.28%</strong></td>
 <td style="text-align: center;">0.27%</td>
 <td style="text-align: center;">0.027%</td>
@@ -2344,8 +2341,8 @@ The flat-context columns below represent theoretical lower bounds computed under
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Illustrative Moderate Contrast</strong></td>
-<td style="text-align: center;">$3.0$</td>
-<td style="text-align: center;">$20.09$</td>
+<td style="text-align: center;"><span class="arithmatex">\(3.0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(20.09\)</span></td>
 <td style="text-align: center;"><strong>3.21%</strong></td>
 <td style="text-align: center;">0.10%</td>
 <td style="text-align: center;">0.010%</td>
@@ -2354,8 +2351,8 @@ The flat-context columns below represent theoretical lower bounds computed under
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Illustrative High Contrast</strong></td>
-<td style="text-align: center;">$4.0$</td>
-<td style="text-align: center;">$54.60$</td>
+<td style="text-align: center;"><span class="arithmatex">\(4.0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(54.60\)</span></td>
 <td style="text-align: center;"><strong>1.21%</strong></td>
 <td style="text-align: center;">0.037%</td>
 <td style="text-align: center;">0.0037%</td>
@@ -2364,8 +2361,8 @@ The flat-context columns below represent theoretical lower bounds computed under
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Illustrative Extreme Contrast</strong></td>
-<td style="text-align: center;">$6.0$</td>
-<td style="text-align: center;">$403.4$</td>
+<td style="text-align: center;"><span class="arithmatex">\(6.0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(403.4\)</span></td>
 <td style="text-align: center;"><strong>0.165%</strong></td>
 <td style="text-align: center;">0.0049%</td>
 <td style="text-align: center;">0.00050%</td>
@@ -2376,11 +2373,13 @@ The flat-context columns below represent theoretical lower bounds computed under
 </table>
 <h4 id="analytical-implications-on-bound-tightness">Analytical Implications on Bound Tightness:<a class="headerlink" href="#analytical-implications-on-bound-tightness" title="Permanent link">&para;</a></h4>
 <ol>
-<li><strong>Low &amp; Intermediate Contrast Regimes ($\Delta s \le 2.0$):</strong> When score contrast between invariant and background tokens is moderate, Generational Context guarantees that invariant tokens retain a robust <strong>$8.3\% - 19.7\%$</strong> share of attention mass.</li>
-<li><strong>Adversarial &amp; Extreme Contrast Regimes ($\Delta s \ge 6.0$):</strong> If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This demonstrates that <em>bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast</em>. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).</li>
-<li><strong>Comparative Bound Analysis:</strong> Under the uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:
-   $$R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}$$
-   which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends directly on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.</li>
+<li><strong>Low &amp; Intermediate Contrast Regimes (<span class="arithmatex">\(\Delta s \le 2.0\)</span>):</strong> When score contrast between invariant and background tokens is moderate, Generational Context guarantees that invariant tokens retain a robust <strong><span class="arithmatex">\(8.3\% - 19.7\%\)</span></strong> share of attention mass.</li>
+<li><strong>Adversarial &amp; Extreme Contrast Regimes (<span class="arithmatex">\(\Delta s \ge 6.0\)</span>):</strong> If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below <span class="arithmatex">\(1\%\)</span> (<span class="arithmatex">\(0.165\%\)</span>). This demonstrates that <em>bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast</em>. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).</li>
+<li>
+<p><strong>Comparative Bound Analysis:</strong> Under the uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:</p>
+<div class="arithmatex">\[R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}\]</div>
+<p>which approaches <span class="arithmatex">\(N / C_{\text{bound}}\)</span> as <span class="arithmatex">\(\kappa \to \infty\)</span> (<span class="arithmatex">\(33.3\times\)</span> at <span class="arithmatex">\(N = 5{,}000\)</span>, and <span class="arithmatex">\(333.3\times\)</span> at <span class="arithmatex">\(N = 50{,}000\)</span>). For finite <span class="arithmatex">\(\kappa\)</span>, the ratio depends directly on the invariant-token count and score contrast, ranging from <span class="arithmatex">\(27.0\times\)</span> to <span class="arithmatex">\(33.3\times\)</span> at <span class="arithmatex">\(N = 5{,}000\)</span>, and from <span class="arithmatex">\(268.1\times\)</span> to <span class="arithmatex">\(332.8\times\)</span> at <span class="arithmatex">\(N = 50{,}000\)</span>. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.</p>
+</li>
 </ol>
 <blockquote>
 <p>[!NOTE] Scope &amp; Boundary Conditions of Theorem 2
@@ -2389,17 +2388,17 @@ The lower bound establishes that bounding active distractor volume prevents volu
 <hr />
 <h2 id="6-systems-implementation-the-awe-algorithm">6. Systems Implementation: The AWE Algorithm<a class="headerlink" href="#6-systems-implementation-the-awe-algorithm" title="Permanent link">&para;</a></h2>
 <p>The <strong>Attention-Weighted Eviction (AWE)</strong> algorithm adapts Megiddo &amp; Modha's Adaptive Replacement Cache (ARC) to context token management. It maintains:
-* Two active caches: $T_1$ (recency) and $T_2$ (frequency/saliency).
-* Two ghost registries: $B_1$ and $B_2$ tracking keys and token counts of recently evicted entries.
-* A target boundary parameter $p$ adapted dynamically based on ghost hits.</p>
+* Two active caches: <span class="arithmatex">\(T_1\)</span> (recency) and <span class="arithmatex">\(T_2\)</span> (frequency/saliency).
+* Two ghost registries: <span class="arithmatex">\(B_1\)</span> and <span class="arithmatex">\(B_2\)</span> tracking keys and token counts of recently evicted entries.
+* A target boundary parameter <span class="arithmatex">\(p\)</span> adapted dynamically based on ghost hits.</p>
 <h3 id="strict-capacity-invariant">Strict Capacity Invariant<a class="headerlink" href="#strict-capacity-invariant" title="Permanent link">&para;</a></h3>
 <p>AWE enforces a strict post-condition:</p>
-<p>$$\text{total_tokens}() \le C \quad \forall \text{ operations}$$</p>
-<p>If an incoming entry has $L &gt; C$, it is safely truncated to $C$ before insertion, guaranteeing that cache memory never overflows.</p>
+<div class="arithmatex">\[\text{total\_tokens}() \le C \quad \forall \text{ operations}\]</div>
+<p>If an incoming entry has <span class="arithmatex">\(L &gt; C\)</span>, it is safely truncated to <span class="arithmatex">\(C\)</span> before insertion, guaranteeing that cache memory never overflows.</p>
 <h3 id="information-density-score-ids">Information Density Score (IDS)<a class="headerlink" href="#information-density-score-ids" title="Permanent link">&para;</a></h3>
 <p>When eviction is required, victim selection combines cache tier recency with an Information Density Score:</p>
-<p>$$\text{IDS}(E) = \frac{\text{AttentionWeight}(E) \times 100}{\text{Entropy}(E) + 10^{-4}}$$</p>
-<p>For unmeasured entries where empirical forward-pass attention has not yet been computed, AWE assigns a tier-based prior ($\text{gen2} = 50.0, \text{gen1} = 20.0, \text{gen0} = 5.0$), ensuring consistent tie-breaking without collapsing unmeasured items to zero.</p>
+<div class="arithmatex">\[\text{IDS}(E) = \frac{\text{AttentionWeight}(E) \times 100}{\text{Entropy}(E) + 10^{-4}}\]</div>
+<p>For unmeasured entries where empirical forward-pass attention has not yet been computed, AWE assigns a tier-based prior (<span class="arithmatex">\(\text{gen2} = 50.0, \text{gen1} = 20.0, \text{gen0} = 5.0\)</span>), ensuring consistent tie-breaking without collapsing unmeasured items to zero.</p>
 <hr />
 <h2 id="7-relation-to-prior-art">7. Relation to Prior Art<a class="headerlink" href="#7-relation-to-prior-art" title="Permanent link">&para;</a></h2>
 <table>
@@ -2424,12 +2423,12 @@ The lower bound establishes that bounding active distractor volume prevents volu
 <tr>
 <td style="text-align: left;"><strong>Packer et al. (2023)</strong> (<em>MemGPT / Letta</em>)</td>
 <td style="text-align: left;">Virtual context paging using LLM function calling to swap memory in and out.</td>
-<td style="text-align: left;">Requires expensive LLM forward passes to make paging decisions; AWE executes in $O(1)$ algorithmic time without LLM calls.</td>
+<td style="text-align: left;">Requires expensive LLM forward passes to make paging decisions; AWE executes in <span class="arithmatex">\(O(1)\)</span> algorithmic time without LLM calls.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Megiddo &amp; Modha (2003)</strong> (<em>ARC</em>)</td>
 <td style="text-align: left;">Self-tuning adaptive replacement cache for operating systems and databases.</td>
-<td style="text-align: left;">Foundational cache algorithm; AWE adapts ARC's boundary parameter $p$ to token-weighted context buffers and integrates information density.</td>
+<td style="text-align: left;">Foundational cache algorithm; AWE adapts ARC's boundary parameter <span class="arithmatex">\(p\)</span> to token-weighted context buffers and integrates information density.</td>
 </tr>
 </tbody>
 </table>
@@ -2512,6 +2511,10 @@ The lower bound establishes that bounding active distractor volume prevents volu
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

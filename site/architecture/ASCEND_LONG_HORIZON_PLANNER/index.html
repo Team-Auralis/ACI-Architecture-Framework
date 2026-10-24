@@ -1928,15 +1928,15 @@
 <hr />
 <h2 id="2-mathematical-formulation-hierarchical-macro-pomdps">2. Mathematical Formulation: Hierarchical Macro-POMDPs<a class="headerlink" href="#2-mathematical-formulation-hierarchical-macro-pomdps" title="Permanent link">&para;</a></h2>
 <p>ASCEND models long-horizon civilizational trajectory tracking as a <strong>Hierarchical Partially Observable Markov Decision Process (Macro-POMDP)</strong>:</p>
-<p>$$\mathcal{M}<em _text_macro="\text{macro">{\text{ASCEND}} = \langle \mathcal{S}, \mathcal{A}</em> \rangle$$}}, \mathcal{T}, \mathcal{R}, \Omega, \mathcal{O}, \gamma, \mathcal{H</p>
+<div class="arithmatex">\[\mathcal{M}_{\text{ASCEND}} = \langle \mathcal{S}, \mathcal{A}_{\text{macro}}, \mathcal{T}, \mathcal{R}, \Omega, \mathcal{O}, \gamma, \mathcal{H} \rangle\]</div>
 <p>Where:
-- $\mathcal{S}$: Continuous civilizational state space represented in the OMNIS Causal World Model.
-- $\mathcal{A}<em _text_macro="\text{macro">{\text{macro}}$: Hierarchical macro-actions (e.g., "Transition regional power grid to 80% nuclear/renewables").
-- $\mathcal{T}(s' \mid s, a</em>)$: Long-horizon state transition kernel, simulated and stress-tested in the MIRROR digital twin.
-- $\mathcal{R}(s, a_{\text{macro}})$: Multi-objective civilizational reward function bounded by the Civilizational Intent Conservation ($I_t$) core.
-- $\Omega, \mathcal{O}$: Observation space and observation probability from edge telemetry and satellites.
-- $\gamma \in (0, 1]$: Intertemporal discounting factor calibrated with }<strong>quasi-hyperbolic discounting</strong> ($\beta$-$\delta$ model) to prevent short-termist collapse while maintaining mathematical convergence.
-- $\mathcal{H}$: Temporal horizon ($\mathcal{H} \in [10^2, 10^5]$ hours / $10^1$ to $5 \times 10^1$ years).</p>
+- <span class="arithmatex">\(\mathcal{S}\)</span>: Continuous civilizational state space represented in the OMNIS Causal World Model.
+- <span class="arithmatex">\(\mathcal{A}_{\text{macro}}\)</span>: Hierarchical macro-actions (e.g., "Transition regional power grid to 80% nuclear/renewables").
+- <span class="arithmatex">\(\mathcal{T}(s' \mid s, a_{\text{macro}})\)</span>: Long-horizon state transition kernel, simulated and stress-tested in the MIRROR digital twin.
+- <span class="arithmatex">\(\mathcal{R}(s, a_{\text{macro}})\)</span>: Multi-objective civilizational reward function bounded by the Civilizational Intent Conservation (<span class="arithmatex">\(I_t\)</span>) core.
+- <span class="arithmatex">\(\Omega, \mathcal{O}\)</span>: Observation space and observation probability from edge telemetry and satellites.
+- <span class="arithmatex">\(\gamma \in (0, 1]\)</span>: Intertemporal discounting factor calibrated with <strong>quasi-hyperbolic discounting</strong> (<span class="arithmatex">\(\beta\)</span>-<span class="arithmatex">\(\delta\)</span> model) to prevent short-termist collapse while maintaining mathematical convergence.
+- <span class="arithmatex">\(\mathcal{H}\)</span>: Temporal horizon (<span class="arithmatex">\(\mathcal{H} \in [10^2, 10^5]\)</span> hours / <span class="arithmatex">\(10^1\)</span> to <span class="arithmatex">\(5 \times 10^1\)</span> years).</p>
 <hr />
 <h2 id="3-core-architecture-memory-as-plans-world-action-modeling-map-wam">3. Core Architecture: Memory-as-Plans &amp; World-Action Modeling (MaP-WAM)<a class="headerlink" href="#3-core-architecture-memory-as-plans-world-action-modeling-map-wam" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>flowchart TD
@@ -1954,15 +1954,15 @@
     RESIDUAL --&gt;|Δ ≤ Threshold| EXEC</code></pre>
 <h3 id="31-the-continuous-replanning-loop">3.1 The Continuous Replanning Loop<a class="headerlink" href="#31-the-continuous-replanning-loop" title="Permanent link">&para;</a></h3>
 <p>ASCEND never operates as an open-loop executor. It executes a closed cybernetic control loop:</p>
-<p>$$\text{OBSERVE} \longrightarrow \text{MEASURE RESIDUAL } (\Delta) \longrightarrow \text{UPDATE SCM} \longrightarrow \text{COUNTERFACTUAL REPLAN} \longrightarrow \text{DISPATCH}$$</p>
+<div class="arithmatex">\[\text{OBSERVE} \longrightarrow \text{MEASURE RESIDUAL } (\Delta) \longrightarrow \text{UPDATE SCM} \longrightarrow \text{COUNTERFACTUAL REPLAN} \longrightarrow \text{DISPATCH}\]</div>
 <ol>
-<li><strong>Residual Error Vector ($\Delta_t$)</strong>:
-   $$\Delta_t = | S_t^{\text{observed}} - S_t^{\text{projected}} |_{\Sigma^{-1}}$$
-   Where $\Sigma^{-1}$ is the covariance matrix of OMNIS state uncertainty.</li>
+<li><strong>Residual Error Vector (<span class="arithmatex">\(\Delta_t\)</span>)</strong>:
+   $<span class="arithmatex">\(\Delta_t = \| S_t^{\text{observed}} - S_t^{\text{projected}} \|_{\Sigma^{-1}}\)</span>$
+   Where <span class="arithmatex">\(\Sigma^{-1}\)</span> is the covariance matrix of OMNIS state uncertainty.</li>
 <li><strong>Selective Replanning Boundary</strong>:</li>
-<li>If $\Delta_t &lt; \epsilon_{\text{operational}}$: Local operational adjustment by NEXUS domain agents.</li>
-<li>If $\epsilon_{\text{operational}} \le \Delta_t &lt; \epsilon_{\text{strategic}}$: Annual milestone reallocation and resource re-budgeting.</li>
-<li>If $\Delta_t \ge \epsilon_{\text{strategic}}$: Macro-replanning triggered; full trajectory re-simulated in MIRROR across 20-year lookaheads with human-in-the-loop escalation.</li>
+<li>If <span class="arithmatex">\(\Delta_t &lt; \epsilon_{\text{operational}}\)</span>: Local operational adjustment by NEXUS domain agents.</li>
+<li>If <span class="arithmatex">\(\epsilon_{\text{operational}} \le \Delta_t &lt; \epsilon_{\text{strategic}}\)</span>: Annual milestone reallocation and resource re-budgeting.</li>
+<li>If <span class="arithmatex">\(\Delta_t \ge \epsilon_{\text{strategic}}\)</span>: Macro-replanning triggered; full trajectory re-simulated in MIRROR across 20-year lookaheads with human-in-the-loop escalation.</li>
 </ol>
 <hr />
 <h2 id="4-constraint-enforcement-intertemporal-invariants">4. Constraint Enforcement &amp; Intertemporal Invariants<a class="headerlink" href="#4-constraint-enforcement-intertemporal-invariants" title="Permanent link">&para;</a></h2>
@@ -1978,17 +1978,17 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>Thermodynamic Limit</strong></td>
-<td style="text-align: left;">Total planetary / regional energy draw $\le$ grid thermal threshold</td>
+<td style="text-align: left;">Total planetary / regional energy draw <span class="arithmatex">\(\le\)</span> grid thermal threshold</td>
 <td style="text-align: left;">Hard clamp in VEIL OPA policy</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Resource Depletion</strong></td>
-<td style="text-align: left;">Critical reserve aquifer / mineral drawdown rate $\le$ replenishment rate</td>
+<td style="text-align: left;">Critical reserve aquifer / mineral drawdown rate <span class="arithmatex">\(\le\)</span> replenishment rate</td>
 <td style="text-align: left;">Stochastic depletion bound</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Civilizational Intent (CIC)</strong></td>
-<td style="text-align: left;">Operational trajectory must not drift from founding intent ($\Delta I_t \le \tau$)</td>
+<td style="text-align: left;">Operational trajectory must not drift from founding intent (<span class="arithmatex">\(\Delta I_t \le \tau\)</span>)</td>
 <td style="text-align: left;">Merkle DAG provenance validation</td>
 </tr>
 <tr>
@@ -2002,8 +2002,8 @@
 <h2 id="5-failure-recovery-trajectory-convergence">5. Failure Recovery &amp; Trajectory Convergence<a class="headerlink" href="#5-failure-recovery-trajectory-convergence" title="Permanent link">&para;</a></h2>
 <p>If an external catastrophic shock occurs (e.g., pandemic, seismic disaster, critical grid collapse):
 1. <strong>ASCEND Emergency Partition</strong>: Freezes active decadal expansions and prioritizes baseline life-support invariants.
-2. <strong>Causal SCM Intervention</strong>: Isolates compromised infrastructure nodes in the OMNIS graph using Pearl's $do$-calculus:
-   $$P\big(\text{Recovery} \mid do(\text{Isolate Node } X)\big)$$
+2. <strong>Causal SCM Intervention</strong>: Isolates compromised infrastructure nodes in the OMNIS graph using Pearl's <span class="arithmatex">\(do\)</span>-calculus:
+   $<span class="arithmatex">\(P\big(\text{Recovery} \mid do(\text{Isolate Node } X)\big)\)</span>$
 3. <strong>Regenerative Horizon Reseed</strong>: Re-computes shortest viable path to baseline stability, restoring the multi-year trajectory without human panic or central bottleneck deadlock.</p>
 
 
@@ -2068,6 +2068,10 @@
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

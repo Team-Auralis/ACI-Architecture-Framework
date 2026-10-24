@@ -881,7 +881,7 @@
   <a href="#21-interventional-reasoning-via-pearls-do-calculus" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1 Interventional Reasoning via Pearl's $do$-calculus
+        2.1 Interventional Reasoning via Pearl's \(do\)-calculus
       
     </span>
   </a>
@@ -1941,17 +1941,17 @@
 <hr />
 <h2 id="2-mathematical-formalization-structural-causal-models-scms">2. Mathematical Formalization: Structural Causal Models (SCMs)<a class="headerlink" href="#2-mathematical-formalization-structural-causal-models-scms" title="Permanent link">&para;</a></h2>
 <p>OMNIS represents reality as an open-ended <strong>Structural Causal Model (SCM)</strong>:</p>
-<p>$$\mathcal{M}_{\text{OMNIS}} = \langle \mathcal{U}, \mathcal{V}, \mathcal{F}, P(\mathcal{U}) \rangle$$</p>
+<div class="arithmatex">\[\mathcal{M}_{\text{OMNIS}} = \langle \mathcal{U}, \mathcal{V}, \mathcal{F}, P(\mathcal{U}) \rangle\]</div>
 <p>Where:
-- $\mathcal{U}$: Exogenous background variables (environmental noise, solar irradiance, geopolitical stochasticity).
-- $\mathcal{V}$: Endogenous variables representing measurable planetary and societal states (reservoir levels, power grid load, hospital capacity, inflation).
-- $\mathcal{F} = {f_i}_{i=1}^n$: Set of deterministic or probabilistic structural functions defining causal mechanisms:
-  $$V_i := f_i(\mathbf{PA}_i, U_i)$$
-  where $\mathbf{PA}_i \subset \mathcal{V} \setminus {V_i}$ denotes the direct causal parents of variable $V_i$.
-- $P(\mathcal{U})$: Prior probability distribution over exogenous variables.</p>
-<h3 id="21-interventional-reasoning-via-pearls-do-calculus">2.1 Interventional Reasoning via Pearl's $do$-calculus<a class="headerlink" href="#21-interventional-reasoning-via-pearls-do-calculus" title="Permanent link">&para;</a></h3>
-<p>Unlike standard machine learning models that compute observational probabilities $P(Y \mid X)$, OMNIS evaluates true interventional policy impacts using Pearl's <strong>$do$-operator</strong>:</p>
-<p>$$P(Y = y \mid do(X = x)) = \sum_{z} P(Y = y \mid X = x, Z = z) P(Z = z)$$</p>
+- <span class="arithmatex">\(\mathcal{U}\)</span>: Exogenous background variables (environmental noise, solar irradiance, geopolitical stochasticity).
+- <span class="arithmatex">\(\mathcal{V}\)</span>: Endogenous variables representing measurable planetary and societal states (reservoir levels, power grid load, hospital capacity, inflation).
+- <span class="arithmatex">\(\mathcal{F} = \{f_i\}_{i=1}^n\)</span>: Set of deterministic or probabilistic structural functions defining causal mechanisms:
+  $<span class="arithmatex">\(V_i := f_i(\mathbf{PA}_i, U_i)\)</span>$
+  where <span class="arithmatex">\(\mathbf{PA}_i \subset \mathcal{V} \setminus \{V_i\}\)</span> denotes the direct causal parents of variable <span class="arithmatex">\(V_i\)</span>.
+- <span class="arithmatex">\(P(\mathcal{U})\)</span>: Prior probability distribution over exogenous variables.</p>
+<h3 id="21-interventional-reasoning-via-pearls-do-calculus">2.1 Interventional Reasoning via Pearl's <span class="arithmatex">\(do\)</span>-calculus<a class="headerlink" href="#21-interventional-reasoning-via-pearls-do-calculus" title="Permanent link">&para;</a></h3>
+<p>Unlike standard machine learning models that compute observational probabilities <span class="arithmatex">\(P(Y \mid X)\)</span>, OMNIS evaluates true interventional policy impacts using Pearl's <strong><span class="arithmatex">\(do\)</span>-operator</strong>:</p>
+<div class="arithmatex">\[P(Y = y \mid do(X = x)) = \sum_{z} P(Y = y \mid X = x, Z = z) P(Z = z)\]</div>
 <p>This ensures that when an agent proposes shutting down a sub-station or re-allocating water resources, OMNIS computes the <strong>causal consequence</strong>, completely immune to spurious statistical correlations or confounding biases.</p>
 <hr />
 <h2 id="3-graph-architecture-continuous-time-temporal-knowledge-graph-ct-tkg">3. Graph Architecture: Continuous-Time Temporal Knowledge Graph (CT-TKG)<a class="headerlink" href="#3-graph-architecture-continuous-time-temporal-knowledge-graph-ct-tkg" title="Permanent link">&para;</a></h2>
@@ -1985,16 +1985,16 @@
     OMNIS_CORE --&gt; ASCEND_P
     OMNIS_CORE --&gt; VEIL_V</code></pre>
 <h3 id="31-node-edge-schema">3.1 Node &amp; Edge Schema<a class="headerlink" href="#31-node-edge-schema" title="Permanent link">&para;</a></h3>
-<p>Each node $v \in \mathcal{V}$ in the OMNIS graph possesses:
+<p>Each node <span class="arithmatex">\(v \in \mathcal{V}\)</span> in the OMNIS graph possesses:
 - <code>id</code>: Globally unique DID (<code>did:aci:node:...</code>)
 - <code>type</code>: Physical (Turbine, Reservoir), Institutional (Hospital, Utility), or Environmental (Watershed, Airshed)
-- <code>state_tensor</code>: Current measured vector state at time $t$
-- <code>epistemic_variance</code> $\sigma^2$: Kalman / Bayesian confidence score
+- <code>state_tensor</code>: Current measured vector state at time <span class="arithmatex">\(t\)</span>
+- <code>epistemic_variance</code> <span class="arithmatex">\(\sigma^2\)</span>: Kalman / Bayesian confidence score
 - <code>provenance</code>: Merkle cryptographic hash pointing to the originating sensor / ingest log</p>
-<p>Each directed causal edge $e_{i \to j}$ possesses:
-- <code>causal_weight</code>: Directional influence magnitude $\frac{\partial V_j}{\partial V_i}$
-- <code>latency_distribution</code>: Time-delay distribution $\tau_{ij} \sim \mathcal{D}(\mu, \sigma)$
-- <code>intervention_protocol</code>: Valid $do(V_i)$ boundaries permitted under safety law</p>
+<p>Each directed causal edge <span class="arithmatex">\(e_{i \to j}\)</span> possesses:
+- <code>causal_weight</code>: Directional influence magnitude <span class="arithmatex">\(\frac{\partial V_j}{\partial V_i}\)</span>
+- <code>latency_distribution</code>: Time-delay distribution <span class="arithmatex">\(\tau_{ij} \sim \mathcal{D}(\mu, \sigma)\)</span>
+- <code>intervention_protocol</code>: Valid <span class="arithmatex">\(do(V_i)\)</span> boundaries permitted under safety law</p>
 <hr />
 <h2 id="4-remediation-of-failure-mode-f-007-two-tier-addressable-memory">4. Remediation of Failure Mode F-007: Two-Tier Addressable Memory<a class="headerlink" href="#4-remediation-of-failure-mode-f-007-two-tier-addressable-memory" title="Permanent link">&para;</a></h2>
 <p>In the historical ACI-001 Benchmark (Phase C Blind Test), flat hash collisions in high dimensions caused a 32% retrieval failure rate (<code>F-007</code>).</p>
@@ -2083,6 +2083,10 @@
     
     
       <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>
