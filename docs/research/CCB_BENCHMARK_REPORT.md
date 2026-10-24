@@ -41,7 +41,22 @@ Arm C maintained:
 
 ---
 
-## 3. Raw Telemetry Verification
+---
+
+## 3. Publication Visualizations
+
+### Figure 1: The Fool's Phase Transition
+![The Fool's Phase Transition](../assets/phase_transition_curve.svg)
+
+### Figure 2: Error Gravitation Trajectories (Attractor Locking)
+![Error Gravitation Trajectories](../assets/error_gravitation_attractor.svg)
+
+### Figure 3: Empirical Pareto Frontier (Task Success vs. Compute Cost)
+![Empirical Pareto Frontier](../assets/pareto_frontier.svg)
+
+---
+
+## 4. Raw Telemetry Verification
 
 Full turn-by-turn vector calculations, softmax distributions, and Shannon entropy logs are committed and reproducible via:
 * CSV Data: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)
