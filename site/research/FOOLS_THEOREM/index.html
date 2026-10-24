@@ -1364,15 +1364,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#53-numerical-sensitivity-analysis-practical-tightness-of-theorem-2" class="md-nav__link">
+  <a href="#53-numerical-sensitivity-analysis-comparative-bound-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.3 Numerical Sensitivity Analysis &amp; Practical Tightness of Theorem 2
+        5.3 Numerical Sensitivity Analysis &amp; Comparative Bound Analysis
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5.3 Numerical Sensitivity Analysis &amp; Practical Tightness of Theorem 2">
+    <nav class="md-nav" aria-label="5.3 Numerical Sensitivity Analysis &amp; Comparative Bound Analysis">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2301,19 +2301,20 @@
 <p>Since the function $f(R) = \frac{1}{1 + R}$ is strictly monotonically decreasing for all $R \ge 0$:</p>
 <p>$$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$</p>
 <p>Substituting $C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$</p>
-<h3 id="53-numerical-sensitivity-analysis-practical-tightness-of-theorem-2">5.3 Numerical Sensitivity Analysis &amp; Practical Tightness of Theorem 2<a class="headerlink" href="#53-numerical-sensitivity-analysis-practical-tightness-of-theorem-2" title="Permanent link">&para;</a></h3>
+<h3 id="53-numerical-sensitivity-analysis-comparative-bound-analysis">5.3 Numerical Sensitivity Analysis &amp; Comparative Bound Analysis<a class="headerlink" href="#53-numerical-sensitivity-analysis-comparative-bound-analysis" title="Permanent link">&para;</a></h3>
 <p>A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across plausible LLM attention logit dynamic ranges $\Delta s = s_{\max} - s_{\min}$ (where $\kappa = \exp(\Delta s)$).</p>
 <p>Assuming standard invariant instruction size $L_u = 100$ tokens and compact Generational Context working buffer $C_{\text{bound}} = 150$ tokens:</p>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Regime</th>
-<th style="text-align: center;">Logit Contrast $\Delta s$</th>
+<th style="text-align: center;">Logit Gap $\Delta s$</th>
 <th style="text-align: center;">Dynamic Contrast $\kappa$</th>
 <th style="text-align: center;">GenContext Lower Bound ($C_{\text{bound}} = 150$)</th>
-<th style="text-align: center;">Flat Context at $N = 5{,}000$ (Adverse)</th>
-<th style="text-align: center;">Flat Context at $N = 50{,}000$ (Adverse)</th>
-<th style="text-align: center;">Retention Advantage $\frac{\text{Gen}}{\text{Flat}}$</th>
+<th style="text-align: center;">Flat Context Lower Bound ($N = 5{,}000$)</th>
+<th style="text-align: center;">Flat Context Lower Bound ($N = 50{,}000$)</th>
+<th style="text-align: center;">Theoretical Bound Ratio $R(\kappa, 5\text{k})$</th>
+<th style="text-align: center;">Theoretical Bound Ratio $R(\kappa, 50\text{k})$</th>
 </tr>
 </thead>
 <tbody>
@@ -2323,17 +2324,19 @@
 <td style="text-align: center;">$2.72$</td>
 <td style="text-align: center;"><strong>19.70%</strong></td>
 <td style="text-align: center;">0.73%</td>
-<td style="text-align: center;">0.073%</td>
+<td style="text-align: center;">0.074%</td>
 <td style="text-align: center;"><strong>27.0×</strong></td>
+<td style="text-align: center;"><strong>268.1×</strong></td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Typical Layer Dynamic Range</strong></td>
 <td style="text-align: center;">$2.0$</td>
 <td style="text-align: center;">$7.39$</td>
-<td style="text-align: center;"><strong>8.27%</strong></td>
+<td style="text-align: center;"><strong>8.28%</strong></td>
 <td style="text-align: center;">0.27%</td>
 <td style="text-align: center;">0.027%</td>
-<td style="text-align: center;"><strong>30.6×</strong></td>
+<td style="text-align: center;"><strong>30.7×</strong></td>
+<td style="text-align: center;"><strong>305.9×</strong></td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Moderate Distractor Salience</strong></td>
@@ -2342,7 +2345,8 @@
 <td style="text-align: center;"><strong>3.21%</strong></td>
 <td style="text-align: center;">0.10%</td>
 <td style="text-align: center;">0.010%</td>
-<td style="text-align: center;"><strong>32.1×</strong></td>
+<td style="text-align: center;"><strong>32.3×</strong></td>
+<td style="text-align: center;"><strong>322.7×</strong></td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>High Distractor Salience</strong></td>
@@ -2351,7 +2355,8 @@
 <td style="text-align: center;"><strong>1.21%</strong></td>
 <td style="text-align: center;">0.037%</td>
 <td style="text-align: center;">0.0037%</td>
-<td style="text-align: center;"><strong>32.7×</strong></td>
+<td style="text-align: center;"><strong>32.9×</strong></td>
+<td style="text-align: center;"><strong>329.3×</strong></td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Adversarial / Extreme Logit Gap</strong></td>
@@ -2359,8 +2364,9 @@
 <td style="text-align: center;">$403.4$</td>
 <td style="text-align: center;"><strong>0.165%</strong></td>
 <td style="text-align: center;">0.0049%</td>
-<td style="text-align: center;">0.00049%</td>
+<td style="text-align: center;">0.00050%</td>
 <td style="text-align: center;"><strong>33.3×</strong></td>
+<td style="text-align: center;"><strong>332.8×</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2368,9 +2374,9 @@
 <ol>
 <li><strong>Calibrated &amp; Moderate Regimes ($\Delta s \le 2.0$):</strong> In typical transformer layers where normalization (RMSNorm / LayerNorm) or logit soft-capping limits extreme logit spreads, Generational Context guarantees that invariant tokens retain a robust <strong>$8.3\% - 19.7\%$</strong> share of attention mass.</li>
 <li><strong>Adversarial &amp; Extreme Regimes ($\Delta s \ge 6.0$):</strong> If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This rigorously demonstrates that <em>bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast</em>. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).</li>
-<li><strong>Comparative Advantage Over Flat Context:</strong> In all regimes, the ratio of attention retention between Generational Context and Flat Append-Only Context scales as:
-   $$\frac{A_{i, \text{inv}}^{\text{Gen}}}{A_{i, \text{inv}}^{\text{Flat}}} \approx \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}} \xrightarrow{N \gg C_{\text{bound}}} \frac{N}{C_{\text{bound}}}$$
-   When $N = 5{,}000$ and $C_{\text{bound}} = 150$, Generational Context provides a uniform <strong>$\approx 33\times$</strong> retention advantage. At $N = 50{,}000$, this advantage expands to <strong>$\approx 330\times$</strong>, establishing that Generational Context shields invariant constraints from volume-driven dilution across all values of $\kappa$.</li>
+<li><strong>Comparative Bound Analysis:</strong> Under the uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:
+   $$R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}$$
+   which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends directly on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.</li>
 </ol>
 <blockquote>
 <p>[!NOTE] Scope &amp; Boundary Conditions of Theorem 2

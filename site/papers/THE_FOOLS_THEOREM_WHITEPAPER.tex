@@ -125,16 +125,22 @@ Because $f(R) = 1/(1+R)$ is strictly monotonically decreasing for $R \ge 0$:
 Since $C_{\text{bound}}$ is a fixed invariant parameter, $A_{i, \text{inv}}$ remains uniformly bounded away from zero for all $t$.
 \end{proof}
 
-\subsection{Numerical Sensitivity Analysis and Bound Tightness}
+\subsection{Numerical Sensitivity Analysis and Comparative Bound Analysis}
 To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across plausible attention logit dynamic contrasts $\Delta s = s_{\max} - s_{\min}$ where $\kappa = \exp(\Delta s)$, for $L_u = 100$ and $C_{\text{bound}} = 150$:
 \begin{itemize}
-    \item \textbf{Well-Calibrated ($\Delta s = 1.0, \kappa = 2.72$):} $A_{i,\text{inv}} \ge 19.70\%$ (vs. $0.73\%$ in Flat Context at $N=5{,}000$; a $27.0\times$ advantage).
-    \item \textbf{Typical Dynamic Range ($\Delta s = 2.0, \kappa = 7.39$):} $A_{i,\text{inv}} \ge 8.27\%$ (vs. $0.27\%$ in Flat Context; a $30.6\times$ advantage).
-    \item \textbf{Moderate Salience ($\Delta s = 3.0, \kappa = 20.09$):} $A_{i,\text{inv}} \ge 3.21\%$ (vs. $0.10\%$ in Flat Context; a $32.1\times$ advantage).
-    \item \textbf{High Salience ($\Delta s = 4.0, \kappa = 54.60$):} $A_{i,\text{inv}} \ge 1.21\%$ (vs. $0.037\%$ in Flat Context; a $32.7\times$ advantage).
-    \item \textbf{Extreme Contrast ($\Delta s = 6.0, \kappa = 403.4$):} $A_{i,\text{inv}} \ge 0.165\%$ (vs. $0.0049\%$ in Flat Context; a $33.3\times$ advantage).
+    \item \textbf{Well-Calibrated ($\Delta s = 1.0, \kappa = 2.72$):} $A_{i,\text{inv}} \ge 19.70\%$ (vs. $0.73\%$ in Flat Context at $N=5{,}000$; theoretical bound ratio $R \approx 27.0\times$; at $N=50{,}000$, $R \approx 268.1\times$).
+    \item \textbf{Typical Dynamic Range ($\Delta s = 2.0, \kappa = 7.39$):} $A_{i,\text{inv}} \ge 8.28\%$ (vs. $0.27\%$ in Flat Context; theoretical bound ratio $R \approx 30.7\times$; at $N=50{,}000$, $R \approx 305.9\times$).
+    \item \textbf{Moderate Salience ($\Delta s = 3.0, \kappa = 20.09$):} $A_{i,\text{inv}} \ge 3.21\%$ (vs. $0.10\%$ in Flat Context; theoretical bound ratio $R \approx 32.3\times$; at $N=50{,}000$, $R \approx 322.7\times$).
+    \item \textbf{High Salience ($\Delta s = 4.0, \kappa = 54.60$):} $A_{i,\text{inv}} \ge 1.21\%$ (vs. $0.037\%$ in Flat Context; theoretical bound ratio $R \approx 32.9\times$; at $N=50{,}000$, $R \approx 329.3\times$).
+    \item \textbf{Extreme Contrast ($\Delta s = 6.0, \kappa = 403.4$):} $A_{i,\text{inv}} \ge 0.165\%$ (vs. $0.0049\%$ in Flat Context; theoretical bound ratio $R \approx 33.3\times$; at $N=50{,}000$, $R \approx 332.8\times$).
 \end{itemize}
-\noindent When distractor contrast is extreme ($\kappa \ge 400$), the lower bound is numerically small ($0.165\%$), demonstrating that token volume bounding alone cannot guarantee high attention in the presence of severe adversarial semantic contrast without architectural inductive biases. Nonetheless, relative to flat context growth ($N \to \infty$), the retention ratio scales as $\approx N / C_{\text{bound}}$, providing a $33\times$ (at $N=5{,}000$) to $330\times$ (at $N=50{,}000$) advantage across all $\kappa$.
+\noindent When distractor contrast is extreme ($\kappa \ge 400$), the lower bound is numerically small ($0.165\%$), demonstrating that token volume bounding alone cannot guarantee high attention in the presence of severe adversarial semantic contrast without architectural inductive biases.
+
+\paragraph{Comparative Bound Analysis:} Under uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:
+\begin{equation}
+    R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}
+\end{equation}
+which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.
 
 \section{Attention-Weighted Eviction (AWE) Algorithm}
 \label{sec:awe}

@@ -256,14 +256,14 @@ def build_academic_pdf():
     story.append(Spacer(1, 6))
 
     # Sensitivity Analysis Table
-    sens_title = Paragraph("<b>Numerical Sensitivity Analysis of Theorem 2 Lower Bound (L_u = 100, C_bound = 150)</b>", ParagraphStyle('SensTitle', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=8, leading=10, textColor=colors.HexColor("#334155"), spaceAfter=3))
+    sens_title = Paragraph("<b>Numerical Sensitivity Analysis & Comparative Bound Analysis (L_u = 100, C_bound = 150)</b>", ParagraphStyle('SensTitle', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=8, leading=10, textColor=colors.HexColor("#334155"), spaceAfter=3))
     story.append(sens_title)
     sens_data = [
-        ["Regime", "Logit Gap (\u0394s)", "Contrast (\u03ba)", "GenContext Min Attn", "Flat Context (N=5k)", "Retention Adv."],
+        ["Regime", "Logit Gap (\u0394s)", "Contrast (\u03ba)", "GenContext Min Attn", "Flat Context (N=5k)", "Bound Ratio R(5k)"],
         ["Well-Calibrated", "1.0", "2.72", "19.70%", "0.73%", "27.0x"],
-        ["Typical Layer Dynamic Range", "2.0", "7.39", "8.27%", "0.27%", "30.6x"],
-        ["Moderate Distractor Salience", "3.0", "20.09", "3.21%", "0.10%", "32.1x"],
-        ["High Distractor Salience", "4.0", "54.60", "1.21%", "0.037%", "32.7x"],
+        ["Typical Layer Dynamic Range", "2.0", "7.39", "8.28%", "0.27%", "30.7x"],
+        ["Moderate Distractor Salience", "3.0", "20.09", "3.21%", "0.10%", "32.3x"],
+        ["High Distractor Salience", "4.0", "54.60", "1.21%", "0.037%", "32.9x"],
         ["Extreme Adversarial Gap", "6.0", "403.4", "0.165%", "0.0049%", "33.3x"],
     ]
     t_sens = Table(sens_data, colWidths=[130, 75, 65, 85, 85, 64])
@@ -283,7 +283,7 @@ def build_academic_pdf():
     ]))
     story.append(t_sens)
     story.append(Paragraph(
-        "<i>Note on Bound Tightness:</i> Extreme logit gaps (&kappa; &ge; 400) yield a small theoretical lower bound (0.165%), proving that volume bounding alone cannot guarantee high attention under extreme adversarial contrast. However, the retention ratio scales as ~N / C_bound across all &kappa;, providing a uniform ~33x advantage over Flat Context at N = 5,000.",
+        "<i>Comparative Bound Analysis:</i> The theoretical bound ratio R(&kappa;, N) = (L_u + &kappa; N) / (L_u + &kappa; C_bound) approaches N / C_bound as &kappa; &rarr; &infin; (33.3x at N = 5,000; 333.3x at N = 50,000). For finite &kappa;, R ranges from 27.0x to 33.3x (at N = 5k) and 268.1x to 332.8x (at N = 50k). This is a comparison of theoretical bound expressions under uniform score assumptions, not a measurement or guarantee of actual attention allocations.",
         ParagraphStyle('SensNote', parent=styles['Normal'], fontName='Helvetica-Oblique', fontSize=7, leading=9, textColor=colors.HexColor("#64748b"), spaceBefore=2, spaceAfter=4)
     ))
     story.append(Spacer(1, 4))

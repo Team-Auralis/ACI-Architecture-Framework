@@ -181,26 +181,26 @@ $$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{b
 
 Substituting $C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$
 
-### 5.3 Numerical Sensitivity Analysis & Practical Tightness of Theorem 2
+### 5.3 Numerical Sensitivity Analysis & Comparative Bound Analysis
 
 A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across plausible LLM attention logit dynamic ranges $\Delta s = s_{\max} - s_{\min}$ (where $\kappa = \exp(\Delta s)$).
 
 Assuming standard invariant instruction size $L_u = 100$ tokens and compact Generational Context working buffer $C_{\text{bound}} = 150$ tokens:
 
-| Regime | Logit Contrast $\Delta s$ | Dynamic Contrast $\kappa$ | GenContext Lower Bound ($C_{\text{bound}} = 150$) | Flat Context at $N = 5{,}000$ (Adverse) | Flat Context at $N = 50{,}000$ (Adverse) | Retention Advantage $\frac{\text{Gen}}{\text{Flat}}$ |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Well-Calibrated / Soft-Clamped** | $1.0$ | $2.72$ | **19.70%** | 0.73% | 0.073% | **27.0×** |
-| **Typical Layer Dynamic Range** | $2.0$ | $7.39$ | **8.27%** | 0.27% | 0.027% | **30.6×** |
-| **Moderate Distractor Salience** | $3.0$ | $20.09$ | **3.21%** | 0.10% | 0.010% | **32.1×** |
-| **High Distractor Salience** | $4.0$ | $54.60$ | **1.21%** | 0.037% | 0.0037% | **32.7×** |
-| **Adversarial / Extreme Logit Gap** | $6.0$ | $403.4$ | **0.165%** | 0.0049% | 0.00049% | **33.3×** |
+| Regime | Logit Gap $\Delta s$ | Dynamic Contrast $\kappa$ | GenContext Lower Bound ($C_{\text{bound}} = 150$) | Flat Context Lower Bound ($N = 5{,}000$) | Flat Context Lower Bound ($N = 50{,}000$) | Theoretical Bound Ratio $R(\kappa, 5\text{k})$ | Theoretical Bound Ratio $R(\kappa, 50\text{k})$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Well-Calibrated / Soft-Clamped** | $1.0$ | $2.72$ | **19.70%** | 0.73% | 0.074% | **27.0×** | **268.1×** |
+| **Typical Layer Dynamic Range** | $2.0$ | $7.39$ | **8.28%** | 0.27% | 0.027% | **30.7×** | **305.9×** |
+| **Moderate Distractor Salience** | $3.0$ | $20.09$ | **3.21%** | 0.10% | 0.010% | **32.3×** | **322.7×** |
+| **High Distractor Salience** | $4.0$ | $54.60$ | **1.21%** | 0.037% | 0.0037% | **32.9×** | **329.3×** |
+| **Adversarial / Extreme Logit Gap** | $6.0$ | $403.4$ | **0.165%** | 0.0049% | 0.00050% | **33.3×** | **332.8×** |
 
 #### Analytical Implications on Bound Tightness:
 1. **Calibrated & Moderate Regimes ($\Delta s \le 2.0$):** In typical transformer layers where normalization (RMSNorm / LayerNorm) or logit soft-capping limits extreme logit spreads, Generational Context guarantees that invariant tokens retain a robust **$8.3\% - 19.7\%$** share of attention mass.
 2. **Adversarial & Extreme Regimes ($\Delta s \ge 6.0$):** If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This rigorously demonstrates that *bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast*. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).
-3. **Comparative Advantage Over Flat Context:** In all regimes, the ratio of attention retention between Generational Context and Flat Append-Only Context scales as:
-   $$\frac{A_{i, \text{inv}}^{\text{Gen}}}{A_{i, \text{inv}}^{\text{Flat}}} \approx \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}} \xrightarrow{N \gg C_{\text{bound}}} \frac{N}{C_{\text{bound}}}$$
-   When $N = 5{,}000$ and $C_{\text{bound}} = 150$, Generational Context provides a uniform **$\approx 33\times$** retention advantage. At $N = 50{,}000$, this advantage expands to **$\approx 330\times$**, establishing that Generational Context shields invariant constraints from volume-driven dilution across all values of $\kappa$.
+3. **Comparative Bound Analysis:** Under the uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:
+   $$R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}$$
+   which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends directly on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.
 
 > [!NOTE] Scope & Boundary Conditions of Theorem 2
 > The lower bound establishes that bounding active distractor volume prevents volume-driven attention dilution. It assumes uniform bounded projection energy. If non-invariant distractor tokens are adversarially crafted to achieve disproportionately large dot products, or if invariant representations undergo representation collapse in deep layers, attention can still be diverted. Generational Context provides the necessary structural control over token volume to guarantee bounded background competition.
