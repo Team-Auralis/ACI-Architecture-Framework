@@ -245,6 +245,10 @@ The industry frequently conflates Error Gravitation with standard generative hal
 | **Persistence** | Often transient; corrected by temperature reduction or re-sampling. | Strictly cumulative; monotonically worsens with every turn in the session. |
 | **Mitigation** | RAG, grounding data, lower temperature, logit bias. | **Epistemic Context Flushing**, Gen-0 eviction, rollback to pre-error state. |
 
+### 4.4 Analytical Foundation: The Fool's Theorem
+The rigorous mathematical proof demonstrating that Error Gravitation is an unavoidable asymptotic attractor state in unmanaged transformer loops is formalized in **The Fool's Theorem** (*The Epistemic Closure Bound*). It proves that without generational eviction, the probability of generating a correct counter-hypothesis decays exponentially as $P(E_{\text{correct}}) \le C_1 e^{-\lambda |\mathcal{S}_{\text{noise}}|} + \frac{C_2}{|\mathcal{S}_{\text{noise}}|}$, trapping the agent past a finite threshold $N^*$.
+* **Full Proof & Lemmas**: See [The Fool's Theorem Specification](FOOLS_THEOREM.md).
+
 ---
 
 ## 5. Architectural Implementation: The AURA Context OS Controller
