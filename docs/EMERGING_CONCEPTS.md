@@ -1,18 +1,19 @@
-# Emerging Concepts: CIC, AICC & EGE
+# Emerging Concepts: CIC, AICC, EGE & The Context Trifecta
 
-> Beyond ACI/OCI — the next three pillars of civilizational AI safety.
+> Beyond ACI/OCI — the foundational pillars of civilizational AI safety and cognitive memory architecture.
 
 ---
 
 ## Executive Summary
 
-The ACI framework governs **how** a machine civilization coordinates and acts. The OCI extension lets it **rewrite its own architecture**. But neither addresses three critical failure modes that emerge at civilizational timescales:
+The ACI framework governs **how** a machine civilization coordinates and acts. The OCI extension lets it **rewrite its own architecture**. But neither addresses the critical failure modes that emerge at civilizational timescales and long operational horizons:
 
 1. **Value Drift** — the civilization's goals silently shift without anyone deciding they should.
 2. **Cultural Amnesia** — institutional knowledge is lost across agent generations.
 3. **Governance Ossification** — the rules that govern the system become outdated but cannot update themselves.
+4. **Attention Degradation (The Context Crisis)** — agents lose reasoning coherence beyond 20 turns due to terminal noise and error feedback loops.
 
-We introduce three modular extensions to address each.
+We introduce modular architectural extensions to resolve each.
 
 ---
 
@@ -145,15 +146,38 @@ flowchart TD
 
 ---
 
+## 4. The Cognitive Context Trifecta
+
+At long decision horizons, autonomous agents do not fail from lack of raw model intelligence; they fail from **attention degradation induced by unmanaged context buffers**. Real-world agent telemetry demonstrates that ~94% of tokens in long-running sessions are raw tool execution noise (Payload Inundation), which creates non-linear semantic attractor traps (Error Gravitation).
+
+The ACI Framework establishes the **Cognitive Context Trifecta** to govern agent attention memory:
+
+```mermaid
+flowchart LR
+    PI["Payload Inundation<br/>(Physical Root Cause)"] -->|Dilutes Attention| EG["Error Gravitation<br/>(Cognitive Trap)"]
+    GC["Generational Context<br/>(Gen-0 / Gen-1 / Gen-2)"] -->|Evicts Noise & Traps| ST["Infinite Horizon<br/>Reasoning Stability"]
+```
+
+| Term | Concept Category | Architectural Function |
+| :--- | :--- | :--- |
+| **Payload Inundation** | Physical Failure Mode | Dilution of attention heads by uncompressed, high-entropy tool stdout/stderr dumps. |
+| **Generational Context** | Systems Architecture | Tiered memory lifecycle (Gen-0 Ephemeral, Gen-1 Evaporative, Gen-2 Tenured) with deterministic GC. |
+| **Error Gravitation** | Cognitive Pathology | Trapping of attention weights in the semantic attractor basin of past failure logs. |
+
+* **Comprehensive Specification & Formal Proofs**: See [The Cognitive Context Trifecta Research Specification](research/CONTEXT_ARCHITECTURE_TRIFECTA.md).
+* **Target Benchmark**: CCB-001 (Cognitive Context Benchmark).
+
+---
+
 ## Concept Comparison
 
-| Criterion | CIC | AICC | EGE |
-|-----------|:---:|:----:|:---:|
-| **Novelty** | High | High | High |
-| **Implementation Effort** | Low (auditor hook) | Medium (archive + agents) | High (sandbox + proofs) |
-| **Impact** | Very High | High | High |
-| **Risk if Misused** | High (value lock-in) | Medium (bias in curation) | Very High (power concentration) |
-| **Maps to ORION Component** | OMNIS + VEIL | OMNIS + NEXUS | CRUCIBLE + CHIRON |
+| Criterion | CIC | AICC | EGE | Cognitive Trifecta |
+|-----------|:---:|:----:|:---:|:------------------:|
+| **Novelty** | High | High | High | Very High |
+| **Implementation Effort** | Low (auditor hook) | Medium (archive + agents) | High (sandbox + proofs) | Medium (Context OS Controller) |
+| **Impact** | Very High | High | High | Foundational |
+| **Risk if Misused** | High (value lock-in) | Medium (bias in curation) | Very High (power concentration) | Low (Deterministic safety) |
+| **Maps to Stack** | OMNIS + VEIL | OMNIS + NEXUS | CRUCIBLE + CHIRON | AURA + NEXUS |
 
 ---
 
@@ -169,11 +193,13 @@ graph TB
         VEIL["VEIL<br/>(Governance)"]
         CRUCIBLE["CRUCIBLE<br/>(Safety Proofs)"]
         CHIRON["CHIRON<br/>(Hot-Swap)"]
+        AURA["AURA<br/>(Intelligence Core)"]
     end
     subgraph NewExtensions["New Civilizational Extensions"]
         CIC["CIC<br/>(Intent Conservation)"]
         AICC["AICC<br/>(Cultural Continuity)"]
         EGE["EGE<br/>(Governance Evolution)"]
+        CCT["Cognitive Context Trifecta<br/>(Generational Memory)"]
     end
     CIC --> OMNIS
     CIC --> VEIL
@@ -181,6 +207,8 @@ graph TB
     AICC --> NEXUS
     EGE --> CRUCIBLE
     EGE --> CHIRON
+    CCT --> AURA
+    CCT --> NEXUS
 ```
 
 ---
@@ -199,4 +227,5 @@ graph TB
 | 1–2 | Implement CIC auditor hook + `intent_schema.yaml` + CIC-001 test harness |
 | 3–4 | Build Cultural Archive, Education Agents, and AICC-001 experiment |
 | 5–6 | Develop EGE sandbox, integrate CRUCIBLE proof checks, run EGE-001 |
-| 7–8 | Consolidate results, update benchmarks, publish findings |
+| 7–8 | Integrate Generational Context Controller into AURA and run CCB-001 benchmark |
+| 9–10 | Consolidate results, update benchmarks, publish findings |
