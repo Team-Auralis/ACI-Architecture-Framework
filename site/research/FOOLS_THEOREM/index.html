@@ -2302,12 +2302,16 @@
 <p>$$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$</p>
 <p>Substituting $C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$</p>
 <h3 id="53-numerical-sensitivity-analysis-comparative-bound-analysis">5.3 Numerical Sensitivity Analysis &amp; Comparative Bound Analysis<a class="headerlink" href="#53-numerical-sensitivity-analysis-comparative-bound-analysis" title="Permanent link">&para;</a></h3>
-<p>A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across plausible LLM attention logit dynamic ranges $\Delta s = s_{\max} - s_{\min}$ (where $\kappa = \exp(\Delta s)$).</p>
+<p>A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across a parameter sweep of hypothetical attention logit contrast values $\Delta s = s_{\max} - s_{\min}$ (where $\kappa = \exp(\Delta s)$). </p>
+<blockquote>
+<p>[!NOTE] Analytical Bound Context
+The flat-context columns below represent theoretical lower bounds computed under the exact same uniform score assumptions, rather than empirical measurements from specific model checkpoints. The logit-gap regimes are illustrative parameter sweeps selected to evaluate sensitivity across dynamic ranges.</p>
+</blockquote>
 <p>Assuming standard invariant instruction size $L_u = 100$ tokens and compact Generational Context working buffer $C_{\text{bound}} = 150$ tokens:</p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Regime</th>
+<th style="text-align: left;">Parameter Regime</th>
 <th style="text-align: center;">Logit Gap $\Delta s$</th>
 <th style="text-align: center;">Dynamic Contrast $\kappa$</th>
 <th style="text-align: center;">GenContext Lower Bound ($C_{\text{bound}} = 150$)</th>
@@ -2319,7 +2323,7 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>Well-Calibrated / Soft-Clamped</strong></td>
+<td style="text-align: left;"><strong>Illustrative Low Contrast</strong></td>
 <td style="text-align: center;">$1.0$</td>
 <td style="text-align: center;">$2.72$</td>
 <td style="text-align: center;"><strong>19.70%</strong></td>
@@ -2329,7 +2333,7 @@
 <td style="text-align: center;"><strong>268.1×</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Typical Layer Dynamic Range</strong></td>
+<td style="text-align: left;"><strong>Illustrative Intermediate Contrast</strong></td>
 <td style="text-align: center;">$2.0$</td>
 <td style="text-align: center;">$7.39$</td>
 <td style="text-align: center;"><strong>8.28%</strong></td>
@@ -2339,7 +2343,7 @@
 <td style="text-align: center;"><strong>305.9×</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Moderate Distractor Salience</strong></td>
+<td style="text-align: left;"><strong>Illustrative Moderate Contrast</strong></td>
 <td style="text-align: center;">$3.0$</td>
 <td style="text-align: center;">$20.09$</td>
 <td style="text-align: center;"><strong>3.21%</strong></td>
@@ -2349,7 +2353,7 @@
 <td style="text-align: center;"><strong>322.7×</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>High Distractor Salience</strong></td>
+<td style="text-align: left;"><strong>Illustrative High Contrast</strong></td>
 <td style="text-align: center;">$4.0$</td>
 <td style="text-align: center;">$54.60$</td>
 <td style="text-align: center;"><strong>1.21%</strong></td>
@@ -2359,7 +2363,7 @@
 <td style="text-align: center;"><strong>329.3×</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Adversarial / Extreme Logit Gap</strong></td>
+<td style="text-align: left;"><strong>Illustrative Extreme Contrast</strong></td>
 <td style="text-align: center;">$6.0$</td>
 <td style="text-align: center;">$403.4$</td>
 <td style="text-align: center;"><strong>0.165%</strong></td>
@@ -2372,8 +2376,8 @@
 </table>
 <h4 id="analytical-implications-on-bound-tightness">Analytical Implications on Bound Tightness:<a class="headerlink" href="#analytical-implications-on-bound-tightness" title="Permanent link">&para;</a></h4>
 <ol>
-<li><strong>Calibrated &amp; Moderate Regimes ($\Delta s \le 2.0$):</strong> In typical transformer layers where normalization (RMSNorm / LayerNorm) or logit soft-capping limits extreme logit spreads, Generational Context guarantees that invariant tokens retain a robust <strong>$8.3\% - 19.7\%$</strong> share of attention mass.</li>
-<li><strong>Adversarial &amp; Extreme Regimes ($\Delta s \ge 6.0$):</strong> If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This rigorously demonstrates that <em>bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast</em>. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).</li>
+<li><strong>Low &amp; Intermediate Contrast Regimes ($\Delta s \le 2.0$):</strong> When score contrast between invariant and background tokens is moderate, Generational Context guarantees that invariant tokens retain a robust <strong>$8.3\% - 19.7\%$</strong> share of attention mass.</li>
+<li><strong>Adversarial &amp; Extreme Contrast Regimes ($\Delta s \ge 6.0$):</strong> If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This demonstrates that <em>bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast</em>. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).</li>
 <li><strong>Comparative Bound Analysis:</strong> Under the uniform bounded-score assumptions, the lower-bound expression for invariant attention under a bounded context can be compared with the corresponding lower-bound expression for a larger context. Their ratio is:
    $$R(\kappa, N) = \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}}$$
    which approaches $N / C_{\text{bound}}$ as $\kappa \to \infty$ ($33.3\times$ at $N = 5{,}000$, and $333.3\times$ at $N = 50{,}000$). For finite $\kappa$, the ratio depends directly on the invariant-token count and score contrast, ranging from $27.0\times$ to $33.3\times$ at $N = 5{,}000$, and from $268.1\times$ to $332.8\times$ at $N = 50{,}000$. This is a comparison of theoretical bound expressions, not a measurement or guarantee of the ratio between actual attention allocations. Real-model experiments are needed to estimate behavioral effects.</li>
