@@ -240,8 +240,9 @@ def build_academic_pdf():
     # Theorem 2 Box
     thm2_text = (
         "<b>Theorem 2 (Generational Retention Guarantee).</b><br/>"
-        "<i>Under Generational Context with bounded distillation ||&sigma;_distill(G_0)|| &le; K_0 and working capacity ||G_1|| &le; C_1, "
-        "the active non-invariant tokens satisfy |S_non-inv^(t)| &le; C_1 + K_0 = C_bound for all turns t. Under uniform bounded projection energy:</i><br/>"
+        "<i>Under Generational Context with bounded distillation ||&sigma;_distill(G_0)|| &le; K_0, working capacity ||G_1|| &le; C_1, "
+        "and bounded framing overhead C_overhead (delimiters, role tags, headers), the active non-invariant tokens satisfy "
+        "|S_non-inv^(t)| &le; C_1 + K_0 + C_overhead = C_bound for all turns t. Under uniform bounded projection energy:</i><br/>"
         "&nbsp;&nbsp;&nbsp;&nbsp;<b>A_{i, inv} = 1 / (1 + R_t) &ge; L_u / (L_u + &kappa; C_bound) &gt; 0</b><br/>"
         "<i>where R_t &le; (&kappa; C_bound) / L_u. Invariant attention remains strictly bounded away from zero uniformly for all interaction turns t &isin; N.</i>"
     )
@@ -252,7 +253,40 @@ def build_academic_pdf():
         ('PADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(t_thm2)
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 6))
+
+    # Sensitivity Analysis Table
+    sens_title = Paragraph("<b>Numerical Sensitivity Analysis of Theorem 2 Lower Bound (L_u = 100, C_bound = 150)</b>", ParagraphStyle('SensTitle', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=8, leading=10, textColor=colors.HexColor("#334155"), spaceAfter=3))
+    story.append(sens_title)
+    sens_data = [
+        ["Regime", "Logit Gap (\u0394s)", "Contrast (\u03ba)", "GenContext Min Attn", "Flat Context (N=5k)", "Retention Adv."],
+        ["Well-Calibrated", "1.0", "2.72", "19.70%", "0.73%", "27.0x"],
+        ["Typical Layer Dynamic Range", "2.0", "7.39", "8.27%", "0.27%", "30.6x"],
+        ["Moderate Distractor Salience", "3.0", "20.09", "3.21%", "0.10%", "32.1x"],
+        ["High Distractor Salience", "4.0", "54.60", "1.21%", "0.037%", "32.7x"],
+        ["Extreme Adversarial Gap", "6.0", "403.4", "0.165%", "0.0049%", "33.3x"],
+    ]
+    t_sens = Table(sens_data, colWidths=[130, 75, 65, 85, 85, 64])
+    t_sens.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#334155")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 7),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+        ('TOPPADDING', (0, 0), (-1, -1), 2),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#e2e8f0")),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 6.8),
+    ]))
+    story.append(t_sens)
+    story.append(Paragraph(
+        "<i>Note on Bound Tightness:</i> Extreme logit gaps (&kappa; &ge; 400) yield a small theoretical lower bound (0.165%), proving that volume bounding alone cannot guarantee high attention under extreme adversarial contrast. However, the retention ratio scales as ~N / C_bound across all &kappa;, providing a uniform ~33x advantage over Flat Context at N = 5,000.",
+        ParagraphStyle('SensNote', parent=styles['Normal'], fontName='Helvetica-Oblique', fontSize=7, leading=9, textColor=colors.HexColor("#64748b"), spaceBefore=2, spaceAfter=4)
+    ))
+    story.append(Spacer(1, 4))
 
     # Section 4: AWE Algorithm
     story.append(Paragraph("4. The Attention-Weighted Eviction (AWE) Algorithm", h1_style))
@@ -279,7 +313,9 @@ def build_academic_pdf():
     story.append(Paragraph("5. Empirical Token Compaction & Attention Simulation", h1_style))
     story.append(Paragraph(
         "<i>Methodological Scope Notice:</i> Attention metrics represent a deterministic 128-dimensional subword hash-projection "
-        "surrogate modeling softmax dilution mechanics, distinct from neural transformer forward passes.",
+        "surrogate modeling softmax dilution mechanics, distinct from neural transformer forward passes. Controlled empirical evaluations "
+        "with live neural models (e.g., Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across SWE-bench Verified are <b>planned future work</b> (Phase 2); "
+        "no live model reasoning claims are made prior to Phase 2 completion.",
         abstract_body
     ))
     story.append(Spacer(1, 4))

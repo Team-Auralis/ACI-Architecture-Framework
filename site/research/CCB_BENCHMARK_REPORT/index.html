@@ -1285,10 +1285,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-telemetry-verification" class="md-nav__link">
+  <a href="#4-telemetry-verification-reproducibility" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Telemetry Verification
+        4. Telemetry Verification &amp; Reproducibility
       
     </span>
   </a>
@@ -1971,17 +1971,19 @@
 <h1 id="ccb-001-context-compaction-heuristic-attention-simulation-report">CCB-001: Context Compaction &amp; Heuristic Attention Simulation Report<a class="headerlink" href="#ccb-001-context-compaction-heuristic-attention-simulation-report" title="Permanent link">&para;</a></h1>
 <blockquote>
 <p><strong>Deterministic Algorithmic Simulation of Softmax Dilution and Token Economics</strong><br />
-<em>Generated: 2026-10-24 06:24:40 UTC</em><br />
+<em>Generated: 2026-10-24 06:45:14 UTC</em><br />
 <em>Data Source: <a href="file:///E:/ACI-Architecture-Framework/ccb_results.csv"><code>ccb_results.csv</code></a></em></p>
-<p>[!IMPORTANT] Methodological Scope Notice: Simulation Model vs. Neural LLM
-This report presents results from a deterministic token-accounting and heuristic attention-dilution simulation engine. Attention scores are computed using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution. They do NOT reflect neural activations from a real transformer forward pass. Live LLM reasoning evaluations on blinded agent benchmarks are conducted separately.</p>
+<p>[!IMPORTANT] Methodological Scope Notice: Algorithmic Simulation vs. Real Transformer Inference
+1. <strong>Algorithmic Simulation</strong>: This benchmark measures token economics and heuristic attention dilution in a deterministic environment using 128-dimensional subword hash embeddings and scaled dot-product softmax. These metrics serve as an algorithmic surrogate to analyze token allocation mechanics under controlled conditions; they do NOT measure neural activations from real LLM transformer weights.
+2. <strong>Real-LLM Evaluations (Planned Work)</strong>: Empirical evaluations on live frontier models (e.g., Claude 3.5 Sonnet, GPT-4o, Llama 3) across multi-turn software engineering benchmarks (e.g., SWE-bench, InterCode) are <strong>currently planned future work</strong> and have not yet been conducted. No empirical claims regarding live LLM reasoning accuracy or task success rates are made or implied by this simulation.
+3. <strong>Attention Distribution vs. Task Success</strong>: Attention metrics evaluate the mathematical allocation of probability mass across context tokens. Theorem 1 establishes attention mass dilution, not inevitable cognitive reasoning failure in every model architecture. Theorem 2 establishes a lower bound on invariant attention mass under uniform bounded energy, not guaranteed agent task success.</p>
 </blockquote>
 <hr />
 <h2 id="1-executive-summary-comparative-matrix">1. Executive Summary &amp; Comparative Matrix<a class="headerlink" href="#1-executive-summary-comparative-matrix" title="Permanent link">&para;</a></h2>
 <p>The CCB-001 simulation evaluates memory footprint, signal retention, and attention dilution across three architectures:
 1. <strong>Arm A (Flat Append-Only)</strong>: Appending all execution outputs linearly into context.
 2. <strong>Arm B (Auto-Compaction)</strong>: Periodic extractive text summarization when token limits are reached.
-3. <strong>Arm C (Generational Context)</strong>: Gen-0 Ephemeral distillation and Gen-2 Tenured invariant pinning.</p>
+3. <strong>Arm C (Generational Context)</strong>: Gen-0 Ephemeral distillation, Gen-1 AWE working cache, and Gen-2 Tenured invariant pinning.</p>
 <h3 id="comparative-token-compression-matrix">Comparative Token Compression Matrix<a class="headerlink" href="#comparative-token-compression-matrix" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2032,7 +2034,7 @@ This report presents results from a deterministic token-accounting and heuristic
 $$A_{i, \text{inv}} \propto \mathcal{O}\left(\frac{L_u}{|\mathcal{S}_{\text{noise}}|}\right)$$
 Simulated invariant attention in Arm A reached 0.0425, demonstrating the dilution effect when high-entropy logs dominate active context.</p>
 <h3 id="finding-2-token-footprint-reduction-signal-concentration">Finding 2: Token Footprint Reduction &amp; Signal Concentration<a class="headerlink" href="#finding-2-token-footprint-reduction-signal-concentration" title="Permanent link">&para;</a></h3>
-<p>Generational Context reduced active memory footprint from 5099 tokens down to <strong>129 tokens</strong> (<strong>-97.5%</strong>), while increasing the proportion of task-relevant signal tokens (CSR) from 0.0059 to <strong>0.2000</strong> (<strong>33.9x concentration</strong>).</p>
+<p>Generational Context reduced active memory footprint from 5099 tokens down to <strong>129 tokens</strong> (<strong>-97.5%</strong>), encompassing all distilled outputs, working memory, and structural formatting delimiters ($C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$). Simultaneously, it increased the proportion of task-relevant signal tokens (CSR) from 0.0059 to <strong>0.2000</strong> (<strong>33.9x concentration</strong>).</p>
 <hr />
 <h2 id="3-publication-visualizations">3. Publication Visualizations<a class="headerlink" href="#3-publication-visualizations" title="Permanent link">&para;</a></h2>
 <h3 id="figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy">Figure 1: Attention Phase Transition Under Noise Inundation (Simulation Proxy)<a class="headerlink" href="#figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy" title="Permanent link">&para;</a></h3>
@@ -2042,7 +2044,7 @@ Simulated invariant attention in Arm A reached 0.0425, demonstrating the dilutio
 <h3 id="figure-3-pareto-frontier-signal-retention-vs-token-footprint">Figure 3: Pareto Frontier (Signal Retention vs Token Footprint)<a class="headerlink" href="#figure-3-pareto-frontier-signal-retention-vs-token-footprint" title="Permanent link">&para;</a></h3>
 <p><img alt="Pareto Frontier" src="../../assets/pareto_frontier.svg" /></p>
 <hr />
-<h2 id="4-telemetry-verification">4. Telemetry Verification<a class="headerlink" href="#4-telemetry-verification" title="Permanent link">&para;</a></h2>
+<h2 id="4-telemetry-verification-reproducibility">4. Telemetry Verification &amp; Reproducibility<a class="headerlink" href="#4-telemetry-verification-reproducibility" title="Permanent link">&para;</a></h2>
 <p>Raw token counts, softmax distributions, and entropy logs are reproducible via:
 * CSV Data: <a href="file:///E:/ACI-Architecture-Framework/ccb_results.csv"><code>ccb_results.csv</code></a>
 * Simulation Engine: <a href="file:///E:/ACI-Architecture-Framework/ccb_bench.py"><code>ccb_bench.py</code></a></p>

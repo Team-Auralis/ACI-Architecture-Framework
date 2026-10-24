@@ -28,6 +28,9 @@
 
 \begin{abstract}
 \noindent Autonomous AI agent architectures routinely treat the transformer context window as an unbounded, append-only linear interaction transcript. We analyze the theoretical and empirical consequences of this paradigm. We formalize the \textbf{Softmax Inundation Bound}, an analytical upper bound showing that under bounded projection energy, the maximum aggregate self-attention probability mass allocated to a fixed set of invariant constraint tokens decays asymptotically as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$ when unpruned execution observations accumulate. This attention dilution creates a systemic vulnerability: as noisy tracebacks dominate context length, attention heads dilute focus from foundational system invariants toward high-entropy symptom tokens. To resolve this failure mode, we specify \textbf{Generational Context}, an operating-system-inspired memory architecture that separates memory into \textbf{Gen-0 Ephemeral} (raw tool outputs distilled to 3-line signatures and evicted in 1 turn), \textbf{Gen-1 Evaporative} (working memory paged via the Attention-Weighted Eviction algorithm), and \textbf{Gen-2 Tenured} (permanently pinned invariants). We prove that Generational Context maintains a non-zero lower bound on invariant attention uniformly for all interaction turns $t \in \mathbb{N}$, eliminating unbounded softmax dilution and stabilizing long-horizon autonomy.
+
+\vspace{0.5em}
+\noindent \textbf{Formal Scope Distinction:} Theorem 1 bounds softmax attention probability mass under growing distractor volume; it does not claim inevitable cognitive reasoning failure in every model architecture. Theorem 2 bounds invariant attention mass away from zero under uniform bounded score assumptions; it does not guarantee agent task success, which additionally requires semantic reasoning, valid tool invocation, and accurate environment feedback.
 \end{abstract}
 
 \section{Introduction}
@@ -99,18 +102,19 @@ To mitigate Softmax Inundation without relying on brute-force context window exp
 
 \begin{theorem}[Generational Retention Guarantee]
 \label{thm:retention}
-Let memory be managed according to Generational Context with bounded distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0$ and bounded working capacity $\|\mathcal{G}_1\| \le C_1$. Then for all interaction turns $t \in \mathbb{N}$, the attention mass allocated to founding invariants remains strictly lower-bounded:
+Let memory be managed according to Generational Context with bounded distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0$, bounded working capacity $\|\mathcal{G}_1\| \le C_1$, and bounded structural formatting overhead $C_{\text{overhead}} \le M_{\max} \cdot \delta_{\text{env}}$ (encompassing all delimiters, role tags, turn headers, and markdown syntax). Let the total active non-invariant token volume be bounded by $C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}} < \infty$. Assume uniform bounded projection energy $-M_Q M_K / \sqrt{d_k} \le \mathbf{q}_i^\top \mathbf{k}_j / \sqrt{d_k} \le M_Q M_K / \sqrt{d_k}$. Then for all interaction turns $t \in \mathbb{N}$, the attention mass allocated to founding invariants satisfies:
 \begin{equation}
-    A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa (C_1 + K_0)} > 0
+    A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} > 0
 \end{equation}
+where $\kappa = \exp(2 M_Q M_K / \sqrt{d_k})$.
 \end{theorem}
 
 \begin{proof}
-Because Gen-0 raw outputs are evicted each turn ($\le K_0$) and Gen-1 is strictly capped at $C_1$, the active non-invariant token volume satisfies $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C_{\text{bound}} < \infty$ for all $t$. By definition of softmax, express $A_{i, \text{inv}}$ in ratio form:
+Because Gen-0 raw outputs are evicted each turn ($\le K_0$), Gen-1 is capped at $C_1$, and structural framing overhead is capped at $C_{\text{overhead}}$, all non-invariant tokens in active context satisfy $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_{\text{bound}} < \infty$ for all $t$. By definition of softmax:
 \begin{equation}
     A_{i, \text{inv}} = \frac{1}{1 + R_t}, \quad \text{where } R_t = \frac{\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}
 \end{equation}
-Under the uniform bounded score assumption $-M_Q M_K / \sqrt{d_k} \le \mathbf{q}_i^\top \mathbf{k}_j / \sqrt{d_k} \le M_Q M_K / \sqrt{d_k}$, the numerator of $R_t$ contains at most $C_{\text{bound}}$ terms bounded above by $\exp(M_Q M_K / \sqrt{d_k})$ and the denominator contains $L_u$ terms bounded below by $\exp(-M_Q M_K / \sqrt{d_k})$. Thus:
+Under uniform bounded scores, the numerator has at most $C_{\text{bound}}$ terms bounded above by $\exp(M_Q M_K / \sqrt{d_k})$ and the denominator has $L_u$ terms bounded below by $\exp(-M_Q M_K / \sqrt{d_k})$. Thus:
 \begin{equation}
     R_t \le \frac{C_{\text{bound}} \exp(M_Q M_K / \sqrt{d_k})}{L_u \exp(-M_Q M_K / \sqrt{d_k})} = \frac{\kappa C_{\text{bound}}}{L_u}
 \end{equation}
@@ -118,8 +122,19 @@ Because $f(R) = 1/(1+R)$ is strictly monotonically decreasing for $R \ge 0$:
 \begin{equation}
     A_{i, \text{inv}} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}
 \end{equation}
-Since $C_{\text{bound}} = C_1 + K_0$ is a time-invariant constant fixed by the memory controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$.
+Since $C_{\text{bound}}$ is a fixed invariant parameter, $A_{i, \text{inv}}$ remains uniformly bounded away from zero for all $t$.
 \end{proof}
+
+\subsection{Numerical Sensitivity Analysis and Bound Tightness}
+To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across plausible attention logit dynamic contrasts $\Delta s = s_{\max} - s_{\min}$ where $\kappa = \exp(\Delta s)$, for $L_u = 100$ and $C_{\text{bound}} = 150$:
+\begin{itemize}
+    \item \textbf{Well-Calibrated ($\Delta s = 1.0, \kappa = 2.72$):} $A_{i,\text{inv}} \ge 19.70\%$ (vs. $0.73\%$ in Flat Context at $N=5{,}000$; a $27.0\times$ advantage).
+    \item \textbf{Typical Dynamic Range ($\Delta s = 2.0, \kappa = 7.39$):} $A_{i,\text{inv}} \ge 8.27\%$ (vs. $0.27\%$ in Flat Context; a $30.6\times$ advantage).
+    \item \textbf{Moderate Salience ($\Delta s = 3.0, \kappa = 20.09$):} $A_{i,\text{inv}} \ge 3.21\%$ (vs. $0.10\%$ in Flat Context; a $32.1\times$ advantage).
+    \item \textbf{High Salience ($\Delta s = 4.0, \kappa = 54.60$):} $A_{i,\text{inv}} \ge 1.21\%$ (vs. $0.037\%$ in Flat Context; a $32.7\times$ advantage).
+    \item \textbf{Extreme Contrast ($\Delta s = 6.0, \kappa = 403.4$):} $A_{i,\text{inv}} \ge 0.165\%$ (vs. $0.0049\%$ in Flat Context; a $33.3\times$ advantage).
+\end{itemize}
+\noindent When distractor contrast is extreme ($\kappa \ge 400$), the lower bound is numerically small ($0.165\%$), demonstrating that token volume bounding alone cannot guarantee high attention in the presence of severe adversarial semantic contrast without architectural inductive biases. Nonetheless, relative to flat context growth ($N \to \infty$), the retention ratio scales as $\approx N / C_{\text{bound}}$, providing a $33\times$ (at $N=5{,}000$) to $330\times$ (at $N=50{,}000$) advantage across all $\kappa$.
 
 \section{Attention-Weighted Eviction (AWE) Algorithm}
 \label{sec:awe}
@@ -170,7 +185,10 @@ Arm C: Generational Context & \textbf{129} & \textbf{0.2000} & \textbf{0.0757} &
 \end{tabular}
 \end{table}
 
-\noindent\textit{Methodological Note:} Attention values derive from a deterministic token simulation using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution, distinct from production neural transformer forward passes. Under Generational Context, active token footprint dropped by $97.5\%$ while increasing the proportion of task-relevant signal tokens (CSR) by $33.9\times$ (from $0.0059$ to $0.2000$).
+\noindent\textit{Methodological Scope \& Empirical Roadmap:} 
+Attention values reported in Table~\ref{tab:compaction_results} derive from a deterministic token simulation using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution, distinct from production neural transformer forward passes. Under Generational Context, active token footprint dropped by $97.5\%$ while increasing the proportion of task-relevant signal tokens (CSR) by $33.9\times$ (from $0.0059$ to $0.2000$).
+
+Controlled empirical evaluations with live neural models (e.g., Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across standardized benchmarks (such as SWE-bench Verified and InterCode) are \textbf{currently planned future work} (Phase 2). No claims regarding live model reasoning success or task pass rates are asserted prior to Phase 2 completion.
 
 \section{Related Work}
 \label{sec:related_work}

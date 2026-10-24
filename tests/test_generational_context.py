@@ -88,6 +88,30 @@ class TestAWEAlgorithm(unittest.TestCase):
             cache.access(entry)
             self.assertLessEqual(cache.total_tokens(), capacity, f"Invariant violated at step {i}")
 
+    def test_structural_envelope_overhead_invariant(self):
+        """
+        Verify that structural delimiters, role tags, and framing metadata
+        are strictly counted against capacity C_bound.
+        """
+        capacity = 50
+        # 10 tokens fixed context framing (headers/delimiters)
+        cache = AdaptiveReplacementAttentionCache(capacity_tokens=capacity, fixed_envelope_overhead=10)
+        
+        # Add entry with 25 payload tokens and 5 delimiter envelope tokens (effective = 30)
+        e1 = CacheEntry(key="cmd1", content="run tests", tokens=25, tier="gen0", envelope_tokens=5)
+        cache.access(e1)
+        self.assertEqual(cache.total_tokens(), 40)  # 25 + 5 + 10 = 40 <= 50
+        
+        # Add second entry with 15 payload tokens and 5 delimiter tokens (effective = 20)
+        # Total would be 40 + 20 = 60 > 50, triggering eviction of lowest density item
+        e2 = CacheEntry(key="cmd2", content="run lint", tokens=15, tier="gen0", envelope_tokens=5, attention_weight=0.9)
+        evicted = cache.access(e2)
+        
+        self.assertLessEqual(cache.total_tokens(), capacity)
+        self.assertEqual(len(evicted), 1)
+        self.assertEqual(evicted[0].key, "cmd1")
+        self.assertEqual(cache.total_tokens(), 30)  # 15 + 5 + 10 = 30 <= 50
+
 
 class TestContextOSIntegration(unittest.TestCase):
     def test_context_os_distillation_and_tenured_pinning(self):

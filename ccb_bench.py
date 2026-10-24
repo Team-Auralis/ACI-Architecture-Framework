@@ -440,8 +440,10 @@ def generate_benchmark_artifacts(records: List[Dict[str, Any]]):
 > *Generated: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}*  
 > *Data Source: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)*
 
-> [!IMPORTANT] Methodological Scope Notice: Simulation Model vs. Neural LLM
-> This report presents results from a deterministic token-accounting and heuristic attention-dilution simulation engine. Attention scores are computed using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution. They do NOT reflect neural activations from a real transformer forward pass. Live LLM reasoning evaluations on blinded agent benchmarks are conducted separately.
+> [!IMPORTANT] Methodological Scope Notice: Algorithmic Simulation vs. Real Transformer Inference
+> 1. **Algorithmic Simulation**: This benchmark measures token economics and heuristic attention dilution in a deterministic environment using 128-dimensional subword hash embeddings and scaled dot-product softmax. These metrics serve as an algorithmic surrogate to analyze token allocation mechanics under controlled conditions; they do NOT measure neural activations from real LLM transformer weights.
+> 2. **Real-LLM Evaluations (Planned Work)**: Empirical evaluations on live frontier models (e.g., Claude 3.5 Sonnet, GPT-4o, Llama 3) across multi-turn software engineering benchmarks (e.g., SWE-bench, InterCode) are **currently planned future work** and have not yet been conducted. No empirical claims regarding live LLM reasoning accuracy or task success rates are made or implied by this simulation.
+> 3. **Attention Distribution vs. Task Success**: Attention metrics evaluate the mathematical allocation of probability mass across context tokens. Theorem 1 establishes attention mass dilution, not inevitable cognitive reasoning failure in every model architecture. Theorem 2 establishes a lower bound on invariant attention mass under uniform bounded energy, not guaranteed agent task success.
 
 ---
 
@@ -450,7 +452,7 @@ def generate_benchmark_artifacts(records: List[Dict[str, Any]]):
 The CCB-001 simulation evaluates memory footprint, signal retention, and attention dilution across three architectures:
 1. **Arm A (Flat Append-Only)**: Appending all execution outputs linearly into context.
 2. **Arm B (Auto-Compaction)**: Periodic extractive text summarization when token limits are reached.
-3. **Arm C (Generational Context)**: Gen-0 Ephemeral distillation and Gen-2 Tenured invariant pinning.
+3. **Arm C (Generational Context)**: Gen-0 Ephemeral distillation, Gen-1 AWE working cache, and Gen-2 Tenured invariant pinning.
 
 ### Comparative Token Compression Matrix
 
@@ -470,7 +472,7 @@ $$A_{{i, \\text{{inv}}}} \\propto \\mathcal{{O}}\\left(\\frac{{L_u}}{{|\\mathcal
 Simulated invariant attention in Arm A reached {arm_a['avg_attn_inv']:.4f}, demonstrating the dilution effect when high-entropy logs dominate active context.
 
 ### Finding 2: Token Footprint Reduction & Signal Concentration
-Generational Context reduced active memory footprint from {arm_a['avg_tokens']} tokens down to **{arm_c['avg_tokens']} tokens** (**-{token_reduction_pct:.1f}%**), while increasing the proportion of task-relevant signal tokens (CSR) from {arm_a['avg_csr']:.4f} to **{arm_c['avg_csr']:.4f}** (**{csr_multiplier:.1f}x concentration**).
+Generational Context reduced active memory footprint from {arm_a['avg_tokens']} tokens down to **{arm_c['avg_tokens']} tokens** (**-{token_reduction_pct:.1f}%**), encompassing all distilled outputs, working memory, and structural formatting delimiters ($C_{{\\text{{bound}}}} = C_1 + K_0 + C_{{\\text{{overhead}}}}$). Simultaneously, it increased the proportion of task-relevant signal tokens (CSR) from {arm_a['avg_csr']:.4f} to **{arm_c['avg_csr']:.4f}** (**{csr_multiplier:.1f}x concentration**).
 
 ---
 
@@ -487,7 +489,7 @@ Generational Context reduced active memory footprint from {arm_a['avg_tokens']} 
 
 ---
 
-## 4. Telemetry Verification
+## 4. Telemetry Verification & Reproducibility
 Raw token counts, softmax distributions, and entropy logs are reproducible via:
 * CSV Data: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)
 * Simulation Engine: [`ccb_bench.py`](file:///E:/ACI-Architecture-Framework/ccb_bench.py)

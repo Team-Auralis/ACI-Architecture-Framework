@@ -1148,6 +1148,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="1. Abstract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-formal-scope-attention-allocation-vs-cognitive-reasoning-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Formal Scope: Attention Allocation vs. Cognitive Reasoning Success
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1346,6 +1363,34 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#53-numerical-sensitivity-analysis-practical-tightness-of-theorem-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Numerical Sensitivity Analysis &amp; Practical Tightness of Theorem 2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.3 Numerical Sensitivity Analysis &amp; Practical Tightness of Theorem 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analytical-implications-on-bound-tightness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analytical Implications on Bound Tightness:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1402,16 +1447,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-conclusion" class="md-nav__link">
+  <a href="#8-conclusion-research-roadmap" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Conclusion
+        8. Conclusion &amp; Research Roadmap
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="8. Conclusion">
+    <nav class="md-nav" aria-label="8. Conclusion &amp; Research Roadmap">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-empirical-validation-status-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Empirical Validation Status &amp; Roadmap
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#specification-ledger" class="md-nav__link">
@@ -2140,7 +2196,11 @@
 <h2 id="1-abstract">1. Abstract<a class="headerlink" href="#1-abstract" title="Permanent link">&para;</a></h2>
 <p>The standard execution architecture for autonomous AI agents treats the transformer context window as an append-only linear interaction transcript. In this paper, we analyze the mathematical and empirical limits of this paradigm in long-horizon problem-solving tasks.</p>
 <p>We formalize the <strong>Softmax Inundation Bound</strong>, an analytical upper bound showing that when raw environmental observations (compiler dumps, test logs, DOM trees) accumulate without eviction, the maximum aggregate attention probability mass allocated to founding system invariants and root user constraints decays as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$ under bounded projection energies. When noisy distractor tokens dominate context length, attention heads experience severe dilution, shifting probability mass away from foundational task constraints and toward high-volume symptom traces—an operational pathology we designate as <strong>The Fool's State</strong>.</p>
-<p>To resolve this limitation without relying on unbounded context expansion, we specify <strong>Generational Context</strong>, an operating-system-inspired memory management architecture that stratifies agent memory into <strong>Gen-0 Ephemeral</strong> (tool outputs distilled to 3-line signatures and evicted in 1 step), <strong>Gen-1 Evaporative</strong> (working memory paged dynamically via the Attention-Weighted Eviction algorithm), and <strong>Gen-2 Tenured</strong> (permanently pinned invariants). We prove that under Generational Context, invariant attention remains strictly lower-bounded independently of interaction horizon $t$, preventing context dilution and stabilizing long-horizon autonomy.</p>
+<p>To resolve this limitation without relying on unbounded context expansion, we specify <strong>Generational Context</strong>, an operating-system-inspired memory management architecture that stratifies agent memory into <strong>Gen-0 Ephemeral</strong> (tool outputs distilled to 3-line signatures and evicted in 1 step), <strong>Gen-1 Evaporative</strong> (working memory paged dynamically via the Attention-Weighted Eviction algorithm), and <strong>Gen-2 Tenured</strong> (permanently pinned invariants). We prove that under Generational Context, invariant attention remains strictly lower-bounded independently of interaction horizon $t$, preventing volume-driven context dilution and stabilizing long-horizon autonomy.</p>
+<h3 id="11-formal-scope-attention-allocation-vs-cognitive-reasoning-success">1.1 Formal Scope: Attention Allocation vs. Cognitive Reasoning Success<a class="headerlink" href="#11-formal-scope-attention-allocation-vs-cognitive-reasoning-success" title="Permanent link">&para;</a></h3>
+<p>A foundational distinction must be maintained between the mathematical distribution of attention and an agent's behavioral task success:
+1. <strong>Theorem 1 (Attention Dilution)</strong> establishes that as unmanaged distractor tokens grow ($|\mathcal{S}<em i_text_inv="i,\text{inv">{\text{noise}}| \to \infty$), the softmax attention probability mass allocated to invariant tokens decays asymptotically toward zero under uniform bounded scores. This is a mathematical statement regarding the transformer's attention distribution. It does <em>not</em> assert inevitable cognitive reasoning failure in every model architecture (models may leverage residual stream bypasses, induction head specialization, or external memory tools). Rather, it formalizes the physical dilution that creates vulnerability to error gravitation.
+2. <strong>Theorem 2 (Attention Lower Bound)</strong> establishes that Generational Context maintains a strictly positive lower bound on invariant attention mass ($A</em> &gt; 0$) uniformly for all $t$. This is a mathematical guarantee of bounded background competition. It does }} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}<em>not</em> guarantee task success, because task success additionally requires semantic comprehension, correct tool invocation, valid environment feedback, and sound multi-step reasoning. Structural context management is a <em>necessary condition</em> to prevent volume-driven attention dilution, not a <em>sufficient condition</em> for general intelligence.</p>
 <hr />
 <h2 id="2-system-setting-formal-preliminaries">2. System Setting &amp; Formal Preliminaries<a class="headerlink" href="#2-system-setting-formal-preliminaries" title="Permanent link">&para;</a></h2>
 <h3 id="21-the-agent-interaction-tuple">2.1 The Agent Interaction Tuple<a class="headerlink" href="#21-the-agent-interaction-tuple" title="Permanent link">&para;</a></h3>
@@ -2214,15 +2274,17 @@
 </ol>
 <h3 id="52-the-generational-retention-guarantee">5.2 The Generational Retention Guarantee<a class="headerlink" href="#52-the-generational-retention-guarantee" title="Permanent link">&para;</a></h3>
 <h4 id="theorem-2-lower-bound-on-invariant-attention-under-generational-context">Theorem 2 (Lower Bound on Invariant Attention under Generational Context)<a class="headerlink" href="#theorem-2-lower-bound-on-invariant-attention-under-generational-context" title="Permanent link">&para;</a></h4>
-<p><em>Let memory be managed according to Generational Context with a bounded Gen-0 distillation $|\sigma_{\text{distill}}(\mathcal{G}_0)| \le K_0$ and a strictly bounded Gen-1 working capacity $|\mathcal{G}_1| \le C_1$. Assume that the bounded projection energy condition:</em></p>
+<p><em>Let memory be managed according to Generational Context with a bounded Gen-0 distillation $|\sigma_{\text{distill}}(\mathcal{G}<em _text_overhead="\text{overhead">0)| \le K_0$, a strictly bounded Gen-1 working capacity $|\mathcal{G}_1| \le C_1$, and bounded structural formatting overhead $C</em>$ (accounting for all retained delimiters, role tags, section headers, and metadata framing). Let the total active non-invariant token volume be strictly bounded by:}} \le M_{\max} \cdot \delta_{\text{env}</em></p>
+<p>$$C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}} &lt; \infty$$</p>
+<p><em>Assume that the bounded projection energy condition:</em></p>
 <p>$$-\frac{M_Q M_K}{\sqrt{d_k}} \le \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \le \frac{M_Q M_K}{\sqrt{d_k}}$$</p>
-<p><em>holds uniformly for all keys in active context, and let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:</em></p>
-<p>$$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa (C_1 + K_0)} &gt; 0$$</p>
+<p><em>holds uniformly for all active keys, and let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:</em></p>
+<p>$$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} &gt; 0$$</p>
 <p><em>The attention allocated to founding system invariants remains strictly bounded away from zero, uniformly and independently of the total interaction turns $t$.</em></p>
 <h4 id="proof_1">Proof:<a class="headerlink" href="#proof_1" title="Permanent link">&para;</a></h4>
-<p>Under Generational Context, Gen-0 raw outputs are evicted at every turn, leaving only the distilled representation $\le K_0$, and Gen-1 is strictly capped at $C_1$ tokens by the AWE cache controller.
-Therefore, the active non-invariant token volume in the context buffer is strictly bounded for all $t$:</p>
-<p>$$|\mathcal{S}<em _text_bound="\text{bound">{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C</em>$$}} &lt; \infty \quad \forall t \in \mathbb{N</p>
+<p>Under Generational Context, Gen-0 raw outputs are evicted at every turn, leaving only the distilled representation $\le K_0$. Gen-1 is strictly capped at $C_1$ tokens by the AWE cache controller. Furthermore, all structural delimiters, role tags, turn headers, and markdown fencing are bounded by $C_{\text{overhead}}$.</p>
+<p>Therefore, every non-invariant token entering the active context window is strictly encompassed by the bound:</p>
+<p>$$|\mathcal{S}<em _text_overhead="\text{overhead">{\text{non-inv}}^{(t)}| \le C_1 + K_0 + C</em>$$}} = C_{\text{bound}} &lt; \infty \quad \forall t \in \mathbb{N</p>
 <p>By definition of the softmax operator, express $A_{i, \text{inv}}$ in ratio form:</p>
 <p>$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum</em><em _mathcal_S="\mathcal{S" _notin="\notin" m="m">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum</em>$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)} = \frac{1}{1 + R_t</p>
 <p>where the ratio $R_t$ is defined as:</p>
@@ -2238,7 +2300,78 @@ Therefore, the active non-invariant token volume in the context buffer is strict
 <p>$$R_t \le \frac{C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{C_{\text{bound}}}{L_u} \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right) = \frac{\kappa C_{\text{bound}}}{L_u}$$</p>
 <p>Since the function $f(R) = \frac{1}{1 + R}$ is strictly monotonically decreasing for all $R \ge 0$:</p>
 <p>$$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$</p>
-<p>Substituting $C_{\text{bound}} = C_1 + K_0$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$</p>
+<p>Substituting $C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}}$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$</p>
+<h3 id="53-numerical-sensitivity-analysis-practical-tightness-of-theorem-2">5.3 Numerical Sensitivity Analysis &amp; Practical Tightness of Theorem 2<a class="headerlink" href="#53-numerical-sensitivity-analysis-practical-tightness-of-theorem-2" title="Permanent link">&para;</a></h3>
+<p>A strictly positive mathematical lower bound is not inherently a large attention allocation. To evaluate practical tightness, we compute $A_{i, \text{inv}}$ across plausible LLM attention logit dynamic ranges $\Delta s = s_{\max} - s_{\min}$ (where $\kappa = \exp(\Delta s)$).</p>
+<p>Assuming standard invariant instruction size $L_u = 100$ tokens and compact Generational Context working buffer $C_{\text{bound}} = 150$ tokens:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Regime</th>
+<th style="text-align: center;">Logit Contrast $\Delta s$</th>
+<th style="text-align: center;">Dynamic Contrast $\kappa$</th>
+<th style="text-align: center;">GenContext Lower Bound ($C_{\text{bound}} = 150$)</th>
+<th style="text-align: center;">Flat Context at $N = 5{,}000$ (Adverse)</th>
+<th style="text-align: center;">Flat Context at $N = 50{,}000$ (Adverse)</th>
+<th style="text-align: center;">Retention Advantage $\frac{\text{Gen}}{\text{Flat}}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Well-Calibrated / Soft-Clamped</strong></td>
+<td style="text-align: center;">$1.0$</td>
+<td style="text-align: center;">$2.72$</td>
+<td style="text-align: center;"><strong>19.70%</strong></td>
+<td style="text-align: center;">0.73%</td>
+<td style="text-align: center;">0.073%</td>
+<td style="text-align: center;"><strong>27.0×</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Typical Layer Dynamic Range</strong></td>
+<td style="text-align: center;">$2.0$</td>
+<td style="text-align: center;">$7.39$</td>
+<td style="text-align: center;"><strong>8.27%</strong></td>
+<td style="text-align: center;">0.27%</td>
+<td style="text-align: center;">0.027%</td>
+<td style="text-align: center;"><strong>30.6×</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Moderate Distractor Salience</strong></td>
+<td style="text-align: center;">$3.0$</td>
+<td style="text-align: center;">$20.09$</td>
+<td style="text-align: center;"><strong>3.21%</strong></td>
+<td style="text-align: center;">0.10%</td>
+<td style="text-align: center;">0.010%</td>
+<td style="text-align: center;"><strong>32.1×</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>High Distractor Salience</strong></td>
+<td style="text-align: center;">$4.0$</td>
+<td style="text-align: center;">$54.60$</td>
+<td style="text-align: center;"><strong>1.21%</strong></td>
+<td style="text-align: center;">0.037%</td>
+<td style="text-align: center;">0.0037%</td>
+<td style="text-align: center;"><strong>32.7×</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Adversarial / Extreme Logit Gap</strong></td>
+<td style="text-align: center;">$6.0$</td>
+<td style="text-align: center;">$403.4$</td>
+<td style="text-align: center;"><strong>0.165%</strong></td>
+<td style="text-align: center;">0.0049%</td>
+<td style="text-align: center;">0.00049%</td>
+<td style="text-align: center;"><strong>33.3×</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="analytical-implications-on-bound-tightness">Analytical Implications on Bound Tightness:<a class="headerlink" href="#analytical-implications-on-bound-tightness" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Calibrated &amp; Moderate Regimes ($\Delta s \le 2.0$):</strong> In typical transformer layers where normalization (RMSNorm / LayerNorm) or logit soft-capping limits extreme logit spreads, Generational Context guarantees that invariant tokens retain a robust <strong>$8.3\% - 19.7\%$</strong> share of attention mass.</li>
+<li><strong>Adversarial &amp; Extreme Regimes ($\Delta s \ge 6.0$):</strong> If distractors possess overwhelming query alignment or extreme attention scores, the theoretical lower bound drops below $1\%$ ($0.165\%$). This rigorously demonstrates that <em>bounding token volume alone cannot guarantee large attention allocations in the presence of severe adversarial semantic contrast</em>. In such regimes, structural context bounding must be paired with inductive priors (such as attention masking or architectural prefix-pinning).</li>
+<li><strong>Comparative Advantage Over Flat Context:</strong> In all regimes, the ratio of attention retention between Generational Context and Flat Append-Only Context scales as:
+   $$\frac{A_{i, \text{inv}}^{\text{Gen}}}{A_{i, \text{inv}}^{\text{Flat}}} \approx \frac{L_u + \kappa N}{L_u + \kappa C_{\text{bound}}} \xrightarrow{N \gg C_{\text{bound}}} \frac{N}{C_{\text{bound}}}$$
+   When $N = 5{,}000$ and $C_{\text{bound}} = 150$, Generational Context provides a uniform <strong>$\approx 33\times$</strong> retention advantage. At $N = 50{,}000$, this advantage expands to <strong>$\approx 330\times$</strong>, establishing that Generational Context shields invariant constraints from volume-driven dilution across all values of $\kappa$.</li>
+</ol>
 <blockquote>
 <p>[!NOTE] Scope &amp; Boundary Conditions of Theorem 2
 The lower bound establishes that bounding active distractor volume prevents volume-driven attention dilution. It assumes uniform bounded projection energy. If non-invariant distractor tokens are adversarially crafted to achieve disproportionately large dot products, or if invariant representations undergo representation collapse in deep layers, attention can still be diverted. Generational Context provides the necessary structural control over token volume to guarantee bounded background competition.</p>
@@ -2291,9 +2424,14 @@ The lower bound establishes that bounding active distractor volume prevents volu
 </tbody>
 </table>
 <hr />
-<h2 id="8-conclusion">8. Conclusion<a class="headerlink" href="#8-conclusion" title="Permanent link">&para;</a></h2>
+<h2 id="8-conclusion-research-roadmap">8. Conclusion &amp; Research Roadmap<a class="headerlink" href="#8-conclusion-research-roadmap" title="Permanent link">&para;</a></h2>
 <p>Scaling raw attention window capacity without structured memory management is an inefficient and fragile approach to long-horizon agency. While long-context models can process larger inputs, unbounded history accumulation dilutes attention from foundational constraints.</p>
 <p>By formalizing the <strong>Softmax Inundation Bound</strong>, we have established the analytical necessity of bounding unmanaged context growth. Through <strong>Generational Context</strong> and the <strong>AWE algorithm</strong>, we provide a practical, mathematically sound systems architecture that bounds the noise subspace, preserves founding constraints, and enables stable long-horizon autonomous operation.</p>
+<h3 id="81-empirical-validation-status-roadmap">8.1 Empirical Validation Status &amp; Roadmap<a class="headerlink" href="#81-empirical-validation-status-roadmap" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Phase 1 (Completed — Simulation &amp; Formal Theory)</strong>: Mathematical proofs of the Softmax Inundation Bound and Generational Retention Guarantee under explicit projection energy bounds; token compression economics and proxy attention dilution verified in the deterministic CCB-001 simulation harness.</li>
+<li><strong>Phase 2 (Planned Future Work — Live Neural Evaluations)</strong>: Controlled empirical evaluations with frontier neural LLMs (e.g., Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across standardized multi-turn benchmarks (SWE-bench Verified, InterCode) to evaluate whether bounded attention retention translates to measurable improvements in long-horizon task completion rates. No claims regarding live model reasoning success are asserted prior to Phase 2 completion.</li>
+</ol>
 <hr />
 <h3 id="specification-ledger">Specification Ledger<a class="headerlink" href="#specification-ledger" title="Permanent link">&para;</a></h3>
 <ul>

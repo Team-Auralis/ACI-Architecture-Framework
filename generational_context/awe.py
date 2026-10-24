@@ -17,6 +17,12 @@ class CacheEntry:
     attention_weight: float = 0.0
     entropy: float = 0.0
     access_count: int = 1
+    envelope_tokens: int = 0  # Structural delimiters, role tags, and framing metadata
+
+    @property
+    def effective_tokens(self) -> int:
+        """Total token footprint including content payload and structural formatting/envelope tokens."""
+        return self.tokens + self.envelope_tokens
 
     @property
     def information_density(self) -> float:
@@ -41,12 +47,14 @@ class AdaptiveReplacementAttentionCache:
       T2: High-attention architectural rules and verified state (Frequency / Saliency)
     With ghost registries B1 and B2 for dynamic boundary parameter p.
 
-    Guarantees strict post-condition: total_tokens() <= capacity_tokens.
+    Guarantees strict post-condition: total_tokens() <= capacity_tokens,
+    encompassing payload tokens, framing delimiters, and metadata headers.
     """
-    def __init__(self, capacity_tokens: int = 4000):
+    def __init__(self, capacity_tokens: int = 4000, fixed_envelope_overhead: int = 0):
         if capacity_tokens <= 0:
             raise ValueError(f"capacity_tokens must be positive, got {capacity_tokens}")
         self.c = capacity_tokens  # Target max token capacity
+        self.fixed_envelope_overhead = fixed_envelope_overhead  # Delimiters, headers, metadata
         self.p = 0.0  # Adaptation parameter: target size of T1 in tokens
 
         # Active Caches
@@ -58,13 +66,14 @@ class AdaptiveReplacementAttentionCache:
         self.b2: Dict[str, int] = {}  # History of evicted from T2
 
     def total_tokens(self) -> int:
-        return sum(e.tokens for e in self.t1.values()) + sum(e.tokens for e in self.t2.values())
+        base = sum(e.effective_tokens for e in self.t1.values()) + sum(e.effective_tokens for e in self.t2.values())
+        return base + (self.fixed_envelope_overhead if (self.t1 or self.t2) else 0)
 
     def _t1_tokens(self) -> int:
-        return sum(e.tokens for e in self.t1.values())
+        return sum(e.effective_tokens for e in self.t1.values())
 
     def _t2_tokens(self) -> int:
-        return sum(e.tokens for e in self.t2.values())
+        return sum(e.effective_tokens for e in self.t2.values())
 
     def record_attention(self, key: str, attention_weight: float, entropy: float):
         """Update empirical attention weights calculated from transformer forward pass."""
@@ -85,11 +94,12 @@ class AdaptiveReplacementAttentionCache:
         key = entry.key
 
         # Guard against single entry exceeding total cache capacity
-        if entry.tokens > self.c:
+        if entry.effective_tokens > self.c:
+            target_payload_tokens = max(0, self.c - entry.envelope_tokens)
             words = entry.content.split()
-            if len(words) > self.c:
-                entry.content = " ".join(words[:self.c]) + " [TRUNCATED]"
-            entry.tokens = self.c
+            if len(words) > target_payload_tokens:
+                entry.content = " ".join(words[:target_payload_tokens]) + " [TRUNCATED]"
+            entry.tokens = target_payload_tokens
 
         # Case 1: Hit in T1 or T2 -> Promote to T2 (Frequent/Tenured)
         if key in self.t1:
@@ -98,6 +108,7 @@ class AdaptiveReplacementAttentionCache:
             hit.tier = 'gen1'
             hit.content = entry.content
             hit.tokens = entry.tokens
+            hit.envelope_tokens = entry.envelope_tokens
             evicted.extend(self._replace(hit))
             self.t2[key] = hit
             self._prune_ghost_registries()
@@ -106,9 +117,10 @@ class AdaptiveReplacementAttentionCache:
 
         if key in self.t2:
             self.t2[key].access_count += 1
-            diff = entry.tokens - self.t2[key].tokens
+            diff = entry.effective_tokens - self.t2[key].effective_tokens
             self.t2[key].content = entry.content
             self.t2[key].tokens = entry.tokens
+            self.t2[key].envelope_tokens = entry.envelope_tokens
             if diff > 0:
                 dummy = CacheEntry(key=key, content="", tokens=0, tier="gen1")
                 evicted.extend(self._replace(dummy))
@@ -123,7 +135,7 @@ class AdaptiveReplacementAttentionCache:
         # Case 2: Hit in B1 (Recently evicted from T1) -> Increase p (favor recency)
         if key in self.b1:
             delta = 1.0 if b1_tokens >= b2_tokens else float(b2_tokens) / max(float(b1_tokens), 1.0)
-            self.p = min(float(self.c), self.p + (delta * entry.tokens))
+            self.p = min(float(self.c), self.p + (delta * entry.effective_tokens))
             del self.b1[key]
             evicted.extend(self._replace(entry))
             self.t2[key] = entry
@@ -134,7 +146,7 @@ class AdaptiveReplacementAttentionCache:
         # Case 3: Hit in B2 (Recently evicted from T2) -> Decrease p (favor frequency/saliency)
         if key in self.b2:
             delta = 1.0 if b2_tokens >= b1_tokens else float(b1_tokens) / max(float(b2_tokens), 1.0)
-            self.p = max(0.0, self.p - (delta * entry.tokens))
+            self.p = max(0.0, self.p - (delta * entry.effective_tokens))
             del self.b2[key]
             evicted.extend(self._replace(entry))
             self.t2[key] = entry
@@ -152,23 +164,23 @@ class AdaptiveReplacementAttentionCache:
     def _replace(self, incoming: CacheEntry) -> List[CacheEntry]:
         """Evicts entries with lowest Information Density Score (IDS) until incoming fits."""
         evicted = []
-        while (self.total_tokens() + incoming.tokens) > self.c and (self.t1 or self.t2):
+        while (self.total_tokens() + incoming.effective_tokens) > self.c and (self.t1 or self.t2):
             t1_size = self._t1_tokens()
             # If T1 is larger than target boundary p, evict lowest IDS from T1
             if t1_size > 0 and (t1_size > self.p or (incoming.key in self.b2 and t1_size >= self.p)):
                 victim_key = min(self.t1.keys(), key=lambda k: self.t1[k].information_density)
                 victim = self.t1.pop(victim_key)
-                self.b1[victim_key] = victim.tokens
+                self.b1[victim_key] = victim.effective_tokens
                 evicted.append(victim)
             elif self.t2:
                 victim_key = min(self.t2.keys(), key=lambda k: self.t2[k].information_density)
                 victim = self.t2.pop(victim_key)
-                self.b2[victim_key] = victim.tokens
+                self.b2[victim_key] = victim.effective_tokens
                 evicted.append(victim)
             elif self.t1:
                 victim_key = min(self.t1.keys(), key=lambda k: self.t1[k].information_density)
                 victim = self.t1.pop(victim_key)
-                self.b1[victim_key] = victim.tokens
+                self.b1[victim_key] = victim.effective_tokens
                 evicted.append(victim)
             else:
                 break
