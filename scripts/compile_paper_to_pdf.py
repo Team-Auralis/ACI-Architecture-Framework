@@ -241,9 +241,9 @@ def build_academic_pdf():
     thm2_text = (
         "<b>Theorem 2 (Generational Retention Guarantee).</b><br/>"
         "<i>Under Generational Context with bounded distillation ||&sigma;_distill(G_0)|| &le; K_0 and working capacity ||G_1|| &le; C_1, "
-        "the active non-invariant tokens satisfy |S_non-inv^(t)| &le; C_1 + K_0 = C_bound for all turns t. The invariant attention is strictly lower-bounded:</i><br/>"
-        "&nbsp;&nbsp;&nbsp;&nbsp;<b>A_{i, inv} &ge; L_u / (L_u + &kappa; C_bound) &gt; 0</b><br/>"
-        "<i>Invariant attention remains strictly bounded away from zero uniformly for all interaction turns t &isin; N.</i>"
+        "the active non-invariant tokens satisfy |S_non-inv^(t)| &le; C_1 + K_0 = C_bound for all turns t. Under uniform bounded projection energy:</i><br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;<b>A_{i, inv} = 1 / (1 + R_t) &ge; L_u / (L_u + &kappa; C_bound) &gt; 0</b><br/>"
+        "<i>where R_t &le; (&kappa; C_bound) / L_u. Invariant attention remains strictly bounded away from zero uniformly for all interaction turns t &isin; N.</i>"
     )
     t_thm2 = Table([[Paragraph(thm2_text, theorem_box)]], colWidths=[504])
     t_thm2.setStyle(TableStyle([
@@ -276,28 +276,35 @@ def build_academic_pdf():
     story.append(Spacer(1, 8))
 
     # Section 5: Token Footprint Table
-    story.append(Paragraph("5. Empirical Token Compaction Results", h1_style))
+    story.append(Paragraph("5. Empirical Token Compaction & Attention Simulation", h1_style))
+    story.append(Paragraph(
+        "<i>Methodological Scope Notice:</i> Attention metrics represent a deterministic 128-dimensional subword hash-projection "
+        "surrogate modeling softmax dilution mechanics, distinct from neural transformer forward passes.",
+        abstract_body
+    ))
+    story.append(Spacer(1, 4))
     bench_data = [
-        ["Architecture Arm", "Mean Active Tokens", "Context Signal Ratio (CSR)", "Token Reduction"],
-        ["Arm A: Flat Append-Only", "5,171", "0.0057", "Baseline (0.0%)"],
-        ["Arm B: Auto-Compaction", "3,400", "0.0076", "-34.2%"],
-        ["Arm C: Generational Context", "140", "0.2375", "-97.3% (41x CSR)"],
+        ["Architecture Arm", "Mean Active Tokens", "Context Signal Ratio (CSR)", "Simulated Attn(Inv) (Proxy)", "Token Reduction"],
+        ["Arm A: Flat Append-Only", "5,099", "0.0059", "0.0425", "Baseline"],
+        ["Arm B: Auto-Compaction", "3,340", "0.0077", "0.0553", "-34.5%"],
+        ["Arm C: Generational Context", "129", "0.2000", "0.0757", "-97.5% (33.9x CSR)"],
     ]
-    t_bench = Table(bench_data, colWidths=[150, 110, 130, 114])
+    t_bench = Table(bench_data, colWidths=[130, 95, 120, 115, 80 if len(bench_data[0])==5 else 44])
+    t_bench = Table(bench_data, colWidths=[130, 100, 125, 115, 34 if len(bench_data[0])==5 else 34][:len(bench_data[0])])
     t_bench.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#1e293b")),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 8.5),
+        ('FONTSIZE', (0, 0), (-1, 0), 8),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('ALIGN', (0, 1), (0, -1), 'LEFT'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 4),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
         ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 1), (-1, -1), 8),
-        ('TEXTCOLOR', (3, 3), (3, 3), colors.HexColor("#16a34a")),
-        ('FONTNAME', (3, 3), (3, 3), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 1), (-1, -1), 7.5),
+        ('TEXTCOLOR', (4, 3), (4, 3), colors.HexColor("#16a34a")),
+        ('FONTNAME', (4, 3), (4, 3), 'Helvetica-Bold'),
     ]))
     story.append(t_bench)
     story.append(Spacer(1, 10))

@@ -129,7 +129,11 @@ $$\mathcal{C}_{\text{active}} = \mathcal{G}_2^{\text{Tenured}} \;\cup\; \mathcal
 ### 5.2 The Generational Retention Guarantee
 
 #### Theorem 2 (Lower Bound on Invariant Attention under Generational Context)
-*Let memory be managed according to Generational Context with a bounded Gen-0 distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0$ and a strictly bounded Gen-1 working capacity $\|\mathcal{G}_1\| \le C_1$. Then for all interaction turns $t \in \mathbb{N}$, the attention mass on the invariant subspace satisfies:*
+*Let memory be managed according to Generational Context with a bounded Gen-0 distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0$ and a strictly bounded Gen-1 working capacity $\|\mathcal{G}_1\| \le C_1$. Assume that the bounded projection energy condition:*
+
+$$-\frac{M_Q M_K}{\sqrt{d_k}} \le \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \le \frac{M_Q M_K}{\sqrt{d_k}}$$
+
+*holds uniformly for all keys in active context, and let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:*
 
 $$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa (C_1 + K_0)} > 0$$
 
@@ -141,19 +145,33 @@ Therefore, the active non-invariant token volume in the context buffer is strict
 
 $$|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C_{\text{bound}} < \infty \quad \forall t \in \mathbb{N}$$
 
-By definition of softmax:
+By definition of the softmax operator, express $A_{i, \text{inv}}$ in ratio form:
 
-$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}$$
+$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)} = \frac{1}{1 + R_t}$$
 
-Applying the Cauchy-Schwarz energy bounds:
-- The numerator is lower-bounded by $L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$.
-- The denominator non-invariant sum is upper-bounded by $C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$.
+where the ratio $R_t$ is defined as:
 
-Therefore:
+$$R_t = \frac{\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}$$
 
-$$A_{i, \text{inv}} \ge \frac{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right) + C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$
+Under the uniform bounded score assumption:
+1. The numerator of $R_t$ contains $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_{\text{bound}}$ terms, each bounded above by $\exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
+   $$\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right) \le C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$$
 
-Since $C_{\text{bound}} = C_1 + K_0$ is constant and independent of turn $t$, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically eliminates unbounded Softmax Inundation. $\blacksquare$
+2. The denominator of $R_t$ contains $|\mathcal{S}_{\text{inv}}| = L_u$ terms, each bounded below by $\exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
+   $$\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) \ge L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$$
+
+Combining these bounds yields an upper bound on the ratio $R_t$:
+
+$$R_t \le \frac{C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{C_{\text{bound}}}{L_u} \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right) = \frac{\kappa C_{\text{bound}}}{L_u}$$
+
+Since the function $f(R) = \frac{1}{1 + R}$ is strictly monotonically decreasing for all $R \ge 0$:
+
+$$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$
+
+Substituting $C_{\text{bound}} = C_1 + K_0$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$
+
+> [!NOTE] Scope & Boundary Conditions of Theorem 2
+> The lower bound establishes that bounding active distractor volume prevents volume-driven attention dilution. It assumes uniform bounded projection energy. If non-invariant distractor tokens are adversarially crafted to achieve disproportionately large dot products, or if invariant representations undergo representation collapse in deep layers, attention can still be diverted. Generational Context provides the necessary structural control over token volume to guarantee bounded background competition.
 
 ---
 

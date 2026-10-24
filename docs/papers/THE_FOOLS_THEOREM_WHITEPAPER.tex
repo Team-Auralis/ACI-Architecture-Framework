@@ -106,7 +106,19 @@ Let memory be managed according to Generational Context with bounded distillatio
 \end{theorem}
 
 \begin{proof}
-Because Gen-0 raw outputs are evicted each turn and Gen-1 is capped at $C_1$, the active non-invariant token volume satisfies $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C_{\text{bound}} < \infty$ for all $t$. The numerator of $A_{i, \text{inv}}$ is bounded below by $L_u \exp(-M_Q M_K / \sqrt{d_k})$ and the non-invariant denominator sum is bounded above by $C_{\text{bound}} \exp(M_Q M_K / \sqrt{d_k})$. Dividing numerator by denominator yields the constant lower bound $L_u / (L_u + \kappa C_{\text{bound}})$, which does not decay as $t \to \infty$.
+Because Gen-0 raw outputs are evicted each turn ($\le K_0$) and Gen-1 is strictly capped at $C_1$, the active non-invariant token volume satisfies $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C_{\text{bound}} < \infty$ for all $t$. By definition of softmax, express $A_{i, \text{inv}}$ in ratio form:
+\begin{equation}
+    A_{i, \text{inv}} = \frac{1}{1 + R_t}, \quad \text{where } R_t = \frac{\sum_{m \notin \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}
+\end{equation}
+Under the uniform bounded score assumption $-M_Q M_K / \sqrt{d_k} \le \mathbf{q}_i^\top \mathbf{k}_j / \sqrt{d_k} \le M_Q M_K / \sqrt{d_k}$, the numerator of $R_t$ contains at most $C_{\text{bound}}$ terms bounded above by $\exp(M_Q M_K / \sqrt{d_k})$ and the denominator contains $L_u$ terms bounded below by $\exp(-M_Q M_K / \sqrt{d_k})$. Thus:
+\begin{equation}
+    R_t \le \frac{C_{\text{bound}} \exp(M_Q M_K / \sqrt{d_k})}{L_u \exp(-M_Q M_K / \sqrt{d_k})} = \frac{\kappa C_{\text{bound}}}{L_u}
+\end{equation}
+Because $f(R) = 1/(1+R)$ is strictly monotonically decreasing for $R \ge 0$:
+\begin{equation}
+    A_{i, \text{inv}} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}
+\end{equation}
+Since $C_{\text{bound}} = C_1 + K_0$ is a time-invariant constant fixed by the memory controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$.
 \end{proof}
 
 \section{Attention-Weighted Eviction (AWE) Algorithm}
@@ -138,7 +150,7 @@ The AWE algorithm adapts Megiddo \& Modha's Adaptive Replacement Cache (ARC) to 
 \end{algorithmic}
 \end{algorithm}
 
-\section{Empirical Token Compaction Analysis}
+\section{Empirical Token Compaction and Attention Simulation}
 \label{sec:experiments}
 
 We evaluated context footprint and signal preservation across multi-turn software engineering task scenarios comparing Flat Append-Only, Periodic Compaction, and Generational Context.
@@ -149,16 +161,16 @@ We evaluated context footprint and signal preservation across multi-turn softwar
 \label{tab:compaction_results}
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Architecture Arm} & \textbf{Mean Active Tokens} & \textbf{Context Signal Ratio (CSR)} & \textbf{Token Reduction} \\
+\textbf{Architecture Arm} & \textbf{Mean Active Tokens} & \textbf{Context Signal Ratio (CSR)} & \textbf{Simulated Attn(Inv) (Proxy)} & \textbf{Token Reduction} \\
 \midrule
-Arm A: Flat Append-Only & 5,171 & 0.0057 & Baseline \\
-Arm B: Auto-Compaction & 3,400 & 0.0076 & $-34.2\%$ \\
-Arm C: Generational Context & \textbf{140} & \textbf{0.2375} & \textbf{$-97.3\%$} \\
+Arm A: Flat Append-Only & 5,099 & 0.0059 & 0.0425 & Baseline \\
+Arm B: Auto-Compaction & 3,340 & 0.0077 & 0.0553 & $-34.5\%$ \\
+Arm C: Generational Context & \textbf{129} & \textbf{0.2000} & \textbf{0.0757} & \textbf{$-97.5\%$} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Under Generational Context, active token footprint dropped by $97.3\%$ while increasing the proportion of task-relevant signal tokens (CSR) by more than $40\times$.
+\noindent\textit{Methodological Note:} Attention values derive from a deterministic token simulation using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution, distinct from production neural transformer forward passes. Under Generational Context, active token footprint dropped by $97.5\%$ while increasing the proportion of task-relevant signal tokens (CSR) by $33.9\times$ (from $0.0059$ to $0.2000$).
 
 \section{Related Work}
 \label{sec:related_work}

@@ -427,12 +427,21 @@ def generate_benchmark_artifacts(records: List[Dict[str, Any]]):
             "total_cost": round(total_cost, 4)
         }
 
-    report_path = "E:/ACI-Architecture-Framework/docs/research/CCB_BENCHMARK_REPORT.md"
-    report_content = f"""# CCB-001: Context Compaction & Attention Dilution Simulation Report
+    arm_a = summary_by_arm["Arm A: Flat Append-Only"]
+    arm_b = summary_by_arm["Arm B: Auto-Compaction"]
+    arm_c = summary_by_arm["Arm C: Generational Context"]
+    csr_multiplier = arm_c["avg_csr"] / max(arm_a["avg_csr"], 1e-6)
+    token_reduction_pct = (1.0 - (arm_c["avg_tokens"] / max(arm_a["avg_tokens"], 1))) * 100.0
 
-> **Empirical Simulation of Softmax Inundation and Token Compression Economics**  
+    report_path = "E:/ACI-Architecture-Framework/docs/research/CCB_BENCHMARK_REPORT.md"
+    report_content = f"""# CCB-001: Context Compaction & Heuristic Attention Simulation Report
+
+> **Deterministic Algorithmic Simulation of Softmax Dilution and Token Economics**  
 > *Generated: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}*  
 > *Data Source: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)*
+
+> [!IMPORTANT] Methodological Scope Notice: Simulation Model vs. Neural LLM
+> This report presents results from a deterministic token-accounting and heuristic attention-dilution simulation engine. Attention scores are computed using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution. They do NOT reflect neural activations from a real transformer forward pass. Live LLM reasoning evaluations on blinded agent benchmarks are conducted separately.
 
 ---
 
@@ -445,29 +454,29 @@ The CCB-001 simulation evaluates memory footprint, signal retention, and attenti
 
 ### Comparative Token Compression Matrix
 
-| Architecture Arm | Mean Active Tokens | Context Signal Ratio (CSR) | Attention on Invariants | Mean Error Gravitation (EGI) | Token Footprint Reduction | Compute Cost |
+| Architecture Arm | Mean Active Tokens | Context Signal Ratio (CSR) | Simulated Attn(Inv) (Proxy) | Mean Error Gravitation (EGI) | Token Footprint Reduction | Compute Cost |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Arm A (Flat Append-Only)** | {summary_by_arm['Arm A: Flat Append-Only']['avg_tokens']} | {summary_by_arm['Arm A: Flat Append-Only']['avg_csr']} | {summary_by_arm['Arm A: Flat Append-Only']['avg_attn_inv']} | {summary_by_arm['Arm A: Flat Append-Only']['avg_egi']} | {summary_by_arm['Arm A: Flat Append-Only']['reduction']} | ${summary_by_arm['Arm A: Flat Append-Only']['total_cost']:.4f} |
-| **Arm B (Auto-Compaction)** | {summary_by_arm['Arm B: Auto-Compaction']['avg_tokens']} | {summary_by_arm['Arm B: Auto-Compaction']['avg_csr']} | {summary_by_arm['Arm B: Auto-Compaction']['avg_attn_inv']} | {summary_by_arm['Arm B: Auto-Compaction']['avg_egi']} | {summary_by_arm['Arm B: Auto-Compaction']['reduction']} | ${summary_by_arm['Arm B: Auto-Compaction']['total_cost']:.4f} |
-| **Arm C (Generational Context)** | **{summary_by_arm['Arm C: Generational Context']['avg_tokens']}** | **{summary_by_arm['Arm C: Generational Context']['avg_csr']}** | **{summary_by_arm['Arm C: Generational Context']['avg_attn_inv']}** | **{summary_by_arm['Arm C: Generational Context']['avg_egi']}** | **{summary_by_arm['Arm C: Generational Context']['reduction']}** | **${summary_by_arm['Arm C: Generational Context']['total_cost']:.4f}** |
+| **Arm A (Flat Append-Only)** | {arm_a['avg_tokens']} | {arm_a['avg_csr']:.4f} | {arm_a['avg_attn_inv']:.4f} | {arm_a['avg_egi']:.4f} | {arm_a['reduction']} | ${arm_a['total_cost']:.4f} |
+| **Arm B (Auto-Compaction)** | {arm_b['avg_tokens']} | {arm_b['avg_csr']:.4f} | {arm_b['avg_attn_inv']:.4f} | {arm_b['avg_egi']:.4f} | {arm_b['reduction']} | ${arm_b['total_cost']:.4f} |
+| **Arm C (Generational Context)** | **{arm_c['avg_tokens']}** | **{arm_c['avg_csr']:.4f}** | **{arm_c['avg_attn_inv']:.4f}** | **{arm_c['avg_egi']:.4f}** | **{arm_c['reduction']}** | **${arm_c['total_cost']:.4f}** |
 
 ---
 
 ## 2. Key Analytical Findings
 
 ### Finding 1: Verification of the Softmax Inundation Bound
-In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to over 5,000 tokens. The measured **Attention on Invariant Constraints** decayed asymptotically:
+In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to {arm_a['avg_tokens']} tokens. The simulated attention proxy on invariant constraints decayed asymptotically as predicted by Theorem 1:
 $$A_{{i, \\text{{inv}}}} \\propto \\mathcal{{O}}\\left(\\frac{{L_u}}{{|\\mathcal{{S}}_{{\\text{{noise}}}}|}}\\right)$$
-Invariant attention dropped by **70.2%** (from 0.1311 down to 0.0391) under linear history accumulation.
+Simulated invariant attention in Arm A reached {arm_a['avg_attn_inv']:.4f}, demonstrating the dilution effect when high-entropy logs dominate active context.
 
-### Finding 2: Token Footprint Reduction
-Generational Context reduced active memory footprint from {summary_by_arm['Arm A: Flat Append-Only']['avg_tokens']} tokens down to **{summary_by_arm['Arm C: Generational Context']['avg_tokens']} tokens** ({summary_by_arm['Arm C: Generational Context']['reduction']}), while increasing the proportion of task-relevant signal tokens (CSR) by more than **41x**.
+### Finding 2: Token Footprint Reduction & Signal Concentration
+Generational Context reduced active memory footprint from {arm_a['avg_tokens']} tokens down to **{arm_c['avg_tokens']} tokens** (**-{token_reduction_pct:.1f}%**), while increasing the proportion of task-relevant signal tokens (CSR) from {arm_a['avg_csr']:.4f} to **{arm_c['avg_csr']:.4f}** (**{csr_multiplier:.1f}x concentration**).
 
 ---
 
 ## 3. Publication Visualizations
 
-### Figure 1: Attention Phase Transition Under Noise Inundation
+### Figure 1: Attention Phase Transition Under Noise Inundation (Simulation Proxy)
 ![Attention Phase Transition](../assets/phase_transition_curve.svg)
 
 ### Figure 2: Error Gravitation Trajectories

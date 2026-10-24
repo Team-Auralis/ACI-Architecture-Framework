@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ccb-001-context-compaction-attention-dilution-simulation-report" class="md-skip">
+        <a href="#ccb-001-context-compaction-heuristic-attention-simulation-report" class="md-skip">
           Skip to content
         </a>
       
@@ -1219,10 +1219,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#finding-2-token-footprint-reduction" class="md-nav__link">
+  <a href="#finding-2-token-footprint-reduction-signal-concentration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Finding 2: Token Footprint Reduction
+        Finding 2: Token Footprint Reduction &amp; Signal Concentration
       
     </span>
   </a>
@@ -1247,10 +1247,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#figure-1-attention-phase-transition-under-noise-inundation" class="md-nav__link">
+  <a href="#figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Figure 1: Attention Phase Transition Under Noise Inundation
+        Figure 1: Attention Phase Transition Under Noise Inundation (Simulation Proxy)
       
     </span>
   </a>
@@ -1968,11 +1968,13 @@
   
 
 
-<h1 id="ccb-001-context-compaction-attention-dilution-simulation-report">CCB-001: Context Compaction &amp; Attention Dilution Simulation Report<a class="headerlink" href="#ccb-001-context-compaction-attention-dilution-simulation-report" title="Permanent link">&para;</a></h1>
+<h1 id="ccb-001-context-compaction-heuristic-attention-simulation-report">CCB-001: Context Compaction &amp; Heuristic Attention Simulation Report<a class="headerlink" href="#ccb-001-context-compaction-heuristic-attention-simulation-report" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p><strong>Empirical Simulation of Softmax Inundation and Token Compression Economics</strong><br />
-<em>Generated: 2026-10-24 05:57:08 UTC</em><br />
+<p><strong>Deterministic Algorithmic Simulation of Softmax Dilution and Token Economics</strong><br />
+<em>Generated: 2026-10-24 06:24:40 UTC</em><br />
 <em>Data Source: <a href="file:///E:/ACI-Architecture-Framework/ccb_results.csv"><code>ccb_results.csv</code></a></em></p>
+<p>[!IMPORTANT] Methodological Scope Notice: Simulation Model vs. Neural LLM
+This report presents results from a deterministic token-accounting and heuristic attention-dilution simulation engine. Attention scores are computed using 128-dimensional subword hash projections and scaled dot-product softmax as an algorithmic proxy for attention dilution. They do NOT reflect neural activations from a real transformer forward pass. Live LLM reasoning evaluations on blinded agent benchmarks are conducted separately.</p>
 </blockquote>
 <hr />
 <h2 id="1-executive-summary-comparative-matrix">1. Executive Summary &amp; Comparative Matrix<a class="headerlink" href="#1-executive-summary-comparative-matrix" title="Permanent link">&para;</a></h2>
@@ -1987,7 +1989,7 @@
 <th style="text-align: left;">Architecture Arm</th>
 <th style="text-align: center;">Mean Active Tokens</th>
 <th style="text-align: center;">Context Signal Ratio (CSR)</th>
-<th style="text-align: center;">Attention on Invariants</th>
+<th style="text-align: center;">Simulated Attn(Inv) (Proxy)</th>
 <th style="text-align: center;">Mean Error Gravitation (EGI)</th>
 <th style="text-align: center;">Token Footprint Reduction</th>
 <th style="text-align: center;">Compute Cost</th>
@@ -2015,9 +2017,9 @@
 <tr>
 <td style="text-align: left;"><strong>Arm C (Generational Context)</strong></td>
 <td style="text-align: center;"><strong>129</strong></td>
-<td style="text-align: center;"><strong>0.2</strong></td>
+<td style="text-align: center;"><strong>0.2000</strong></td>
 <td style="text-align: center;"><strong>0.0757</strong></td>
-<td style="text-align: center;"><strong>0.238</strong></td>
+<td style="text-align: center;"><strong>0.2380</strong></td>
 <td style="text-align: center;"><strong>-97.5%</strong></td>
 <td style="text-align: center;"><strong>$0.0459</strong></td>
 </tr>
@@ -2026,14 +2028,14 @@
 <hr />
 <h2 id="2-key-analytical-findings">2. Key Analytical Findings<a class="headerlink" href="#2-key-analytical-findings" title="Permanent link">&para;</a></h2>
 <h3 id="finding-1-verification-of-the-softmax-inundation-bound">Finding 1: Verification of the Softmax Inundation Bound<a class="headerlink" href="#finding-1-verification-of-the-softmax-inundation-bound" title="Permanent link">&para;</a></h3>
-<p>In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to over 5,000 tokens. The measured <strong>Attention on Invariant Constraints</strong> decayed asymptotically:
+<p>In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to 5099 tokens. The simulated attention proxy on invariant constraints decayed asymptotically as predicted by Theorem 1:
 $$A_{i, \text{inv}} \propto \mathcal{O}\left(\frac{L_u}{|\mathcal{S}_{\text{noise}}|}\right)$$
-Invariant attention dropped by <strong>70.2%</strong> (from 0.1311 down to 0.0391) under linear history accumulation.</p>
-<h3 id="finding-2-token-footprint-reduction">Finding 2: Token Footprint Reduction<a class="headerlink" href="#finding-2-token-footprint-reduction" title="Permanent link">&para;</a></h3>
-<p>Generational Context reduced active memory footprint from 5099 tokens down to <strong>129 tokens</strong> (-97.5%), while increasing the proportion of task-relevant signal tokens (CSR) by more than <strong>41x</strong>.</p>
+Simulated invariant attention in Arm A reached 0.0425, demonstrating the dilution effect when high-entropy logs dominate active context.</p>
+<h3 id="finding-2-token-footprint-reduction-signal-concentration">Finding 2: Token Footprint Reduction &amp; Signal Concentration<a class="headerlink" href="#finding-2-token-footprint-reduction-signal-concentration" title="Permanent link">&para;</a></h3>
+<p>Generational Context reduced active memory footprint from 5099 tokens down to <strong>129 tokens</strong> (<strong>-97.5%</strong>), while increasing the proportion of task-relevant signal tokens (CSR) from 0.0059 to <strong>0.2000</strong> (<strong>33.9x concentration</strong>).</p>
 <hr />
 <h2 id="3-publication-visualizations">3. Publication Visualizations<a class="headerlink" href="#3-publication-visualizations" title="Permanent link">&para;</a></h2>
-<h3 id="figure-1-attention-phase-transition-under-noise-inundation">Figure 1: Attention Phase Transition Under Noise Inundation<a class="headerlink" href="#figure-1-attention-phase-transition-under-noise-inundation" title="Permanent link">&para;</a></h3>
+<h3 id="figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy">Figure 1: Attention Phase Transition Under Noise Inundation (Simulation Proxy)<a class="headerlink" href="#figure-1-attention-phase-transition-under-noise-inundation-simulation-proxy" title="Permanent link">&para;</a></h3>
 <p><img alt="Attention Phase Transition" src="../../assets/phase_transition_curve.svg" /></p>
 <h3 id="figure-2-error-gravitation-trajectories">Figure 2: Error Gravitation Trajectories<a class="headerlink" href="#figure-2-error-gravitation-trajectories" title="Permanent link">&para;</a></h3>
 <p><img alt="Error Gravitation Trajectories" src="../../assets/error_gravitation_attractor.svg" /></p>

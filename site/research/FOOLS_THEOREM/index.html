@@ -2214,21 +2214,35 @@
 </ol>
 <h3 id="52-the-generational-retention-guarantee">5.2 The Generational Retention Guarantee<a class="headerlink" href="#52-the-generational-retention-guarantee" title="Permanent link">&para;</a></h3>
 <h4 id="theorem-2-lower-bound-on-invariant-attention-under-generational-context">Theorem 2 (Lower Bound on Invariant Attention under Generational Context)<a class="headerlink" href="#theorem-2-lower-bound-on-invariant-attention-under-generational-context" title="Permanent link">&para;</a></h4>
-<p><em>Let memory be managed according to Generational Context with a bounded Gen-0 distillation $|\sigma_{\text{distill}}(\mathcal{G}_0)| \le K_0$ and a strictly bounded Gen-1 working capacity $|\mathcal{G}_1| \le C_1$. Then for all interaction turns $t \in \mathbb{N}$, the attention mass on the invariant subspace satisfies:</em></p>
+<p><em>Let memory be managed according to Generational Context with a bounded Gen-0 distillation $|\sigma_{\text{distill}}(\mathcal{G}_0)| \le K_0$ and a strictly bounded Gen-1 working capacity $|\mathcal{G}_1| \le C_1$. Assume that the bounded projection energy condition:</em></p>
+<p>$$-\frac{M_Q M_K}{\sqrt{d_k}} \le \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \le \frac{M_Q M_K}{\sqrt{d_k}}$$</p>
+<p><em>holds uniformly for all keys in active context, and let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:</em></p>
 <p>$$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa (C_1 + K_0)} &gt; 0$$</p>
 <p><em>The attention allocated to founding system invariants remains strictly bounded away from zero, uniformly and independently of the total interaction turns $t$.</em></p>
 <h4 id="proof_1">Proof:<a class="headerlink" href="#proof_1" title="Permanent link">&para;</a></h4>
 <p>Under Generational Context, Gen-0 raw outputs are evicted at every turn, leaving only the distilled representation $\le K_0$, and Gen-1 is strictly capped at $C_1$ tokens by the AWE cache controller.
 Therefore, the active non-invariant token volume in the context buffer is strictly bounded for all $t$:</p>
 <p>$$|\mathcal{S}<em _text_bound="\text{bound">{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C</em>$$}} &lt; \infty \quad \forall t \in \mathbb{N</p>
-<p>By definition of softmax:</p>
-<p>$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum</em><em _mathcal_S="\mathcal{S" _notin="\notin" m="m">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum</em>$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)</p>
-<p>Applying the Cauchy-Schwarz energy bounds:
-- The numerator is lower-bounded by $L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$.
-- The denominator non-invariant sum is upper-bounded by $C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)$.</p>
-<p>Therefore:</p>
-<p>$$A_{i, \text{inv}} \ge \frac{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right) + C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$</p>
-<p>Since $C_{\text{bound}} = C_1 + K_0$ is constant and independent of turn $t$, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically eliminates unbounded Softmax Inundation. $\blacksquare$</p>
+<p>By definition of the softmax operator, express $A_{i, \text{inv}}$ in ratio form:</p>
+<p>$$A_{i, \text{inv}} = \frac{\sum_{j \in \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)}{\sum</em><em _mathcal_S="\mathcal{S" _notin="\notin" m="m">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) + \sum</em>$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)} = \frac{1}{1 + R_t</p>
+<p>where the ratio $R_t$ is defined as:</p>
+<p>$$R_t = \frac{\sum_{m \notin \mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right)}{\sum</em>$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)</p>
+<p>Under the uniform bounded score assumption:
+1. The numerator of $R_t$ contains $|\mathcal{S}<em _text_bound="\text{bound">{\text{non-inv}}^{(t)}| \le C</em>\right)$:
+   $$\sum_{m \notin \mathcal{S}}}$ terms, each bounded above by $\exp\left(\frac{M_Q M_K}{\sqrt{d_k}<em _text_bound="\text{bound">{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}}\right) \le C</em>\right)$$}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}</p>
+<ol>
+<li>The denominator of $R_t$ contains $|\mathcal{S}<em _in="\in" _mathcal_S="\mathcal{S" j="j">{\text{inv}}| = L_u$ terms, each bounded below by $\exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)$:
+   $$\sum</em>\right)$$}_{\text{inv}}} \exp\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) \ge L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}</li>
+</ol>
+<p>Combining these bounds yields an upper bound on the ratio $R_t$:</p>
+<p>$$R_t \le \frac{C_{\text{bound}} \exp\left(\frac{M_Q M_K}{\sqrt{d_k}}\right)}{L_u \exp\left(-\frac{M_Q M_K}{\sqrt{d_k}}\right)} = \frac{C_{\text{bound}}}{L_u} \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right) = \frac{\kappa C_{\text{bound}}}{L_u}$$</p>
+<p>Since the function $f(R) = \frac{1}{1 + R}$ is strictly monotonically decreasing for all $R \ge 0$:</p>
+<p>$$A_{i, \text{inv}} = \frac{1}{1 + R_t} \ge \frac{1}{1 + \frac{\kappa C_{\text{bound}}}{L_u}} = \frac{L_u}{L_u + \kappa C_{\text{bound}}}$$</p>
+<p>Substituting $C_{\text{bound}} = C_1 + K_0$, we obtain the stated uniform lower bound. Because $C_{\text{bound}}$ is a time-invariant constant fixed by the cache controller, $A_{i, \text{inv}}$ does not decay as $t \to \infty$. Generational Context mathematically prevents unbounded Softmax Inundation under uniform energy bounds. $\blacksquare$</p>
+<blockquote>
+<p>[!NOTE] Scope &amp; Boundary Conditions of Theorem 2
+The lower bound establishes that bounding active distractor volume prevents volume-driven attention dilution. It assumes uniform bounded projection energy. If non-invariant distractor tokens are adversarially crafted to achieve disproportionately large dot products, or if invariant representations undergo representation collapse in deep layers, attention can still be diverted. Generational Context provides the necessary structural control over token volume to guarantee bounded background competition.</p>
+</blockquote>
 <hr />
 <h2 id="6-systems-implementation-the-awe-algorithm">6. Systems Implementation: The AWE Algorithm<a class="headerlink" href="#6-systems-implementation-the-awe-algorithm" title="Permanent link">&para;</a></h2>
 <p>The <strong>Attention-Weighted Eviction (AWE)</strong> algorithm adapts Megiddo &amp; Modha's Adaptive Replacement Cache (ARC) to context token management. It maintains:
