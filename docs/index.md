@@ -185,14 +185,15 @@ mkdocs build
 
 ## Contributing
 
-This repository is maintained by **Raja Dharma Tej Maddala** and **Team Auralis**. The ACI paradigm is an active research programme. Contributions, critiques, and replications are welcome via GitHub Issues and Pull Requests.
+This repository is maintained by **Team Auralis** (Shaurya Sanyal and contributors). The ACI paradigm is an active research programme. Contributions, critiques, and replications are welcome via GitHub Issues and Pull Requests.
 
 ---
 
 ## Legal Notice
 
-Copyright (c) 2026 **Raja Dharma Tej Maddala**. Published under **Team Auralis**.
+Copyright &copy; 2026 **Shaurya Sanyal (Team Auralis)** and contributors.
 
-The ACI Architecture Framework, including all specifications, benchmark protocols, experiment results, subsystem designs, and the ACI paradigm itself, is the original intellectual work of Raja Dharma Tej Maddala. All rights reserved except as explicitly licensed.
+* **Attribution**: The term **"Artificial Civilization Intelligence" (ACI)** was coined by **Raja Dharma Tej Maddala**. Credit for the name goes to him.
+* **Engineering & Architecture**: The engineering framework, reference implementations, formal theorems, benchmark suites (ACI-001, CCB-001), and empirical research in this repository were designed, implemented, and maintained by **Team Auralis** (Shaurya Sanyal and contributors).
 
 This repository is published under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license unless otherwise stated in individual files.

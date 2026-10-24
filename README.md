@@ -274,7 +274,8 @@ Navigate to `http://localhost:8000/research/FOOLS_THEOREM/`.
 
 ## Contributing & Governance
 
-Contributions, critiques, formal reviews, and replication studies are welcome.
+This repository is designed, developed, and maintained by **Team Auralis** (Shaurya Sanyal and contributors). Contributions, critiques, formal reviews, and replication studies are welcome via GitHub Issues and Pull Requests.
+
 Please adhere to our core standards:
 1. **Mathematical Precision**: Proofs must clearly declare parameter domains, assumptions, and bound limitations.
 2. **Documentation Integrity**: Maintain consistent notation and update LaTeX sources when modifying specifications.
@@ -286,7 +287,8 @@ Submit contributions via [GitHub Issues](https://github.com/Team-Auralis/ACI-Arc
 
 ## License & Intellectual Property
 
-Copyright &copy; 2026 **Raja Dharma Tej Maddala**. Published under **Team Auralis** (Shaurya Sanyal and contributors).
+Copyright &copy; 2026 **Shaurya Sanyal (Team Auralis)** and contributors.
 
-* The term **"ACI"** and the architectural paradigm were conceived by **Raja Dharma Tej Maddala**.
+* **Attribution**: The term **"Artificial Civilization Intelligence" (ACI)** was originally coined by **Raja Dharma Tej Maddala**. Credit for the name goes to him.
+* **Engineering & Research**: The architectural design, formal theorems, mathematical proofs, `generational_context` engine, benchmarks (CCB-001, ACI-001), and research ledger were authored, implemented, and maintained by **Shaurya Sanyal** and **Team Auralis**.
 * This repository is published under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license.
