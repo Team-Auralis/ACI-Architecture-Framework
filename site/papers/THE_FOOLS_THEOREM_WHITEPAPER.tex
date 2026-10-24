@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
 \usepackage{graphicx}
@@ -13,7 +13,7 @@
 \geometry{margin=1in}
 \setstretch{1.15}
 
-\title{\Huge \bf The Fool's Theorem: \\ \vspace{0.3cm} \LARGE Asymptotic Epistemic Closure and Generational Context in Long-Horizon Autoregressive Agent Systems}
+\title{\Huge \bf Softmax Inundation and Generational Context in Long-Horizon Autoregressive Agent Systems}
 \author{\textbf{Shaurya Sanyal} \\ \textit{Team Auralis \& Autonomous Systems Research Group} \\ \texttt{shauryasanyal@gmail.com}}
 \date{\today}
 
@@ -27,139 +27,150 @@
 \maketitle
 
 \begin{abstract}
-\noindent The prevailing design paradigm for autonomous artificial intelligence agents treats the transformer context window as an unbounded, append-only linear interaction transcript. We prove that this paradigm is fundamentally mathematically flawed. We establish \textbf{The Fool's Theorem} (\textit{The Asymptotic Epistemic Closure Bound}), proving that in any self-attending autoregressive language agent accumulating raw environment execution observations without generational garbage collection, the probability of generating a valid counter-hypothesis following an environmental failure decays exponentially: $P(E_{\text{correct}} \mid \mathcal{H}_t) \le C_1 \exp(-\lambda |\mathcal{S}_{\text{noise}}|) + \mathcal{O}(|\mathcal{S}_{\text{noise}}|^{-1})$. Past a finite critical token threshold $N^*$, self-attention contracts into an inescapable semantic attractor basin centered on the error traceback, rendering the agent incapable of root-cause recovery regardless of parameter scale or compute budget---a state we formalize as \textbf{The Fool}. To resolve this crisis, we introduce the \textbf{Cognitive Context Trifecta} (\textit{Payload Inundation}, \textit{Generational Context}, and \textit{Error Gravitation}) and specify the \textbf{Attention-Weighted Eviction (AWE)} algorithm. On the standardized CCB-001 empirical benchmark, Generational Context cuts active context token load by 96.6\%, elevates Context Signal Ratio by $24\times$, and raises task success from 0.0\% to 100.0\%.
+\noindent Autonomous AI agent architectures routinely treat the transformer context window as an unbounded, append-only linear interaction transcript. We analyze the theoretical and empirical consequences of this paradigm. We formalize the \textbf{Softmax Inundation Bound}, an analytical upper bound showing that under bounded projection energy, the maximum aggregate self-attention probability mass allocated to a fixed set of invariant constraint tokens decays asymptotically as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$ when unpruned execution observations accumulate. This attention dilution creates a systemic vulnerability: as noisy tracebacks dominate context length, attention heads dilute focus from foundational system invariants toward high-entropy symptom tokens. To resolve this failure mode, we specify \textbf{Generational Context}, an operating-system-inspired memory architecture that separates memory into \textbf{Gen-0 Ephemeral} (raw tool outputs distilled to 3-line signatures and evicted in 1 turn), \textbf{Gen-1 Evaporative} (working memory paged via the Attention-Weighted Eviction algorithm), and \textbf{Gen-2 Tenured} (permanently pinned invariants). We prove that Generational Context maintains a non-zero lower bound on invariant attention uniformly for all interaction turns $t \in \mathbb{N}$, eliminating unbounded softmax dilution and stabilizing long-horizon autonomy.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
-Between 2024 and 2026, frontier foundation models expanded raw attention context windows from 128k to millions of tokens. However, the practical autonomy horizon of software engineering and systems-operation agents has stubbornly stagnated around 20 to 30 turns. Beyond this horizon, agents routinely exhibit catastrophic cognitive degradation: repeating failed tool calls, inventing spurious explanations for syntax errors, and losing adherence to foundational system invariants.
+Despite rapid expansions in the raw context window capacity of frontier foundation models, the practical autonomy horizon of software engineering and tool-use agents remains constrained across multi-turn interactions. In long-horizon execution loops, agents routinely lose adherence to root system constraints, repeat failed tool invocations, and focus on superficial symptom-level micro-patches rather than root-cause remediation.
 
-Empirical production telemetry demonstrates that this failure is mechanical: in typical multi-turn agent sessions, \textbf{93.9\% of all active tokens consist of high-entropy raw tool outputs} (compiler traces, test runner dumps, full DOM trees), whereas model reasoning and user constraints account for less than 4.9\%. 
+Empirical production telemetry indicates that in typical multi-turn agent sessions, more than 90\% of active context tokens consist of high-entropy environmental observations (e.g., compiler dumps, terminal tracebacks, test suite stderr, full DOM snapshots), while foundational task instructions and system invariants constitute a minor fraction of the token budget.
 
-We formalize this pathology through a triad of concepts:
+We analyze this degradation through three interconnected concepts:
 \begin{enumerate}
-    \item \textbf{Payload Inundation}: The mathematical dilution of attention heads by high-entropy non-semantic tool text.
-    \item \textbf{Error Gravitation}: The non-linear attractor dynamic whereby an error traceback acts as a semantic prior, forcing subsequent generation into symptom-patching loops.
-    \item \textbf{Generational Context}: A multi-tiered systems architecture adapting operating system generational garbage collection (GC) and virtual memory paging to the attention key-value (KV) cache.
+    \item \textbf{Payload Inundation}: The progressive dilution of attention probability mass caused by high-volume distractor text.
+    \item \textbf{Error Gravitation}: The empirical tendency of unpruned failure logs to bias subsequent model generations toward symptom-patching loops.
+    \item \textbf{Generational Context}: A multi-tiered context lifecycle model adapting operating-system garbage collection and virtual memory replacement to the agent prompt.
 \end{enumerate}
 
 \section{System Setting and Mathematical Preliminaries}
 \label{sec:math_prelim}
 
-Let an agent interact with an external environment $\mathcal{E}$ across discrete steps $t \in \mathbb{N}$. The interaction history transcript is:
+Let an agent interact with an external environment $\mathcal{E}$ across discrete turns $t \in \mathbb{N}$. The interaction transcript is:
 \begin{equation}
     \mathcal{H}_t = \left( \mathbf{u}, \; \mathbf{a}_1, \; \mathbf{o}_1, \; \mathbf{r}_1, \; \dots, \; \mathbf{a}_{t-1}, \; \mathbf{o}_{t-1}, \; \mathbf{r}_{t-1} \right)
 \end{equation}
-where $\mathbf{u} \in \mathcal{V}^{L_u}$ denotes immutable user objectives and invariants, $\mathbf{a}_k$ denotes actions, $\mathbf{o}_k$ denotes raw environmental observations, and $\mathbf{r}_k$ denotes reasoning traces.
+where $\mathbf{u} \in \mathcal{V}^{L_u}$ denotes immutable user objectives and invariant constraints, $\mathbf{a}_k$ denotes actions, $\mathbf{o}_k$ denotes raw environmental observations, and $\mathbf{r}_k$ denotes reasoning traces.
 
-The scaled dot-product self-attention probability between query $i$ and key $j$ is:
+The scaled dot-product attention score between query token $i$ and key token $j$ is:
 \begin{equation}
-    A_{i,j} = \frac{\exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right)}{\sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right)}
+    A_{i,j} = \text{Softmax}\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) = \frac{\exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right)}{\sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right)}
 \end{equation}
-We partition the context indices $J = \{1, \dots, N_t\}$ into disjoint subspaces: Invariant Subspace $\mathcal{S}_{\text{inv}}$ ($|\mathcal{S}_{\text{inv}}| = L_u$), Noise Subspace $\mathcal{S}_{\text{noise}}$ ($|\mathcal{S}_{\text{noise}}| = \sum_k L_o^{(k)}$), and Diagnostic Subspace $\mathcal{S}_{\text{diag}}$.
+where $\mathbf{q}_i = \mathbf{X}_{t,i} \mathbf{W}_Q$ and $\mathbf{k}_j = \mathbf{X}_{t,j} \mathbf{W}_K$, with bounded norms $\|\mathbf{q}_i\|_2 \le M_Q$ and $\|\mathbf{k}_j\|_2 \le M_K$.
 
-\section{The Fool's Theorem}
-\label{sec:fools_theorem}
+We partition token positions into mutually disjoint subsets: Invariant Subspace $\mathcal{S}_{\text{inv}}$ ($|\mathcal{S}_{\text{inv}}| = L_u$), Observation/Noise Subspace $\mathcal{S}_{\text{noise}}$ ($|\mathcal{S}_{\text{noise}}| = \sum_k L_o^{(k)}$), and Working Subspace $\mathcal{S}_{\text{work}}$.
 
-\begin{lemma}[Inundation Lemma --- Softmax Denominator Explosion]
-\label{lem:inundation}
-Let embedding projections satisfy bounded key energy $\|\mathbf{k}_j\|_2 \le M_K$ and query energy $\|\mathbf{q}_i\|_2 \le M_Q$. Then the aggregate attention probability mass allocated to the invariant subspace is strictly upper-bounded by:
+\section{The Softmax Inundation Bound}
+\label{sec:inundation_bound}
+
+\begin{theorem}[Softmax Inundation Upper Bound]
+\label{thm:inundation}
+Let key and query projections satisfy bounded Euclidean norms $\|\mathbf{q}_i\|_2 \le M_Q$ and $\|\mathbf{k}_j\|_2 \le M_K$. Let $\kappa = \exp(2 M_Q M_K / \sqrt{d_k})$. Then for any query position $i$, the aggregate attention probability mass allocated to the invariant subspace $\mathcal{S}_{\text{inv}}$, defined as $A_{i, \text{inv}} = \sum_{j \in \mathcal{S}_{\text{inv}}} A_{i,j}$, is upper-bounded by:
 \begin{equation}
-    A_{i, \text{inv}} \le \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|} = \mathcal{O}\left( \frac{1}{|\mathcal{S}_{\text{noise}}|} \right)
+    A_{i, \text{inv}} \le \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|} = \mathcal{O}\left( \frac{L_u}{|\mathcal{S}_{\text{noise}}|} \right)
 \end{equation}
-where $\kappa = \exp(2 M_Q M_K / \sqrt{d_k})$.
-\end{lemma}
-
-\begin{proof}
-By Cauchy-Schwarz, $-M_Q M_K \le \mathbf{q}_i^\top \mathbf{k}_j \le M_Q M_K$. Expanding the softmax definition over $\mathcal{S}_{\text{inv}}$ and $\mathcal{S}_{\text{noise}}$ yields the result directly. As $|\mathcal{S}_{\text{noise}}| \to \infty$, $A_{i, \text{inv}} \to 0$.
-\end{proof}
-
-\begin{lemma}[Gravitation Lemma --- Attractor Contraction]
-\label{lem:gravitation}
-Let an unpruned error traceback exhibit dominant spectral projection vector $\mathbf{v}_e$. The query mapping $f_Q: \mathcal{H}_t \mapsto \mathbf{q}_{t+1}$ forms a strict contraction mapping on the unit sphere toward $\mathbf{v}_e$ with dynamic equation:
-\begin{equation}
-    \frac{d}{dt} \cos \theta_t = \eta |\mathcal{S}_{\text{noise}}^{(e)}| (1 - \cos^2 \theta_t) - \gamma \cos \theta_t
-\end{equation}
-whose unique stable fixed point satisfies $\lim_{t \to \infty} \cos \theta^* = 1$.
-\end{lemma}
-
-\begin{theorem}[The Fool's Theorem]
-\label{thm:fool}
-Let $M$ be an autoregressive agent operating over an unpruned append-only history $\mathcal{H}_t$. Suppose at step $k$, $M$ encounters an execution failure yielding an uncompressed traceback of length $L_e$. Then:
-\begin{enumerate}
-    \item The probability $P(E_{\text{correct}} \mid \mathcal{H}_t)$ that $M$ emits a correct counter-hypothesis at step $t > k$ decays exponentially with noise token mass:
-    \begin{equation}
-        P(E_{\text{correct}} \mid \mathcal{H}_t) \le C_1 \exp\left( -\lambda |\mathcal{S}_{\text{noise}}| \right) + \frac{C_2}{|\mathcal{S}_{\text{noise}}|}
-    \end{equation}
-    \item There exists a finite critical threshold $N^*$ such that for all $|\mathcal{S}_{\text{noise}}| > N^*$, the agent enters an Epistemic Closure Basin: $P(\mathbf{a}_t \notin \text{Span}(\mathcal{S}_{\text{error}})) < \epsilon_{\text{env}}$.
-    \item Scaling context window capacity $W \to \infty$ without generational eviction strictly deepens the attractor basin, guaranteeing perpetual failure. $M$ becomes mathematically trapped as The Fool.
-\end{enumerate}
 \end{theorem}
 
-\begin{corollary}[Generational Escape Criterion]
-Under Generational Context with bounded distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_{\text{bound}} \ll N^*$, the noise subspace is purged every turn. The agent remains invariant to Theorem \ref{thm:fool}.
-\end{corollary}
+\begin{proof}
+By the Cauchy-Schwarz inequality, $-M_Q M_K \le \mathbf{q}_i^\top \mathbf{k}_j \le M_Q M_K$. The numerator is bounded above by:
+\begin{equation}
+    \sum_{j \in \mathcal{S}_{\text{inv}}} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \right) \le L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)
+\end{equation}
+Dropping non-negative terms in $\mathcal{S}_{\text{work}}$, the denominator is bounded below by:
+\begin{equation}
+    \sum_{m=1}^{N_t} \exp\left( \frac{\mathbf{q}_i^\top \mathbf{k}_m}{\sqrt{d_k}} \right) \ge (L_u + |\mathcal{S}_{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)
+\end{equation}
+Dividing the upper bound on the numerator by the lower bound on the denominator yields:
+\begin{equation}
+    A_{i, \text{inv}} \le \frac{L_u \exp\left( \frac{M_Q M_K}{\sqrt{d_k}} \right)}{(L_u + |\mathcal{S}_{\text{noise}}|) \exp\left( -\frac{M_Q M_K}{\sqrt{d_k}} \right)} = \frac{\exp\left( \frac{2 M_Q M_K}{\sqrt{d_k}} \right) L_u}{L_u + |\mathcal{S}_{\text{noise}}|} = \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|}
+\end{equation}
+As $|\mathcal{S}_{\text{noise}}| \to \infty$, $A_{i, \text{inv}} \to 0$ asymptotically as $\mathcal{O}(|\mathcal{S}_{\text{noise}}|^{-1})$.
+\end{proof}
 
-\section{Systems Architecture: Generational Context \& AWE}
-\label{sec:awe_arch}
+\section{The Generational Context Architecture}
+\label{sec:generational_context}
 
-Generational Context divides memory into three tiers:
+To mitigate Softmax Inundation without relying on brute-force context window expansion, we propose \textbf{Generational Context}. The architecture divides memory into three tiers:
 \begin{itemize}
-    \item \textbf{Gen-0 (Ephemeral)}: High-entropy tool stdout/stderr. TTL = 1 turn. Distilled to 3-line essence; raw bytes purged immediately.
-    \item \textbf{Gen-1 (Evaporative)}: Working hypotheses and uncommitted deltas. Paged dynamically via Adaptive Replacement Cache (ARC).
+    \item \textbf{Gen-0 (Ephemeral)}: High-entropy raw tool stdout/stderr. TTL = 1 turn. Distilled to a deterministic 3-line essence (command, status, critical error signatures); raw bytes are evicted immediately after turn evaluation.
+    \item \textbf{Gen-1 (Evaporative)}: Working memory containing intermediate hypotheses and uncommitted deltas. Paged dynamically via the Attention-Weighted Eviction (AWE) algorithm.
     \item \textbf{Gen-2 (Tenured)}: Invariant constraints and founding user objectives. Pinned permanently; immune to eviction.
 \end{itemize}
 
+\begin{theorem}[Generational Retention Guarantee]
+\label{thm:retention}
+Let memory be managed according to Generational Context with bounded distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0$ and bounded working capacity $\|\mathcal{G}_1\| \le C_1$. Then for all interaction turns $t \in \mathbb{N}$, the attention mass allocated to founding invariants remains strictly lower-bounded:
+\begin{equation}
+    A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa (C_1 + K_0)} > 0
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Because Gen-0 raw outputs are evicted each turn and Gen-1 is capped at $C_1$, the active non-invariant token volume satisfies $|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_1 + K_0 = C_{\text{bound}} < \infty$ for all $t$. The numerator of $A_{i, \text{inv}}$ is bounded below by $L_u \exp(-M_Q M_K / \sqrt{d_k})$ and the non-invariant denominator sum is bounded above by $C_{\text{bound}} \exp(M_Q M_K / \sqrt{d_k})$. Dividing numerator by denominator yields the constant lower bound $L_u / (L_u + \kappa C_{\text{bound}})$, which does not decay as $t \to \infty$.
+\end{proof}
+
+\section{Attention-Weighted Eviction (AWE) Algorithm}
+\label{sec:awe}
+
+The AWE algorithm adapts Megiddo \& Modha's Adaptive Replacement Cache (ARC) to context token management. It maintains recency cache $T_1$, frequency/saliency cache $T_2$, and ghost registries $B_1, B_2$. AWE enforces a strict capacity post-condition: $\text{total\_tokens}() \le C$.
+
 \begin{algorithm}[H]
-\caption{Attention-Weighted Eviction (AWE) Algorithm}
+\caption{Attention-Weighted Eviction (AWE) with Hard Capacity Invariant}
 \label{alg:awe}
 \begin{algorithmic}[1]
-\REQUIRE Cache target capacity $C$, incoming chunk $E$, target boundary $p$
-\STATE Compute Information Density Score: $\text{IDS}(E) = \frac{\text{AttentionWeight}(E) \times 100}{\text{Entropy}(E) + 10^{-4}}$
+\REQUIRE Capacity $C$, incoming chunk $E$, adaptation parameter $p$
+\IF{$E.\text{tokens} > C$}
+    \STATE Truncate $E.\text{content}$ to $C$ tokens; $E.\text{tokens} \leftarrow C$
+\ENDIF
+\STATE Compute Information Density Score: $\text{IDS}(E) = \frac{\text{AttentionWeight}(E) \times 100}{\text{Entropy}(E) + 10^{-4}}$ (or tier prior if unmeasured)
 \IF{$E.\text{key} \in T_1 \cup T_2$}
-    \STATE Promote $E$ to Tenured Cache $T_2$
+    \STATE Update $E$ and promote to $T_2$
 \ELSIF{$E.\text{key} \in B_1$}
-    \STATE Adapt boundary: $p \leftarrow \min(C, p + \max(1, |B_2|/|B_1|))$
-    \STATE Evict lowest IDS from $T_1$ to $B_1$; Insert $E$ into $T_2$
+    \STATE Adapt boundary: $p \leftarrow \min(C, p + \max(1, |B_2|/|B_1|) \times E.\text{tokens})$
+    \STATE Evict lowest IDS victim from $T_1$ to $B_1$; Insert $E$ into $T_2$
 \ELSIF{$E.\text{key} \in B_2$}
-    \STATE Adapt boundary: $p \leftarrow \max(0, p - \max(1, |B_1|/|B_2|))$
-    \STATE Evict lowest IDS from $T_2$ to $B_2$; Insert $E$ into $T_2$
+    \STATE Adapt boundary: $p \leftarrow \max(0, p - \max(1, |B_1|/|B_2|) \times E.\text{tokens})$
+    \STATE Evict lowest IDS victim from $T_2$ to $B_2$; Insert $E$ into $T_2$
 \ELSE
     \STATE Evict lowest IDS victim; Insert $E$ into Recency Cache $T_1$
 \ENDIF
+\STATE \textbf{assert} $\sum_{e \in T_1 \cup T_2} e.\text{tokens} \le C$
 \end{algorithmic}
 \end{algorithm}
 
-\section{Empirical Evaluation: The CCB-001 Benchmark}
+\section{Empirical Token Compaction Analysis}
 \label{sec:experiments}
 
-We evaluated three architectures across standard multi-turn debugging scenarios (120-frame traceback inundation, misleading Redis timeout attractor, and cyclic dependency cascades). Attention distributions and error gravitation indices were evaluated dynamically via subword vector projections.
+We evaluated context footprint and signal preservation across multi-turn software engineering task scenarios comparing Flat Append-Only, Periodic Compaction, and Generational Context.
 
 \begin{table}[ht]
 \centering
-\caption{CCB-001 Empirical Benchmark Results Matrix}
-\label{tab:ccb_results}
-\begin{tabular}{lcccccc}
+\caption{Context Footprint and Token Compression Comparison}
+\label{tab:compaction_results}
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Architecture Arm} & \textbf{Active Tokens} & \textbf{CSR} & \textbf{Attn(Inv)} & \textbf{Mean EGI} & \textbf{Success Rate} & \textbf{Compute Cost} \\
+\textbf{Architecture Arm} & \textbf{Mean Active Tokens} & \textbf{Context Signal Ratio (CSR)} & \textbf{Token Reduction} \\
 \midrule
-Arm A: Flat Append-Only & 5,171 & 0.0057 & 0.0391 & 0.3922 & \textbf{0.0\%} & \$0.0466 \\
-Arm B: Auto-Compaction & 3,400 & 0.0076 & 0.0514 & 0.3922 & \textbf{33.3\%} & \$0.0465 \\
-Arm C: Generational Context & \textbf{140} & \textbf{0.2375} & \textbf{0.1311} & \textbf{0.1399} & \textbf{100.0\%} & \textbf{\$0.0463} \\
+Arm A: Flat Append-Only & 5,171 & 0.0057 & Baseline \\
+Arm B: Auto-Compaction & 3,400 & 0.0076 & $-34.2\%$ \\
+Arm C: Generational Context & \textbf{140} & \textbf{0.2375} & \textbf{$-97.3\%$} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+Under Generational Context, active token footprint dropped by $97.3\%$ while increasing the proportion of task-relevant signal tokens (CSR) by more than $40\times$.
+
+\section{Related Work}
+\label{sec:related_work}
+\begin{itemize}
+    \item \textbf{Context Dilution and Retrieval}: Liu et al. (2023) demonstrated the "Lost in the Middle" phenomenon, showing that LLM retrieval accuracy drops substantially when relevant information is embedded in long contexts.
+    \item \textbf{Attention Sinks}: Xiao et al. (2023) identified that initial tokens in the KV cache act as attention sinks in autoregressive streaming models, preserving perplexity.
+    \item \textbf{Tiered Agent Memory}: Packer et al. (2023) introduced MemGPT, using function calling to swap context between working and archival memory. Generational Context achieves deterministic $O(1)$ algorithmic prompt management without requiring auxiliary LLM function calls.
+    \item \textbf{Cache Algorithms}: Megiddo \& Modha (2003) designed the Adaptive Replacement Cache (ARC). AWE builds upon ARC by integrating information density scores and token-weighted capacity constraints.
+\end{itemize}
+
 \section{Conclusion}
 \label{sec:conclusion}
-The Fool's Theorem proves that scaling context capacity without generational lifecycle management mathematically forces autonomous agents into cognitive closure. By replacing append-only prompt arrays with Generational Context and Attention-Weighted Eviction (AWE), agent systems escape The Fool's Basin and achieve unbounded multi-turn stability.
-
-\bibliographystyle{plain}
-\begin{thebibliography}{10}
-\bibitem{sutton2018reinforcement} R.~S. Sutton and A.~G. Barto. \newblock {\em Reinforcement Learning: An Introduction}. \newblock MIT Press, 2018.
-\bibitem{hutter2004universal} M.~Hutter. \newblock {\em Universal Artificial Intelligence: Sequential Decisions Based on Algorithmic Probability}. \newblock Springer, 2004.
-\bibitem{vaswani2017attention} A.~Vaswani et~al. \newblock Attention is all you need. \newblock {\em NeurIPS}, 2017.
-\bibitem{megiddo2003arc} N.~Megiddo and D.~S. Modha. \newblock ARC: A self-tuning, low overhead replacement cache. \newblock {\em FAST}, 2003.
-\end{thebibliography}
+Treating the transformer context window as an unmanaged append-only log leads to mathematical attention dilution and operational degradation. By formalizing the Softmax Inundation Bound, we have established the theoretical limits of unmanaged context accumulation. Through the Generational Context architecture and the AWE algorithm, we provide an efficient, verifiable memory management framework that preserves foundational constraints across arbitrary interaction horizons.
 
 \end{document}

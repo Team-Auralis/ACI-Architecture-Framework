@@ -22,10 +22,13 @@ class CacheEntry:
     def information_density(self) -> float:
         """
         Information Density Score (IDS):
-        IDS = AttentionWeight / (Entropy + 1e-6)
-        High attention with low entropy = high density (keep in cache).
-        Low attention with high entropy = low density / pure noise (evict first).
+        IDS = (AttentionWeight * 100.0) / (Entropy + 1e-4)
+        If unmeasured (both weight and entropy are 0.0), provides a neutral
+        tier-based initialization prior so new entries are not tied at 0.0.
         """
+        if self.attention_weight == 0.0 and self.entropy == 0.0:
+            tier_priors = {'gen2': 50.0, 'gen1': 20.0, 'gen0': 5.0}
+            return tier_priors.get(self.tier, 10.0)
         return (self.attention_weight * 100.0) / (self.entropy + 1e-4)
 
 
@@ -37,8 +40,12 @@ class AdaptiveReplacementAttentionCache:
       T1: Recent tool outputs and working notes (Recency)
       T2: High-attention architectural rules and verified state (Frequency / Saliency)
     With ghost registries B1 and B2 for dynamic boundary parameter p.
+
+    Guarantees strict post-condition: total_tokens() <= capacity_tokens.
     """
     def __init__(self, capacity_tokens: int = 4000):
+        if capacity_tokens <= 0:
+            raise ValueError(f"capacity_tokens must be positive, got {capacity_tokens}")
         self.c = capacity_tokens  # Target max token capacity
         self.p = 0.0  # Adaptation parameter: target size of T1 in tokens
 
@@ -72,49 +79,80 @@ class AdaptiveReplacementAttentionCache:
         """
         Accesses an entry. If cache overflows, runs adaptive eviction
         and returns list of evicted entries.
+        Guarantees: total_tokens() <= self.c after execution.
         """
         evicted = []
         key = entry.key
+
+        # Guard against single entry exceeding total cache capacity
+        if entry.tokens > self.c:
+            words = entry.content.split()
+            if len(words) > self.c:
+                entry.content = " ".join(words[:self.c]) + " [TRUNCATED]"
+            entry.tokens = self.c
 
         # Case 1: Hit in T1 or T2 -> Promote to T2 (Frequent/Tenured)
         if key in self.t1:
             hit = self.t1.pop(key)
             hit.access_count += 1
             hit.tier = 'gen1'
+            hit.content = entry.content
+            hit.tokens = entry.tokens
+            evicted.extend(self._replace(hit))
             self.t2[key] = hit
+            self._prune_ghost_registries()
+            assert self.total_tokens() <= self.c, f"Invariant violated: {self.total_tokens()} > {self.c}"
             return evicted
 
         if key in self.t2:
             self.t2[key].access_count += 1
+            diff = entry.tokens - self.t2[key].tokens
+            self.t2[key].content = entry.content
+            self.t2[key].tokens = entry.tokens
+            if diff > 0:
+                dummy = CacheEntry(key=key, content="", tokens=0, tier="gen1")
+                evicted.extend(self._replace(dummy))
+            self._prune_ghost_registries()
+            assert self.total_tokens() <= self.c, f"Invariant violated: {self.total_tokens()} > {self.c}"
             return evicted
+
+        # Ghost list token calculations for consistent ratio
+        b1_tokens = sum(self.b1.values())
+        b2_tokens = sum(self.b2.values())
 
         # Case 2: Hit in B1 (Recently evicted from T1) -> Increase p (favor recency)
         if key in self.b1:
-            delta = 1.0 if len(self.b1) >= len(self.b2) else len(self.b2) / max(len(self.b1), 1)
+            delta = 1.0 if b1_tokens >= b2_tokens else float(b2_tokens) / max(float(b1_tokens), 1.0)
             self.p = min(float(self.c), self.p + (delta * entry.tokens))
             del self.b1[key]
             evicted.extend(self._replace(entry))
             self.t2[key] = entry
+            self._prune_ghost_registries()
+            assert self.total_tokens() <= self.c, f"Invariant violated: {self.total_tokens()} > {self.c}"
             return evicted
 
         # Case 3: Hit in B2 (Recently evicted from T2) -> Decrease p (favor frequency/saliency)
         if key in self.b2:
-            delta = 1.0 if len(self.b2) >= len(self.b1) else len(self.b1) / max(len(self.b2), 1)
+            delta = 1.0 if b2_tokens >= b1_tokens else float(b1_tokens) / max(float(b2_tokens), 1.0)
             self.p = max(0.0, self.p - (delta * entry.tokens))
             del self.b2[key]
             evicted.extend(self._replace(entry))
             self.t2[key] = entry
+            self._prune_ghost_registries()
+            assert self.total_tokens() <= self.c, f"Invariant violated: {self.total_tokens()} > {self.c}"
             return evicted
 
-        # Case 4: Complete Cache Miss
+        # Case 4: Complete Cache Miss -> Insert into T1 (Recency)
         evicted.extend(self._replace(entry))
         self.t1[key] = entry
+        self._prune_ghost_registries()
+        assert self.total_tokens() <= self.c, f"Invariant violated: {self.total_tokens()} > {self.c}"
         return evicted
 
     def _replace(self, incoming: CacheEntry) -> List[CacheEntry]:
-        """Evicts entries with lowest Information Density Score (IDS) until capacity fits."""
+        """Evicts entries with lowest Information Density Score (IDS) until incoming fits."""
         evicted = []
-        while (self.total_tokens() + incoming.tokens) > self.c:
+        while (self.total_tokens() + incoming.tokens) > self.c and (self.t1 or self.t2):
             t1_size = self._t1_tokens()
             # If T1 is larger than target boundary p, evict lowest IDS from T1
             if t1_size > 0 and (t1_size > self.p or (incoming.key in self.b2 and t1_size >= self.p)):
@@ -122,19 +160,28 @@ class AdaptiveReplacementAttentionCache:
                 victim = self.t1.pop(victim_key)
                 self.b1[victim_key] = victim.tokens
                 evicted.append(victim)
-            else:
-                if not self.t2:
-                    if self.t1:
-                        victim_key = min(self.t1.keys(), key=lambda k: self.t1[k].information_density)
-                        victim = self.t1.pop(victim_key)
-                        self.b1[victim_key] = victim.tokens
-                        evicted.append(victim)
-                    break
+            elif self.t2:
                 victim_key = min(self.t2.keys(), key=lambda k: self.t2[k].information_density)
                 victim = self.t2.pop(victim_key)
                 self.b2[victim_key] = victim.tokens
                 evicted.append(victim)
+            elif self.t1:
+                victim_key = min(self.t1.keys(), key=lambda k: self.t1[k].information_density)
+                victim = self.t1.pop(victim_key)
+                self.b1[victim_key] = victim.tokens
+                evicted.append(victim)
+            else:
+                break
         return evicted
+
+    def _prune_ghost_registries(self):
+        """Bounds ghost registries to prevent unbounded memory growth."""
+        while sum(self.b1.values()) > self.c and self.b1:
+            first_key = next(iter(self.b1))
+            del self.b1[first_key]
+        while sum(self.b2.values()) > self.c and self.b2:
+            first_key = next(iter(self.b2))
+            del self.b2[first_key]
 
     def get_active_entries(self) -> List[CacheEntry]:
         """Returns all entries currently in active attention memory."""

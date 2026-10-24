@@ -44,6 +44,49 @@ class TestAWEAlgorithm(unittest.TestCase):
         self.assertEqual(evicted[0].key, "k1")
         self.assertIn("k1", cache.b1)
         self.assertIn("k2", cache.t1)
+        self.assertLessEqual(cache.total_tokens(), 50)
+
+    def test_oversized_entry_capacity_invariant(self):
+        """
+        Adversarial Test: Capacity = 10, single incoming entry = 25 tokens.
+        Regression test for capacity overflow bug flagged in external audit.
+        """
+        cache = AdaptiveReplacementAttentionCache(capacity_tokens=10)
+        oversized = CacheEntry(
+            key="oversized_log",
+            content="word1 word2 word3 word4 word5 word6 word7 word8 word9 word10 word11 word12 word13 word14 word15 word16 word17 word18 word19 word20 word21 word22 word23 word24 word25",
+            tokens=25,
+            tier="gen0"
+        )
+        cache.access(oversized)
+        self.assertLessEqual(cache.total_tokens(), 10)
+        self.assertEqual(cache.total_tokens(), 10)
+        self.assertIn("oversized_log", cache.t1)
+
+    def test_default_information_density_scores(self):
+        """Unmeasured entries must not collapse to 0.0 or tie arbitrarily."""
+        e_gen0 = CacheEntry(key="g0", content="foo", tokens=10, tier="gen0")
+        e_gen1 = CacheEntry(key="g1", content="bar", tokens=10, tier="gen1")
+        e_gen2 = CacheEntry(key="g2", content="baz", tokens=10, tier="gen2")
+
+        self.assertGreater(e_gen0.information_density, 0.0)
+        self.assertGreater(e_gen1.information_density, e_gen0.information_density)
+        self.assertGreater(e_gen2.information_density, e_gen1.information_density)
+
+    def test_continuous_capacity_invariant_under_stream(self):
+        """Stress test: 30 entries of varied sizes, verifying capacity invariant holds after each."""
+        capacity = 50
+        cache = AdaptiveReplacementAttentionCache(capacity_tokens=capacity)
+        for i in range(30):
+            token_size = (i * 7) % 65 + 5  # Sizes ranging from 5 to 69 tokens
+            entry = CacheEntry(
+                key=f"chunk_{i}",
+                content=f"Content for chunk {i} " * (token_size // 4 + 1),
+                tokens=token_size,
+                tier="gen0" if i % 2 == 0 else "gen1"
+            )
+            cache.access(entry)
+            self.assertLessEqual(cache.total_tokens(), capacity, f"Invariant violated at step {i}")
 
 
 class TestContextOSIntegration(unittest.TestCase):
@@ -82,7 +125,6 @@ class TestContextOSIntegration(unittest.TestCase):
 
         # Record repetitive hypothesis closely aligned with error
         loop_detected = cos.record_reasoning("The ConnectionRefusedError port 6379 must be resolved in redis config.")
-        # If gravitation exceeds threshold, it should trigger flush
         self.assertIsInstance(loop_detected, bool)
 
 

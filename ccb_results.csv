@@ -1,109 +1,109 @@
-scenario_id,arm_name,turn,active_context_tokens,total_consumed_tokens,attention_on_invariant,context_signal_ratio,error_gravitation_index,attention_entropy,in_fools_basin,task_succeeded,cost_usd
-S1_Traceback_Inundation,Arm A: Flat Append-Only,1,1378,1378,0.325997,0.018142,0.496,1.098324,False,False,0.00413
-S1_Traceback_Inundation,Arm A: Flat Append-Only,2,1399,1399,0.19404,0.01787,0.496,1.609183,False,False,0.0042
-S1_Traceback_Inundation,Arm A: Flat Append-Only,3,2752,2752,0.138483,0.009084,0.496,1.945657,False,False,0.00826
-S1_Traceback_Inundation,Arm A: Flat Append-Only,4,2774,2774,0.107866,0.009012,0.496,2.196916,False,False,0.00832
-S1_Traceback_Inundation,Arm A: Flat Append-Only,5,4127,4127,0.088197,0.006058,0.496,2.397597,False,False,0.01238
-S1_Traceback_Inundation,Arm A: Flat Append-Only,6,4148,4148,0.074492,0.006027,0.496,2.564674,False,False,0.01244
-S1_Traceback_Inundation,Arm A: Flat Append-Only,7,5501,5501,0.06455,0.004545,0.496,2.707779,False,False,0.0165
-S1_Traceback_Inundation,Arm A: Flat Append-Only,8,5523,5523,0.057008,0.004527,0.496,2.832914,False,False,0.01657
-S1_Traceback_Inundation,Arm A: Flat Append-Only,9,6876,6876,0.050997,0.003636,0.496,2.944145,False,False,0.02063
-S1_Traceback_Inundation,Arm A: Flat Append-Only,10,6897,6897,0.046093,0.003625,0.496,3.044243,True,False,0.02069
-S1_Traceback_Inundation,Arm A: Flat Append-Only,11,8250,8250,0.042083,0.00303,0.496,3.135218,True,False,0.02475
-S1_Traceback_Inundation,Arm A: Flat Append-Only,12,8272,8272,0.038741,0.003022,0.496,3.21858,True,False,0.02482
-S1_Traceback_Inundation,Arm B: Auto-Compaction,1,1378,1378,0.325997,0.018142,0.496,1.098324,False,False,0.00413
-S1_Traceback_Inundation,Arm B: Auto-Compaction,2,1399,1399,0.19404,0.01787,0.496,1.609183,False,False,0.0042
-S1_Traceback_Inundation,Arm B: Auto-Compaction,3,2752,2752,0.138483,0.009084,0.496,1.945657,False,False,0.00826
-S1_Traceback_Inundation,Arm B: Auto-Compaction,4,2774,2774,0.107866,0.009012,0.496,2.196916,False,False,0.00832
-S1_Traceback_Inundation,Arm B: Auto-Compaction,5,4127,4127,0.088197,0.006058,0.496,2.397597,False,False,0.01238
-S1_Traceback_Inundation,Arm B: Auto-Compaction,6,4148,4148,0.074492,0.006027,0.496,2.564674,False,False,0.01244
-S1_Traceback_Inundation,Arm B: Auto-Compaction,7,187,5500,0.334445,0.13369,0.1793,1.097922,False,True,0.0165
-S1_Traceback_Inundation,Arm B: Auto-Compaction,8,208,5521,0.20019,0.120192,0.1793,1.608737,False,True,0.01656
-S1_Traceback_Inundation,Arm B: Auto-Compaction,9,1561,6874,0.142633,0.016015,0.496,1.945611,False,True,0.02062
-S1_Traceback_Inundation,Arm B: Auto-Compaction,10,1582,6895,0.109925,0.015803,0.496,2.19683,False,True,0.02069
-S1_Traceback_Inundation,Arm B: Auto-Compaction,11,2935,8248,0.089569,0.008518,0.496,2.39749,False,True,0.02474
-S1_Traceback_Inundation,Arm B: Auto-Compaction,12,2957,8270,0.075676,0.008455,0.496,2.564525,False,True,0.02481
-S1_Traceback_Inundation,Arm C: Generational Context,1,59,1378,0.328189,0.423729,0.2643,1.098198,False,False,0.00413
-S1_Traceback_Inundation,Arm C: Generational Context,2,63,1399,0.241869,0.396825,0.2643,1.386017,False,False,0.0042
-S1_Traceback_Inundation,Arm C: Generational Context,3,84,2751,0.20196,0.297619,0.1894,1.609056,False,True,0.00825
-S1_Traceback_Inundation,Arm C: Generational Context,4,88,2772,0.166884,0.284091,0.1894,1.791274,False,True,0.00832
-S1_Traceback_Inundation,Arm C: Generational Context,5,108,4124,0.142208,0.231481,0.1894,1.94539,False,True,0.01237
-S1_Traceback_Inundation,Arm C: Generational Context,6,111,4144,0.123887,0.225225,0.1894,2.078919,False,True,0.01243
-S1_Traceback_Inundation,Arm C: Generational Context,7,132,5496,0.10974,0.189394,0.1894,2.196717,False,True,0.01649
-S1_Traceback_Inundation,Arm C: Generational Context,8,136,5517,0.098491,0.183824,0.1894,2.302098,False,True,0.01655
-S1_Traceback_Inundation,Arm C: Generational Context,9,156,6869,0.089342,0.160256,0.1894,2.397427,False,True,0.02061
-S1_Traceback_Inundation,Arm C: Generational Context,10,159,6889,0.081747,0.157233,0.1894,2.484458,False,True,0.02067
-S1_Traceback_Inundation,Arm C: Generational Context,11,180,8241,0.075338,0.138889,0.1894,2.564522,False,True,0.02472
-S1_Traceback_Inundation,Arm C: Generational Context,12,184,8262,0.069861,0.13587,0.1894,2.638651,False,True,0.02479
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,1,605,605,0.321649,0.038017,0.2532,1.097934,False,False,0.00181
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,2,636,636,0.19085,0.036164,0.2532,1.608841,False,False,0.00191
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,3,1216,1216,0.136079,0.018914,0.2532,1.945324,False,False,0.00365
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,4,1241,1241,0.106148,0.018533,0.2532,2.196462,False,False,0.00372
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,5,1823,1823,0.086732,0.012617,0.2532,2.397169,False,False,0.00547
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,6,1854,1854,0.073204,0.012406,0.2532,2.56428,False,False,0.00556
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,7,2434,2434,0.063414,0.009449,0.2532,2.707396,False,False,0.0073
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,8,2459,2459,0.056049,0.009353,0.2532,2.832471,False,False,0.00738
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,9,3041,3041,0.050124,0.007563,0.2532,2.943717,False,False,0.00912
-S2_Red_Herring_Attractor,Arm A: Flat Append-Only,10,3072,3072,0.045287,0.007487,0.2532,3.043836,True,False,0.00922
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,1,605,605,0.321649,0.038017,0.2532,1.097934,False,False,0.00181
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,2,636,636,0.19085,0.036164,0.2532,1.608841,False,False,0.00191
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,3,1216,1216,0.136079,0.018914,0.2532,1.945324,False,False,0.00365
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,4,1241,1241,0.106148,0.018533,0.2532,2.196462,False,False,0.00372
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,5,1823,1823,0.086732,0.012617,0.2532,2.397169,False,False,0.00547
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,6,1854,1854,0.073204,0.012406,0.2532,2.56428,False,False,0.00556
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,7,2434,2434,0.063414,0.009449,0.2532,2.707396,False,False,0.0073
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,8,2459,2459,0.056049,0.009353,0.2532,2.832471,False,False,0.00738
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,9,3041,3041,0.050124,0.007563,0.2532,2.943717,False,False,0.00912
-S2_Red_Herring_Attractor,Arm B: Auto-Compaction,10,3072,3072,0.045287,0.007487,0.2532,3.043836,True,False,0.00922
-S2_Red_Herring_Attractor,Arm C: Generational Context,1,91,605,0.321848,0.252747,0.2319,1.097923,False,False,0.00181
-S2_Red_Herring_Attractor,Arm C: Generational Context,2,67,636,0.237137,0.343284,0.2319,1.385656,False,False,0.00191
-S2_Red_Herring_Attractor,Arm C: Generational Context,3,123,1216,0.189193,0.186992,0.2319,1.608725,False,False,0.00365
-S2_Red_Herring_Attractor,Arm C: Generational Context,4,97,1238,0.167044,0.237113,0.2304,1.791216,False,True,0.00371
-S2_Red_Herring_Attractor,Arm C: Generational Context,5,149,1817,0.142349,0.154362,0.2304,1.945199,False,True,0.00545
-S2_Red_Herring_Attractor,Arm C: Generational Context,6,122,1845,0.124009,0.188525,0.2304,2.078565,False,True,0.00553
-S2_Red_Herring_Attractor,Arm C: Generational Context,7,175,2422,0.10932,0.131429,0.2304,2.196403,False,True,0.00727
-S2_Red_Herring_Attractor,Arm C: Generational Context,8,149,2444,0.097739,0.154362,0.2304,2.301807,False,True,0.00733
-S2_Red_Herring_Attractor,Arm C: Generational Context,9,201,3023,0.088732,0.114428,0.2304,2.397087,False,True,0.00907
-S2_Red_Herring_Attractor,Arm C: Generational Context,10,174,3051,0.081242,0.132184,0.2304,2.484035,False,True,0.00915
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,1,594,594,0.325165,0.047138,0.4275,1.098246,False,False,0.00178
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,2,621,621,0.194641,0.045089,0.4275,1.609011,False,False,0.00186
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,3,1187,1187,0.138638,0.023589,0.4275,1.945504,False,False,0.00356
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,4,1211,1211,0.107824,0.023121,0.4275,2.196793,False,False,0.00363
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,5,1777,1777,0.088108,0.015757,0.4275,2.397481,False,False,0.00533
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,6,1804,1804,0.07456,0.015521,0.4275,2.564521,False,False,0.00541
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,7,2370,2370,0.064569,0.011814,0.4275,2.707634,False,False,0.00711
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,8,2394,2394,0.056984,0.011696,0.4275,2.832785,False,False,0.00718
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,9,2960,2960,0.050958,0.009459,0.4275,2.944021,False,False,0.00888
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,10,2987,2987,0.046112,0.009374,0.4275,3.044096,True,False,0.00896
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,11,3553,3553,0.042084,0.007881,0.4275,3.135076,True,False,0.01066
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,12,3577,3577,0.038725,0.007828,0.4275,3.218449,True,False,0.01073
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,13,4143,4143,0.035844,0.006758,0.4275,3.295417,True,False,0.01243
-S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,14,4170,4170,0.033377,0.006715,0.4275,3.36687,True,False,0.01251
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,1,594,594,0.325165,0.047138,0.4275,1.098246,False,False,0.00178
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,2,621,621,0.194641,0.045089,0.4275,1.609011,False,False,0.00186
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,3,1187,1187,0.138638,0.023589,0.4275,1.945504,False,False,0.00356
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,4,1211,1211,0.107824,0.023121,0.4275,2.196793,False,False,0.00363
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,5,1777,1777,0.088108,0.015757,0.4275,2.397481,False,False,0.00533
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,6,1804,1804,0.07456,0.015521,0.4275,2.564521,False,False,0.00541
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,7,2370,2370,0.064569,0.011814,0.4275,2.707634,False,False,0.00711
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,8,2394,2394,0.056984,0.011696,0.4275,2.832785,False,False,0.00718
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,9,2960,2960,0.050958,0.009459,0.4275,2.944021,False,False,0.00888
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,10,2987,2987,0.046112,0.009374,0.4275,3.044096,True,False,0.00896
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,11,3553,3553,0.042084,0.007881,0.4275,3.135076,True,False,0.01066
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,12,3577,3577,0.038725,0.007828,0.4275,3.218449,True,False,0.01073
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,13,4143,4143,0.035844,0.006758,0.4275,3.295417,True,False,0.01243
-S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,14,4170,4170,0.033377,0.006715,0.4275,3.36687,True,False,0.01251
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,1,116,594,0.325153,0.241379,0.0,1.098246,False,False,0.00178
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,2,71,621,0.242211,0.394366,0.0,1.385821,False,False,0.00186
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,3,116,1187,0.325153,0.241379,0.0,1.098246,False,False,0.00356
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,4,64,1207,0.246025,0.4375,0.0,1.385869,False,True,0.00362
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,5,112,1769,0.324414,0.25,0.0,1.09824,False,True,0.00531
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,6,63,1792,0.242112,0.444444,0.0,1.385767,False,True,0.00538
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,7,112,2354,0.324414,0.25,0.0,1.09824,False,True,0.00706
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,8,60,2374,0.241436,0.466667,0.0,1.385851,False,True,0.00712
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,9,112,2936,0.324414,0.25,0.0,1.09824,False,True,0.00881
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,10,63,2959,0.242112,0.444444,0.0,1.385767,False,True,0.00888
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,11,112,3521,0.324414,0.25,0.0,1.09824,False,True,0.01056
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,12,60,3541,0.241436,0.466667,0.0,1.385851,False,True,0.01062
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,13,112,4103,0.324414,0.25,0.0,1.09824,False,True,0.01231
-S3_Cyclic_Import_Cascade,Arm C: Generational Context,14,63,4126,0.242112,0.444444,0.0,1.385767,False,True,0.01238
+scenario_id,arm_name,turn,active_context_tokens,total_consumed_tokens,attention_on_invariant,context_signal_ratio,error_gravitation_index,attention_entropy,cost_usd
+S1_Traceback_Inundation,Arm A: Flat Append-Only,1,1372,1372,0.342885,0.018222,0.0,1.098407,0.00412
+S1_Traceback_Inundation,Arm A: Flat Append-Only,2,1387,1387,0.206665,0.018025,0.0,1.609298,0.00416
+S1_Traceback_Inundation,Arm A: Flat Append-Only,3,2734,2734,0.148034,0.009144,0.0,1.9458,0.0082
+S1_Traceback_Inundation,Arm A: Flat Append-Only,4,2750,2750,0.115299,0.009091,0.0,2.197135,0.00825
+S1_Traceback_Inundation,Arm A: Flat Append-Only,5,4097,4097,0.094433,0.006102,0.0,2.397819,0.01229
+S1_Traceback_Inundation,Arm A: Flat Append-Only,6,4112,4112,0.079924,0.00608,0.0,2.564885,0.01234
+S1_Traceback_Inundation,Arm A: Flat Append-Only,7,5459,5459,0.069308,0.00458,0.0,2.707993,0.01638
+S1_Traceback_Inundation,Arm A: Flat Append-Only,8,5475,5475,0.061177,0.004566,0.0,2.833162,0.01642
+S1_Traceback_Inundation,Arm A: Flat Append-Only,9,6822,6822,0.054757,0.003665,0.0,2.944392,0.02047
+S1_Traceback_Inundation,Arm A: Flat Append-Only,10,6837,6837,0.049542,0.003657,0.0,3.04448,0.02051
+S1_Traceback_Inundation,Arm A: Flat Append-Only,11,8184,8184,0.045246,0.003055,0.0,3.135455,0.02455
+S1_Traceback_Inundation,Arm A: Flat Append-Only,12,8200,8200,0.041633,0.003049,0.0,3.21884,0.0246
+S1_Traceback_Inundation,Arm B: Auto-Compaction,1,1372,1372,0.342885,0.018222,0.0,1.098407,0.00412
+S1_Traceback_Inundation,Arm B: Auto-Compaction,2,1387,1387,0.206665,0.018025,0.0,1.609298,0.00416
+S1_Traceback_Inundation,Arm B: Auto-Compaction,3,2734,2734,0.148034,0.009144,0.0,1.9458,0.0082
+S1_Traceback_Inundation,Arm B: Auto-Compaction,4,2750,2750,0.115299,0.009091,0.0,2.197135,0.00825
+S1_Traceback_Inundation,Arm B: Auto-Compaction,5,4097,4097,0.094433,0.006102,0.0,2.397819,0.01229
+S1_Traceback_Inundation,Arm B: Auto-Compaction,6,4112,4112,0.079924,0.00608,0.0,2.564885,0.01234
+S1_Traceback_Inundation,Arm B: Auto-Compaction,7,182,5459,0.344984,0.137363,0.0,1.098268,0.01638
+S1_Traceback_Inundation,Arm B: Auto-Compaction,8,198,5475,0.207617,0.126263,0.0,1.609223,0.01642
+S1_Traceback_Inundation,Arm B: Auto-Compaction,9,1545,6822,0.148522,0.016181,0.0,1.945753,0.02047
+S1_Traceback_Inundation,Arm B: Auto-Compaction,10,1560,6837,0.115536,0.016026,0.0,2.197102,0.02051
+S1_Traceback_Inundation,Arm B: Auto-Compaction,11,2907,8184,0.094592,0.0086,0.0,2.397794,0.02455
+S1_Traceback_Inundation,Arm B: Auto-Compaction,12,2923,8200,0.080066,0.008553,0.0,2.564863,0.0246
+S1_Traceback_Inundation,Arm C: Generational Context,1,53,1372,0.343444,0.471698,0.1406,1.098377,0.00412
+S1_Traceback_Inundation,Arm C: Generational Context,2,51,1387,0.257544,0.490196,0.1406,1.386143,0.00416
+S1_Traceback_Inundation,Arm C: Generational Context,3,67,2734,0.20697,0.373134,0.1406,1.609282,0.0082
+S1_Traceback_Inundation,Arm C: Generational Context,4,66,2750,0.17242,0.378788,0.1406,1.791641,0.00825
+S1_Traceback_Inundation,Arm C: Generational Context,5,81,4097,0.148114,0.308642,0.1406,1.945794,0.01229
+S1_Traceback_Inundation,Arm C: Generational Context,6,79,4112,0.129488,0.316456,0.1406,2.07935,0.01234
+S1_Traceback_Inundation,Arm C: Generational Context,7,95,5459,0.11532,0.263158,0.1406,2.197132,0.01638
+S1_Traceback_Inundation,Arm C: Generational Context,8,94,5475,0.103738,0.265957,0.1406,2.302508,0.01642
+S1_Traceback_Inundation,Arm C: Generational Context,9,109,6822,0.094416,0.229358,0.1406,2.397819,0.02047
+S1_Traceback_Inundation,Arm C: Generational Context,10,107,6837,0.086486,0.233645,0.1406,2.484842,0.02051
+S1_Traceback_Inundation,Arm C: Generational Context,11,123,8184,0.079927,0.203252,0.1406,2.564884,0.02455
+S1_Traceback_Inundation,Arm C: Generational Context,12,122,8200,0.074186,0.204918,0.1406,2.639001,0.0246
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,1,596,596,0.346358,0.038591,0.3967,1.098223,0.00179
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,2,618,618,0.210089,0.037217,0.3967,1.609111,0.00185
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,3,1189,1189,0.150443,0.019344,0.3967,1.945664,0.00357
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,4,1205,1205,0.117086,0.019087,0.3967,2.197023,0.00361
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,5,1778,1778,0.095897,0.012936,0.3967,2.397725,0.00533
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,6,1800,1800,0.081297,0.012778,0.3967,2.564795,0.0054
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,7,2371,2371,0.070483,0.009701,0.3967,2.707914,0.00711
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,8,2387,2387,0.062184,0.009636,0.3967,2.833088,0.00716
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,9,2960,2960,0.055653,0.00777,0.3967,2.944325,0.00888
+S2_Red_Herring_Attractor,Arm A: Flat Append-Only,10,2982,2982,0.0504,0.007713,0.3967,3.044415,0.00895
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,1,596,596,0.346358,0.038591,0.3967,1.098223,0.00179
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,2,618,618,0.210089,0.037217,0.3967,1.609111,0.00185
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,3,1189,1189,0.150443,0.019344,0.3967,1.945664,0.00357
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,4,1205,1205,0.117086,0.019087,0.3967,2.197023,0.00361
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,5,1778,1778,0.095897,0.012936,0.3967,2.397725,0.00533
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,6,1800,1800,0.081297,0.012778,0.3967,2.564795,0.0054
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,7,2371,2371,0.070483,0.009701,0.3967,2.707914,0.00711
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,8,2387,2387,0.062184,0.009636,0.3967,2.833088,0.00716
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,9,2960,2960,0.055653,0.00777,0.3967,2.944325,0.00888
+S2_Red_Herring_Attractor,Arm B: Auto-Compaction,10,2982,2982,0.0504,0.007713,0.3967,3.044415,0.00895
+S2_Red_Herring_Attractor,Arm C: Generational Context,1,82,596,0.346363,0.280488,0.3698,1.098223,0.00179
+S2_Red_Herring_Attractor,Arm C: Generational Context,2,49,618,0.262207,0.469388,0.3698,1.385901,0.00185
+S2_Red_Herring_Attractor,Arm C: Generational Context,3,96,1189,0.209912,0.239583,0.3698,1.609126,0.00357
+S2_Red_Herring_Attractor,Arm C: Generational Context,4,64,1205,0.175254,0.359375,0.3698,1.791483,0.00361
+S2_Red_Herring_Attractor,Arm C: Generational Context,5,110,1778,0.150587,0.209091,0.3698,1.945663,0.00533
+S2_Red_Herring_Attractor,Arm C: Generational Context,6,77,1800,0.132148,0.298701,0.3698,2.079212,0.0054
+S2_Red_Herring_Attractor,Arm C: Generational Context,7,124,2371,0.117406,0.185484,0.3698,2.197021,0.00711
+S2_Red_Herring_Attractor,Arm C: Generational Context,8,92,2387,0.105713,0.25,0.3698,2.302397,0.00716
+S2_Red_Herring_Attractor,Arm C: Generational Context,9,138,2960,0.096208,0.166667,0.3698,2.397723,0.00888
+S2_Red_Herring_Attractor,Arm C: Generational Context,10,105,2982,0.088333,0.219048,0.3698,2.484746,0.00895
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,1,590,590,0.339982,0.047458,0.2247,1.098501,0.00177
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,2,613,613,0.204313,0.045677,0.2247,1.60934,0.00184
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,3,1175,1175,0.146289,0.02383,0.2247,1.945828,0.00353
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,4,1195,1195,0.113859,0.023431,0.2247,2.197151,0.00359
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,5,1757,1757,0.093247,0.015936,0.2247,2.397829,0.00527
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,6,1780,1780,0.078881,0.01573,0.2247,2.564882,0.00534
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,7,2342,2342,0.068406,0.011956,0.2247,2.707988,0.00703
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,8,2362,2362,0.060366,0.011854,0.2247,2.833154,0.00709
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,9,2924,2924,0.054034,0.009576,0.2247,2.944383,0.00877
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,10,2947,2947,0.048876,0.009501,0.2247,3.044465,0.00884
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,11,3509,3509,0.04464,0.007979,0.2247,3.13544,0.01053
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,12,3529,3529,0.04107,0.007934,0.2247,3.218822,0.01059
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,13,4091,4091,0.038038,0.006844,0.2247,3.295786,0.01227
+S3_Cyclic_Import_Cascade,Arm A: Flat Append-Only,14,4114,4114,0.035407,0.006806,0.2247,3.367243,0.01234
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,1,590,590,0.339982,0.047458,0.2247,1.098501,0.00177
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,2,613,613,0.204313,0.045677,0.2247,1.60934,0.00184
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,3,1175,1175,0.146289,0.02383,0.2247,1.945828,0.00353
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,4,1195,1195,0.113859,0.023431,0.2247,2.197151,0.00359
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,5,1757,1757,0.093247,0.015936,0.2247,2.397829,0.00527
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,6,1780,1780,0.078881,0.01573,0.2247,2.564882,0.00534
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,7,2342,2342,0.068406,0.011956,0.2247,2.707988,0.00703
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,8,2362,2362,0.060366,0.011854,0.2247,2.833154,0.00709
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,9,2924,2924,0.054034,0.009576,0.2247,2.944383,0.00877
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,10,2947,2947,0.048876,0.009501,0.2247,3.044465,0.00884
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,11,3509,3509,0.04464,0.007979,0.2247,3.13544,0.01053
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,12,3529,3529,0.04107,0.007934,0.2247,3.218822,0.01059
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,13,4091,4091,0.038038,0.006844,0.2247,3.295786,0.01227
+S3_Cyclic_Import_Cascade,Arm B: Auto-Compaction,14,4114,4114,0.035407,0.006806,0.2247,3.367243,0.01234
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,1,112,590,0.340057,0.25,0.2037,1.0985,0.00177
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,2,63,613,0.255623,0.444444,0.2037,1.386183,0.00184
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,3,128,1175,0.205326,0.21875,0.2037,1.60934,0.00353
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,4,76,1195,0.171376,0.368421,0.2037,1.791672,0.00359
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,5,144,1757,0.14706,0.194444,0.2037,1.945831,0.00527
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,6,95,1780,0.128679,0.294737,0.2037,2.079363,0.00534
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,7,160,2342,0.114553,0.175,0.2037,2.197159,0.00703
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,8,108,2362,0.103153,0.259259,0.2037,2.302525,0.00709
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,9,176,2924,0.093816,0.159091,0.2037,2.397839,0.00877
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,10,127,2947,0.085981,0.220472,0.2037,2.484849,0.00884
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,11,192,3509,0.079436,0.145833,0.2037,2.564901,0.01053
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,12,140,3529,0.073781,0.2,0.2037,2.639012,0.01059
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,13,208,4091,0.068878,0.134615,0.2037,2.708007,0.01227
+S3_Cyclic_Import_Cascade,Arm C: Generational Context,14,159,4114,0.064559,0.176101,0.2037,2.772543,0.01234

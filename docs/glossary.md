@@ -21,10 +21,9 @@ A multi-tiered systems architecture for LLM agent memory that stratifies context
 The non-linear cognitive pathology where an erroneous assumption, false diagnostic premise, or catastrophic failure traceback recorded in the context acts as a high-density semantic attractor basin. In subsequent inference turns, the self-attention mechanism assigns disproportionate probability mass to tokens consistent with the error trace, preventing the model from re-evaluating ground truth or exploring orthogonal solution vectors.
 * *See full specification:* [`docs/research/CONTEXT_ARCHITECTURE_TRIFECTA.md`](research/CONTEXT_ARCHITECTURE_TRIFECTA.md)
 
-### The Fool's Theorem
-The foundational mathematical theorem proving that in any autoregressive language agent operating over an unpruned append-only history buffer, the probability of generating a correct counter-hypothesis following an environmental execution failure decays exponentially with token noise mass ($P(E_{\text{correct}}) \le C_1 e^{-\lambda |\mathcal{S}_{\text{noise}}|} + \frac{C_2}{|\mathcal{S}_{\text{noise}}|}$). Beyond a finite critical threshold $N^*$, the agent becomes irreversibly locked in a self-reinforcing attractor state (The Fool's Basin).
-* *See full proof:* [`docs/research/FOOLS_THEOREM.md`](research/FOOLS_THEOREM.md)
-
+### The Softmax Inundation Bound (The Fool's State)
+The analytical bound proving that in autoregressive language agents operating over an unpruned append-only history buffer, the aggregate self-attention allocated to founding system invariants decays asymptotically as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$. Without generational pruning, high-entropy distractor tokens dilute invariant attention, biasing subsequent generations toward symptom-patching loops rather than root-cause resolution (colloquially designated as The Fool's State).
+* *See full specification:* [docs/research/FOOLS_THEOREM.md](research/FOOLS_THEOREM.md)
 ---
 
 ## Core ACI Framework Concepts
