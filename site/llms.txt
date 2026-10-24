@@ -1,0 +1,42 @@
+﻿# ACI Architecture Framework
+
+> The official engineering specification, benchmark, and research program for **Artificial Civilization Intelligence (ACI)** and **Open-ended Civilizational Intelligence (OCI)**.
+> Authored by Shaurya Sanyal (Mr Fool) — Team Auralis, 2026.
+> The term "ACI" was coined by Raja Dharma Tej Maddala.
+
+Artificial Civilization Intelligence (ACI) is a post-AGI architectural paradigm that treats intelligence as a distributed, governed, antifragile civilization — not a single oracle. The ORION implementation achieved 90/100 on its integrated benchmark and has been validated across 8 experiments including adversarial evaluation.
+
+## Core Concepts
+
+- [Beyond ASI: The Paradigm](https://team-auralis.github.io/ACI-Architecture-Framework/BEYOND_ASI_THE_ACI_PARADIGM/): Why ASI is the wrong target and ACI is the right one
+- [ACI Definition](https://team-auralis.github.io/ACI-Architecture-Framework/ACI_DEFINITION/): Formal definition of Artificial Civilization Intelligence
+- [ACI vs AGI vs ASI](https://team-auralis.github.io/ACI-Architecture-Framework/ACI_VS_AGI_VS_ASI/): How ACI differs from existing paradigms
+- [ACI vs OCI Master Guide](https://team-auralis.github.io/ACI-Architecture-Framework/ACI_VS_OCI_MASTER_GUIDE/): The evolution from fixed ACI to self-rewriting OCI
+- [Origin and Provenance](https://team-auralis.github.io/ACI-Architecture-Framework/ACI_ORIGIN_AND_PROVENANCE/): Attribution and authorship
+
+## Architecture
+
+- [System Architecture](https://team-auralis.github.io/ACI-Architecture-Framework/architecture/ACI_SYSTEM_ARCHITECTURE/): Full 7-layer specification with failure mode map
+- [OMNIS World Model](https://team-auralis.github.io/ACI-Architecture-Framework/architecture/OMNIS_WORLD_MODEL/): Causal graph-theoretic state database
+- [NEXUS Agent Fabric](https://team-auralis.github.io/ACI-Architecture-Framework/architecture/NEXUS_AGENT_FABRIC/): Multi-agent coordination and dispute resolution
+- [FORGE Science Engine](https://team-auralis.github.io/ACI-Architecture-Framework/architecture/FORGE_SCIENTIFIC_ENGINE/): Hypothesis generation and simulation
+- [ASCEND Long-Horizon Planner](https://team-auralis.github.io/ACI-Architecture-Framework/architecture/ASCEND_LONG_HORIZON_PLANNER/): Decadal objective tracking and replanning
+- [AURA Intelligence Core](https://team-auralis.github.io/ACI-Architecture-Framework/architecture/AURA_INTELLIGENCE_ARCHITECTURE/): Reasoning and inference layer
+
+## Empirical Research
+
+- [Empirical Methodology](https://team-auralis.github.io/ACI-Architecture-Framework/ACI_EMPIRICAL_METHODOLOGY/): AEA metric, 10-dimension benchmark, 4-phase validation protocol
+- [ACI-001 Benchmark](https://team-auralis.github.io/ACI-Architecture-Framework/research/ACI_001_BENCHMARK/): Full experimental results — ACI-001 through ACI-008, Phase B/C/D validation
+- [OCI Mathematical Foundations](https://team-auralis.github.io/ACI-Architecture-Framework/notes/OCI_MATHEMATICAL_FOUNDATIONS/): Formal definition of OCI as a mathematical tuple
+
+## Key Results
+
+- ACI-008 Integrated Benchmark: **90/100** (v1.0-ACI-Alpha)
+- Phase B Replication (1,000 runs): **Mean 90.45 ± 2.19**, 95% CI [86.16, 94.74], 100% threshold rate
+- ACI-005 Open-World Transfer: **22.9% Accumulated Empirical Advantage (AEA)** on genuinely unseen causal structures
+- Phase C Blind Test: **68/100** — F-007 Knowledge Retrieval Failure identified
+- Phase D Adversarial Test: **15/100** — F-001 False Transfer + F-006 Simulation Model Error identified
+
+## Foundational Paper
+
+- [Beyond ASI (PDF)](https://team-auralis.github.io/ACI-Architecture-Framework/papers/Beyond_ASI.pdf): Authored by Shaurya Sanyal (Mr Fool)

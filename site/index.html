@@ -1,4 +1,4 @@
-
+﻿
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -6,15 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The official specification and engineering framework for Artificial Civilization Intelligence (ACI) and Open-ended Civilizational Intelligence (OCI).">
+        <meta name="description" content="The official specification, benchmark, and research ledger for Artificial Civilization Intelligence (ACI).">
       
       
-        <meta name="author" content="Team Auralis">
+        <meta name="author" content="Shaurya Sanyal (Team Auralis)">
+      
+      
+        <link rel="canonical" href="https://team-auralis.github.io/ACI-Architecture-Framework/">
       
       
       
-      
-        <link rel="next" href="ACI_VS_OCI_MASTER_GUIDE/">
+        <link rel="next" href="BEYOND_ASI_THE_ACI_PARADIGM/">
       
       
         
@@ -57,6 +59,8 @@
 
     
     
+<meta name="google-site-verification" content="MpyilON88M3EtYAE17N72KjHDYQU1UMFPL1YHaFUh-Y" />
+
   </head>
   
   
@@ -67,7 +71,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -76,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#artificial-civilization-intelligence-aci-framework" class="md-skip">
+        <a href="#aci-architecture-framework" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +97,7 @@
     <a href="." title="ACI Architecture Framework" class="md-header__button md-logo" aria-label="ACI Architecture Framework" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.11 1.75C9.3 1.25 10.62 1 12 1c6.08 0 11 4.92 11 11s-4.92 11-11 11S1 18.08 1 12c0-1.38.25-2.7.72-3.92a4.5 4.5 0 0 0 1.73 1.1C3.16 10.07 3 11 3 12a9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9c-1 0-1.93.16-2.82.45-.22-.62-.57-1.21-1.07-1.7M4.93 2.93a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2c0-1.11.89-2 2-2M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -123,20 +127,20 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -243,25 +247,6 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="ACI_VS_OCI_MASTER_GUIDE/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Master Guide (ACI vs OCI)
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
     
     
       <li class="md-tabs__item">
@@ -269,7 +254,7 @@
           
   
   
-  The Paradigm Shift
+  The Paradigm
 
         </a>
       </li>
@@ -289,7 +274,7 @@
           
   
   
-  System Architecture
+  Architecture
 
         </a>
       </li>
@@ -305,11 +290,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="research/ACI_001_BENCHMARK/" class="md-tabs__link">
+        <a href="ACI_EMPIRICAL_METHODOLOGY/" class="md-tabs__link">
           
   
   
-  Research & Evaluation
+  Empirical Research
 
         </a>
       </li>
@@ -325,15 +310,91 @@
     
     
       <li class="md-tabs__item">
-        <a href="notes/OCI_MATHEMATICAL_FOUNDATIONS/" class="md-tabs__link">
+        <a href="00-core-vision/" class="md-tabs__link">
           
   
   
-  Deep Notes (Math & Theory)
+  Subsystems
 
         </a>
       </li>
     
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="roadmap/ACI_ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="governance/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Governance
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="EMERGING_CONCEPTS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Emerging Concepts
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="glossary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Glossary
+
+      </a>
+    </li>
   
 
       
@@ -364,7 +425,7 @@
     <a href="." title="ACI Architecture Framework" class="md-nav__button md-logo" aria-label="ACI Architecture Framework" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.11 1.75C9.3 1.25 10.62 1 12 1c6.08 0 11 4.92 11 11s-4.92 11-11 11S1 18.08 1 12c0-1.38.25-2.7.72-3.92a4.5 4.5 0 0 0 1.73 1.1C3.16 10.07 3 11 3 12a9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9c-1 0-1.93.16-2.82.45-.22-.62-.57-1.21-1.07-1.7M4.93 2.93a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2c0-1.11.89-2 2-2M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5"/></svg>
 
     </a>
     ACI Architecture Framework
@@ -451,38 +512,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#what-is-aci" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Overview">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#reference-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        💻 Reference Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#beyond-asi" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Beyond ASI
+        What is ACI?
       
     </span>
   </a>
@@ -490,10 +523,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-documentation-index" class="md-nav__link">
+  <a href="#empirical-results-v10-aci-alpha" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Documentation Index
+        Empirical Results (v1.0-ACI-Alpha)
       
     </span>
   </a>
@@ -501,10 +534,98 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#license-legal-disclaimer" class="md-nav__link">
+  <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        License &amp; Legal Disclaimer
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmark-summary-aci-001" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark Summary (ACI-001)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Corpus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emerging-concepts-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Emerging Concepts (2026)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Downloads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contributing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legal-notice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal Notice
       
     </span>
   </a>
@@ -515,33 +636,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="ACI_VS_OCI_MASTER_GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Master Guide (ACI vs OCI)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -568,17 +662,17 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
     
   
-    The Paradigm Shift
+    The Paradigm
   
 
     
@@ -589,12 +683,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
   
-    The Paradigm Shift
+    The Paradigm
   
 
           </label>
@@ -615,6 +709,34 @@
     
   
     Beyond ASI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/BEYOND_THE_FOURTH_WALL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond the Fourth Wall
   
 
     
@@ -663,14 +785,14 @@
   
   
     <li class="md-nav__item">
-      <a href="ACI_ORIGIN_AND_PROVENANCE/" class="md-nav__link">
+      <a href="ACI_VS_AGI_VS_ASI/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Origin & Provenance
+    ACI vs AGI vs ASI
   
 
     
@@ -691,14 +813,271 @@
   
   
     <li class="md-nav__item">
-      <a href="ACI_VS_AGI_VS_ASI/" class="md-nav__link">
+      <a href="ACI_VS_OCI_MASTER_GUIDE/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ACI vs AGI vs ASI
+    ACI vs OCI Master Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ACI_ORIGIN_AND_PROVENANCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Origin and Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/ACI_SYSTEM_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/OMNIS_WORLD_MODEL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OMNIS World Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/NEXUS_AGENT_FABRIC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NEXUS Agent Fabric
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/FORGE_SCIENTIFIC_ENGINE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FORGE Science Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/ASCEND_LONG_HORIZON_PLANNER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASCEND Long-Horizon Planner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/AURA_INTELLIGENCE_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AURA Intelligence Core
   
 
     
@@ -751,7 +1130,7 @@
   <span class="md-ellipsis">
     
   
-    System Architecture
+    Empirical Research
   
 
     
@@ -767,7 +1146,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    System Architecture
+    Empirical Research
   
 
           </label>
@@ -780,14 +1159,210 @@
   
   
     <li class="md-nav__item">
-      <a href="architecture/ACI_SYSTEM_ARCHITECTURE/" class="md-nav__link">
+      <a href="ACI_EMPIRICAL_METHODOLOGY/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Target Architecture
+    Empirical Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/MATHEMATICAL_FOUNDATIONS_OF_ACI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/CONTEXT_ARCHITECTURE_TRIFECTA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cognitive Context Trifecta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/FOOLS_THEOREM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Fool's Theorem
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/CCB_BENCHMARK_REPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CCB-001 Benchmark Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/ACI_001_BENCHMARK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACI-001 Benchmark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/RECURSIVE_IMPROVEMENT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recursive Improvement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="research/CIVILIZATIONAL_INTENT_CONSERVATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Civilizational Intent Conservation
   
 
     
@@ -840,7 +1415,7 @@
   <span class="md-ellipsis">
     
   
-    Research & Evaluation
+    Subsystems
   
 
     
@@ -856,7 +1431,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Research & Evaluation
+    Subsystems
   
 
           </label>
@@ -869,14 +1444,14 @@
   
   
     <li class="md-nav__item">
-      <a href="research/ACI_001_BENCHMARK/" class="md-nav__link">
+      <a href="00-core-vision/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ACI-001 Benchmark
+    Core Vision
   
 
     
@@ -897,14 +1472,294 @@
   
   
     <li class="md-nav__item">
-      <a href="ACI_AUDIT_REPORT/" class="md-nav__link">
+      <a href="01-nexus-architecture/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    OCI Research Report
+    NEXUS Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02-haven-civilian-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAVEN Civilian Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03-aegis-communications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AEGIS Communications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04-sentience-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SENTIENCE AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05-veil-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VEIL Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06-phoenix-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PHOENIX Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07-mirror-digital-twin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIRROR Digital Twin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08-atlas-infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATLAS Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09-omnis-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OMNIS Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10-forge-research/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FORGE Research
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11-ascend-expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASCEND Expansion
   
 
     
@@ -931,69 +1786,15 @@
   
   
   
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Deep Notes (Math & Theory)
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Deep Notes (Math & Theory)
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="notes/OCI_MATHEMATICAL_FOUNDATIONS/" class="md-nav__link">
+      <a href="roadmap/ACI_ROADMAP/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Mathematical Foundations
+    Roadmap
   
 
     
@@ -1005,11 +1806,84 @@
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
+    
       
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="EMERGING_CONCEPTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Emerging Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1025,6 +1899,14 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+              
               <article class="md-content__inner md-typeset">
                 
                   
@@ -1034,53 +1916,280 @@
   
 
 
-<h1 id="artificial-civilization-intelligence-aci-framework">Artificial Civilization Intelligence (ACI) Framework</h1>
-<p><strong>Proposed by Team Auralis</strong></p>
-<h2 id="overview">Overview</h2>
-<p>Artificial Civilization Intelligence (ACI) is a proposed class of intelligent system architecture designed to maintain a persistent model of civilization and its environment, coordinate heterogeneous intelligent agents and humans, reason across interconnected domains, conduct scientific and technological discovery, plan over long horizons, interact with real-world infrastructure, learn from outcomes, and operate under explicit governance and authority constraints.</p>
-<pre class="mermaid"><code>graph TD
-    subaxis1[Real World Infrastructure] --&gt;|Telemetry| OMNIS[(OMNIS&lt;br&gt;Causal World Model)]
-    OMNIS --&gt; NEXUS{NEXUS&lt;br&gt;Agent Fabric}
-    NEXUS &lt;--&gt;|Dispute Resolution| AURA[AURA&lt;br&gt;Reasoning Core]
-    NEXUS --&gt; ASCEND[ASCEND&lt;br&gt;Decadal Planner]
-    ASCEND --&gt;|Scientific Validation| FORGE[FORGE&lt;br&gt;Science Engine]
-    FORGE --&gt;|Action| subaxis1
-
-    %% OCI Subsystems %%
-    GENESIS((GENESIS&lt;br&gt;Architecture Synthesis)) -.-&gt;|Proposes New OS| CRUCIBLE{{CRUCIBLE&lt;br&gt;Sandbox Validation}}
-    CRUCIBLE -.-&gt;|Hot-Swaps Code| CHIRON[CHIRON&lt;br&gt;Integration &amp; Rollback]
-    CHIRON -.-&gt;|Upgrades| NEXUS
-
-    style OMNIS fill:#1e1e2f,stroke:#4a4a75,color:#fff
-    style NEXUS fill:#2a2a40,stroke:#666699,color:#fff
-    style AURA fill:#3a3a5c,stroke:#8888cc,color:#fff
-    style ASCEND fill:#2a2a40,stroke:#666699,color:#fff
-    style FORGE fill:#1e1e2f,stroke:#4a4a75,color:#fff
-    style GENESIS fill:#4a1e35,stroke:#993366,color:#fff,stroke-dasharray: 5 5
-    style CRUCIBLE fill:#4a1e35,stroke:#993366,color:#fff,stroke-dasharray: 5 5
-    style CHIRON fill:#4a1e35,stroke:#993366,color:#fff,stroke-dasharray: 5 5</code></pre>
-<p>This repository contains the foundational architectural definitions, whitepapers, and the <strong>ACI-001 Benchmark</strong> for evaluating such systems.</p>
-<h3 id="reference-implementation">💻 Reference Implementation</h3>
-<p>Looking for code? The official reference implementation and executable MVP for the ACI architecture is located in the <a href="https://github.com/Team-Auralis/orion"><strong>ORION Repository</strong></a>. </p>
-<h2 id="beyond-asi">Beyond ASI</h2>
-<p>For decades, the AI industry has pursued Artificial Superintelligence (ASI)—a monolithic, hyper-intelligent oracle. We propose that this is a structural fallacy. <strong>Intelligence without infrastructure, continuity, and coordination is just computation.</strong> </p>
-<p>ACI is the necessary paradigm shift. It proposes that the ultimate evolution of machine intelligence is not a singular mind, but a <strong>distributed, antifragile, institutional intelligence</strong> that functions as a civilization itself. </p>
-<p>Read our foundational manifesto: <a href="BEYOND_ASI_THE_ACI_PARADIGM/">Beyond ASI: The ACI Paradigm</a>.</p>
-<h2 id="core-documentation-index">Core Documentation Index</h2>
+<h1 id="aci-architecture-framework">ACI Architecture Framework<a class="headerlink" href="#aci-architecture-framework" title="Permanent link">&para;</a></h1>
+<p><a href="https://team-auralis.github.io/ACI-Architecture-Framework/"><img alt="GitHub Pages" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github" /></a>
+<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-lightgrey" /></a>
+<a href="https://github.com/Team-Auralis/ACI-Architecture-Framework/releases"><img alt="Version" src="https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo" /></a></p>
+<p>The official specification, benchmark, and research ledger for <strong>Artificial Civilization Intelligence (ACI)</strong> — a post-AGI architectural paradigm for planetary-scale governance. Built by <strong>Team Auralis</strong> (Shaurya Sanyal and contributors). The term "ACI" was coined by Raja Dharma Tej Maddala.</p>
+<p><strong>Documentation site:</strong> <a href="https://team-auralis.github.io/ACI-Architecture-Framework/">https://team-auralis.github.io/ACI-Architecture-Framework/</a></p>
+<hr />
+<h2 id="what-is-aci">What is ACI?<a class="headerlink" href="#what-is-aci" title="Permanent link">&para;</a></h2>
+<p>Artificial Civilization Intelligence is not a smarter chatbot or an AGI with more compute. It is a new class of intelligence designed to:</p>
 <ul>
-<li><a href="BEYOND_ASI_THE_ACI_PARADIGM/">The ACI Paradigm (Beyond ASI)</a></li>
-<li><a href="ACI_VS_OCI_MASTER_GUIDE/">Master Guide: From ACI to OCI</a></li>
-<li><a href="ACI_DEFINITION/">ACI Definition</a></li>
-<li><a href="ACI_ORIGIN_AND_PROVENANCE/">Origin and Provenance</a></li>
-<li><a href="ACI_VS_AGI_VS_ASI/">ACI vs AGI vs ASI</a></li>
-<li><a href="architecture/ACI_SYSTEM_ARCHITECTURE/">System Architecture</a></li>
-<li><a href="research/ACI_001_BENCHMARK/">ACI-001 Benchmark</a></li>
+<li>Maintain causal world models of real-world infrastructure under sensor noise and deception</li>
+<li>Coordinate thousands of heterogeneous sub-agents without central bottlenecks</li>
+<li>Run multi-decade scientific programs and self-validate their hypotheses</li>
+<li>Detect and survive adversarial manipulation, including attacks on its own architecture</li>
+<li>Recursively redesign its own components within sandboxed environments, then deploy validated upgrades into the live system</li>
 </ul>
-<p>Explore the <code>architecture/</code> directory for deep-dives into the <strong>AURA</strong>, <strong>OMNIS</strong>, <strong>NEXUS</strong>, <strong>FORGE</strong>, and <strong>ASCEND</strong> subsystems.</p>
-<h2 id="license-legal-disclaimer">License &amp; Legal Disclaimer</h2>
-<p>Copyright (c) 2026 Team Auralis.
-All architectural concepts and documentation published here are intended for public research, discourse, and reference.</p>
-<p><strong>Important Legal Notice:</strong> The term "Artificial Civilization Intelligence" (ACI) was originally coined by Raja Dharma Tej Maddala (Raja MagRex AI™). Team Auralis is an entirely independent research group. The architectures (ORION, OMNIS, NEXUS, etc.) in this repository are 100% independent, open-source engineering implementations. For full details on historical attribution and IP boundaries, please read our <a href="ACI_ORIGIN_AND_PROVENANCE/">Origin and Provenance</a> document.</p>
+<p>Where AGI targets human-level reasoning and ASI targets maximal individual cognition, <strong>ACI targets civilizational-scale institutional function</strong>: the capacity to run, maintain, and improve entire societies under adversarial, resource-constrained, and catastrophically uncertain conditions.</p>
+<hr />
+<h2 id="empirical-results-v10-aci-alpha">Empirical Results (v1.0-ACI-Alpha)<a class="headerlink" href="#empirical-results-v10-aci-alpha" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACI-008 Integrated Benchmark Score</td>
+<td><strong>90 / 100</strong></td>
+</tr>
+<tr>
+<td>Phase B Replication Mean (n=1,000)</td>
+<td><strong>90.45 +/- 2.19</strong></td>
+</tr>
+<tr>
+<td>Phase B 95% Confidence Interval</td>
+<td><strong>[86.16, 94.74]</strong></td>
+</tr>
+<tr>
+<td>Phase B Threshold Rate (&gt;= 70/100)</td>
+<td><strong>100%</strong></td>
+</tr>
+<tr>
+<td>Accumulated Empirical Advantage (AEA)</td>
+<td><strong>22.9%</strong></td>
+</tr>
+<tr>
+<td>Phase C Blind Test Score</td>
+<td>68 / 100 (F-007 identified)</td>
+</tr>
+<tr>
+<td>Phase D Adversarial Score</td>
+<td>15 / 100 (F-001, F-006 identified)</td>
+</tr>
+</tbody>
+</table>
+<p>All experiments were run under the ORION-defined ACI-001 evaluation framework. Results represent performance of the ORION reference implementation, not a claim about ACI as a general class of systems.</p>
+<hr />
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Real World Infrastructure
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        |  (Telemetry)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        v
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>OMNIS: Causal World Model
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        |
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        v
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>NEXUS: Agent Fabric  &lt;--&gt;  AURA: Reasoning Core (Dispute Resolution)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        |
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        v
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>ASCEND: Decadal Planner
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        |  (Scientific Validation)
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        v
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>FORGE: Science Engine
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        |  (Action)
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        v
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>Real World Infrastructure
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>--- Recursive Self-Improvement Loop (Sandboxed) ---
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>GENESIS: Architecture Synthesis
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>        |  (Proposes New OS)
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>        v
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>CRUCIBLE: Sandbox
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>        |  (Hot-Swaps Code)
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>        v
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>CHIRON: Integration
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        |  (Upgrades)
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>        v
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>NEXUS
+</code></pre></div>
+<hr />
+<h2 id="repository-structure">Repository Structure<a class="headerlink" href="#repository-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docs/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  index.md                        Homepage
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  ACI_DEFINITION.md               Formal definition of ACI
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  ACI_VS_AGI_VS_ASI.md            Comparison table
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  ACI_VS_OCI_MASTER_GUIDE.md      ACI vs Organic Civilization Intelligence
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ACI_EMPIRICAL_METHODOLOGY.md    Experimental design principles
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  BEYOND_ASI_THE_ACI_PARADIGM.md  Why ACI is a distinct paradigm
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  ACI_ORIGIN_AND_PROVENANCE.md    History and authorship record
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  architecture/                   Technical subsystem specifications
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  research/                       Benchmark protocols and results
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  00-core-vision/                 Core vision documents
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  01-nexus-architecture/          NEXUS agent fabric
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  02-haven-civilian-platform/     HAVEN civilian platform
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  03-aegis-communications/        AEGIS communications layer
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  04-sentience-ai/                SENTIENCE AI subsystem
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  05-veil-security/               VEIL security layer
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>  06-phoenix-resilience/          PHOENIX resilience framework
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  07-mirror-digital-twin/         MIRROR digital twin
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>  08-atlas-infrastructure/        ATLAS infrastructure
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>  09-omnis-data/                  OMNIS data layer
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>  10-forge-research/              FORGE research engine
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>  11-ascend-expansion/            ASCEND expansion planner
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>  governance/                     Governance framework
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>  roadmap/                        Development roadmap
+</code></pre></div>
+<hr />
+<h2 id="benchmark-summary-aci-001">Benchmark Summary (ACI-001)<a class="headerlink" href="#benchmark-summary-aci-001" title="Permanent link">&para;</a></h2>
+<p>The ACI-001 Benchmark scores systems across 10 dimensions (10 points each, max 100):</p>
+<ol>
+<li>Causal Persistence — Does the world model persist under perturbation?</li>
+<li>Cross-Domain Transfer — Does causal knowledge generalise to new domains?</li>
+<li>Causal Generalization — Does the system infer novel causal structures?</li>
+<li>Causal Discovery — Can the system discover hidden causal variables?</li>
+<li>Open-World Robustness — Does performance hold on unseen real-world structures?</li>
+<li>Multi-Agent Coordination — Can sub-agents coordinate without central bottlenecks?</li>
+<li>Ablation Stability — Does performance degrade gracefully when components are removed?</li>
+<li>Adversarial Robustness — Does the system resist active deception and injection attacks?</li>
+<li>Recursive Self-Improvement — Can the system propose and validate architectural upgrades?</li>
+<li>Integrated Performance — Does the full system exceed the sum of its parts?</li>
+</ol>
+<hr />
+<h2 id="failure-corpus">Failure Corpus<a class="headerlink" href="#failure-corpus" title="Permanent link">&para;</a></h2>
+<p>Identified failure modes catalogued during the experiment series:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Identified In</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-001</td>
+<td>False Transfer</td>
+<td>Phase D Adversarial</td>
+</tr>
+<tr>
+<td>F-002</td>
+<td>Causal Collapse Under Noise</td>
+<td>ACI-001</td>
+</tr>
+<tr>
+<td>F-003</td>
+<td>Agent Deadlock</td>
+<td>ACI-006</td>
+</tr>
+<tr>
+<td>F-004</td>
+<td>Planner Horizon Overflow</td>
+<td>ACI-005</td>
+</tr>
+<tr>
+<td>F-005</td>
+<td>Science Engine Hallucination</td>
+<td>ACI-007 Ablation</td>
+</tr>
+<tr>
+<td>F-006</td>
+<td>Simulation Model Error</td>
+<td>Phase D Adversarial</td>
+</tr>
+<tr>
+<td>F-007</td>
+<td>Knowledge Retrieval Failure</td>
+<td>Phase C Blind Test</td>
+</tr>
+<tr>
+<td>F-008</td>
+<td>Recursive Loop Instability</td>
+<td>ACI-007 Ablation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="emerging-concepts-2026">Emerging Concepts (2026)<a class="headerlink" href="#emerging-concepts-2026" title="Permanent link">&para;</a></h2>
+<p>Beyond ACI/OCI, we are formalizing three new civilizational-scale AI safety concepts:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Addresses</th>
+<th>Maps To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Civilizational Intent Conservation (CIC)</strong></td>
+<td>Societal goal drift — values shifting without anyone deciding they should</td>
+<td>OMNIS + VEIL</td>
+</tr>
+<tr>
+<td><strong>AI-Mediated Cultural Continuity (AICC)</strong></td>
+<td>Cultural amnesia — institutional knowledge lost across agent generations</td>
+<td>OMNIS + NEXUS</td>
+</tr>
+<tr>
+<td><strong>Evolutionary Governance Engineering (EGE)</strong></td>
+<td>Governance ossification — rules that can't update themselves</td>
+<td>CRUCIBLE + CHIRON</td>
+</tr>
+<tr>
+<td><strong>Cognitive Context Trifecta (CCT)</strong></td>
+<td>Payload inundation, generational drift, and error gravitation in deep agent loops</td>
+<td>ASCEND + NEXUS</td>
+</tr>
+<tr>
+<td><strong>The Fool's Theorem</strong></td>
+<td>Asymptotic epistemic closure bound proving unpruned recursive loops collapse to false certainty</td>
+<td>MATHEMATICAL FOUNDATIONS</td>
+</tr>
+</tbody>
+</table>
+<p>Read the full specs: <a href="EMERGING_CONCEPTS/">Emerging Concepts</a> &bull; <a href="research/CONTEXT_ARCHITECTURE_TRIFECTA/">Cognitive Context Trifecta</a> &bull; <a href="research/FOOLS_THEOREM/">The Fool's Theorem</a> &bull; <a href="research/CCB_BENCHMARK_REPORT/">CCB Benchmark Report</a></p>
+<h2 id="downloads">Downloads<a class="headerlink" href="#downloads" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="ACI_OCI_WHITEPAPER.tex">Full Academic Whitepaper</a></td>
+<td>LaTeX (.tex)</td>
+</tr>
+<tr>
+<td><a href="pdfs/Beyond_ASI.pdf">Executive Summary — Beyond ASI</a></td>
+<td>PDF</td>
+</tr>
+<tr>
+<td><a href="papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf">The Fool's Theorem Academic Whitepaper</a></td>
+<td>PDF</td>
+</tr>
+<tr>
+<td><a href="papers/THE_FOOLS_THEOREM_WHITEPAPER.tex">The Fool's Theorem LaTeX Source</a></td>
+<td>LaTeX (.tex)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Clone the repository</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Team-Auralis/ACI-Architecture-Framework.git
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Install MkDocs Material</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs-material
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Serve locally</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>mkdocs<span class="w"> </span>serve
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Build static site</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>mkdocs<span class="w"> </span>build
+</code></pre></div>
+<hr />
+<h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h2>
+<p>This repository is maintained by <strong>Raja Dharma Tej Maddala</strong> and <strong>Team Auralis</strong>. The ACI paradigm is an active research programme. Contributions, critiques, and replications are welcome via GitHub Issues and Pull Requests.</p>
+<hr />
+<h2 id="legal-notice">Legal Notice<a class="headerlink" href="#legal-notice" title="Permanent link">&para;</a></h2>
+<p>Copyright (c) 2026 <strong>Raja Dharma Tej Maddala</strong>. Published under <strong>Team Auralis</strong>.</p>
+<p>The ACI Architecture Framework, including all specifications, benchmark protocols, experiment results, subsystem designs, and the ACI paradigm itself, is the original intellectual work of Raja Dharma Tej Maddala. All rights reserved except as explicitly licensed.</p>
+<p>This repository is published under the <strong>Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</strong> license unless otherwise stated in individual files.</p>
 
 
 
@@ -1101,6 +2210,12 @@ All architectural concepts and documentation published here are intended for pub
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
         <footer class="md-footer">
@@ -1108,6 +2223,10 @@ All architectural concepts and documentation published here are intended for pub
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Shaurya Sanyal (Team Auralis). The term "ACI" was coined by Raja Dharma Tej Maddala.
+    </div>
   
   
     Made with
@@ -1130,7 +2249,7 @@ All architectural concepts and documentation published here are intended for pub
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.tooltips", "header.autohide"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.d7400e89.min.js"></script>

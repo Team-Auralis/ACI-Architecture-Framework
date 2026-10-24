@@ -149,15 +149,19 @@ Beyond ACI/OCI, we are formalizing three new civilizational-scale AI safety conc
 | **Civilizational Intent Conservation (CIC)** | Societal goal drift — values shifting without anyone deciding they should | OMNIS + VEIL |
 | **AI-Mediated Cultural Continuity (AICC)** | Cultural amnesia — institutional knowledge lost across agent generations | OMNIS + NEXUS |
 | **Evolutionary Governance Engineering (EGE)** | Governance ossification — rules that can't update themselves | CRUCIBLE + CHIRON |
+| **Cognitive Context Trifecta (CCT)** | Payload inundation, generational drift, and error gravitation in deep agent loops | ASCEND + NEXUS |
+| **The Fool's Theorem** | Asymptotic epistemic closure bound proving unpruned recursive loops collapse to false certainty | MATHEMATICAL FOUNDATIONS |
 
-Read the full spec: [Emerging Concepts](https://team-auralis.github.io/ACI-Architecture-Framework/EMERGING_CONCEPTS/)
+Read the full specs: [Emerging Concepts](EMERGING_CONCEPTS.md) &bull; [Cognitive Context Trifecta](research/CONTEXT_ARCHITECTURE_TRIFECTA.md) &bull; [The Fool's Theorem](research/FOOLS_THEOREM.md) &bull; [CCB Benchmark Report](research/CCB_BENCHMARK_REPORT.md)
 
 ## Downloads
 
 | Document | Format |
 |----------|--------|
-| [Full Academic Whitepaper](docs/ACI_OCI_WHITEPAPER.tex) | LaTeX (.tex) |
-| [Executive Summary — Beyond ASI](docs/pdfs/Beyond_ASI.pdf) | PDF |
+| [Full Academic Whitepaper](ACI_OCI_WHITEPAPER.tex) | LaTeX (.tex) |
+| [Executive Summary — Beyond ASI](pdfs/Beyond_ASI.pdf) | PDF |
+| [The Fool's Theorem Academic Whitepaper](papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf) | PDF |
+| [The Fool's Theorem LaTeX Source](papers/THE_FOOLS_THEOREM_WHITEPAPER.tex) | LaTeX (.tex) |
 
 ---
 

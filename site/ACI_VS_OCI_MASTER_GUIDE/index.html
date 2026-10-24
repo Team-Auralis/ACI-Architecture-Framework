@@ -1,4 +1,4 @@
-
+﻿
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -6,17 +6,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The official specification and engineering framework for Artificial Civilization Intelligence (ACI) and Open-ended Civilizational Intelligence (OCI).">
+        <meta name="description" content="The official specification, benchmark, and research ledger for Artificial Civilization Intelligence (ACI).">
       
       
-        <meta name="author" content="Team Auralis">
+        <meta name="author" content="Shaurya Sanyal (Team Auralis)">
       
       
+        <link rel="canonical" href="https://team-auralis.github.io/ACI-Architecture-Framework/ACI_VS_OCI_MASTER_GUIDE/">
       
-        <link rel="prev" href="..">
+      
+        <link rel="prev" href="../ACI_VS_AGI_VS_ASI/">
       
       
-        <link rel="next" href="../BEYOND_ASI_THE_ACI_PARADIGM/">
+        <link rel="next" href="../ACI_ORIGIN_AND_PROVENANCE/">
       
       
         
@@ -27,7 +29,7 @@
     
     
       
-        <title>Master Guide (ACI vs OCI) - ACI Architecture Framework</title>
+        <title>ACI vs OCI Master Guide - ACI Architecture Framework</title>
       
     
     
@@ -59,6 +61,8 @@
 
     
     
+<meta name="google-site-verification" content="MpyilON88M3EtYAE17N72KjHDYQU1UMFPL1YHaFUh-Y" />
+
   </head>
   
   
@@ -69,7 +73,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -95,7 +99,7 @@
     <a href=".." title="ACI Architecture Framework" class="md-header__button md-logo" aria-label="ACI Architecture Framework" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.11 1.75C9.3 1.25 10.62 1 12 1c6.08 0 11 4.92 11 11s-4.92 11-11 11S1 18.08 1 12c0-1.38.25-2.7.72-3.92a4.5 4.5 0 0 0 1.73 1.1C3.16 10.07 3 11 3 12a9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9c-1 0-1.93.16-2.82.45-.22-.62-.57-1.21-1.07-1.7M4.93 2.93a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2c0-1.11.89-2 2-2M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -112,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Master Guide (ACI vs OCI)
+              ACI vs OCI Master Guide
             
           </span>
         </div>
@@ -125,20 +129,20 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
   
@@ -245,33 +249,14 @@
     
   
   
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Master Guide (ACI vs OCI)
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../BEYOND_ASI_THE_ACI_PARADIGM/" class="md-tabs__link">
           
   
   
-  The Paradigm Shift
+  The Paradigm
 
         </a>
       </li>
@@ -291,7 +276,7 @@
           
   
   
-  System Architecture
+  Architecture
 
         </a>
       </li>
@@ -307,11 +292,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="../research/ACI_001_BENCHMARK/" class="md-tabs__link">
+        <a href="../ACI_EMPIRICAL_METHODOLOGY/" class="md-tabs__link">
           
   
   
-  Research & Evaluation
+  Empirical Research
 
         </a>
       </li>
@@ -327,15 +312,91 @@
     
     
       <li class="md-tabs__item">
-        <a href="../notes/OCI_MATHEMATICAL_FOUNDATIONS/" class="md-tabs__link">
+        <a href="../00-core-vision/" class="md-tabs__link">
           
   
   
-  Deep Notes (Math & Theory)
+  Subsystems
 
         </a>
       </li>
     
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../roadmap/ACI_ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../governance/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Governance
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../EMERGING_CONCEPTS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Emerging Concepts
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../glossary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Glossary
+
+      </a>
+    </li>
   
 
       
@@ -366,7 +427,7 @@
     <a href=".." title="ACI Architecture Framework" class="md-nav__button md-logo" aria-label="ACI Architecture Framework" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.11 1.75C9.3 1.25 10.62 1 12 1c6.08 0 11 4.92 11 11s-4.92 11-11 11S1 18.08 1 12c0-1.38.25-2.7.72-3.92a4.5 4.5 0 0 0 1.73 1.1C3.16 10.07 3 11 3 12a9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9c-1 0-1.93.16-2.82.45-.22-.62-.57-1.21-1.07-1.7M4.93 2.93a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2c0-1.11.89-2 2-2M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5"/></svg>
 
     </a>
     ACI Architecture Framework
@@ -421,6 +482,175 @@
   
   
   
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Paradigm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    The Paradigm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BEYOND_ASI_THE_ACI_PARADIGM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond ASI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/BEYOND_THE_FOURTH_WALL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond the Fourth Wall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ACI_DEFINITION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACI Definition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ACI_VS_AGI_VS_ASI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACI vs AGI vs ASI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -436,7 +666,7 @@
   <span class="md-ellipsis">
     
   
-    Master Guide (ACI vs OCI)
+    ACI vs OCI Master Guide
   
 
     
@@ -454,7 +684,7 @@
   <span class="md-ellipsis">
     
   
-    Master Guide (ACI vs OCI)
+    ACI vs OCI Master Guide
   
 
     
@@ -547,10 +777,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-the-critical-differences-aci-vs-oci" class="md-nav__link">
+  <a href="#4-aci-vs-oci" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. The Critical Differences: ACI vs. OCI
+        4. ACI vs. OCI
       
     </span>
   </a>
@@ -558,10 +788,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-why-team-auralis-is-building-this" class="md-nav__link">
+  <a href="#5-why-this-matters" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Why Team Auralis is Building This
+        5. Why This Matters
       
     </span>
   </a>
@@ -571,6 +801,42 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ACI_ORIGIN_AND_PROVENANCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Origin and Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -608,7 +874,7 @@
   <span class="md-ellipsis">
     
   
-    The Paradigm Shift
+    Architecture
   
 
     
@@ -624,7 +890,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    The Paradigm Shift
+    Architecture
   
 
           </label>
@@ -637,14 +903,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../BEYOND_ASI_THE_ACI_PARADIGM/" class="md-nav__link">
+      <a href="../architecture/ACI_SYSTEM_ARCHITECTURE/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Beyond ASI
+    System Overview
   
 
     
@@ -665,14 +931,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../ACI_DEFINITION/" class="md-nav__link">
+      <a href="../architecture/OMNIS_WORLD_MODEL/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ACI Definition
+    OMNIS World Model
   
 
     
@@ -693,14 +959,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../ACI_ORIGIN_AND_PROVENANCE/" class="md-nav__link">
+      <a href="../architecture/NEXUS_AGENT_FABRIC/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Origin & Provenance
+    NEXUS Agent Fabric
   
 
     
@@ -721,14 +987,70 @@
   
   
     <li class="md-nav__item">
-      <a href="../ACI_VS_AGI_VS_ASI/" class="md-nav__link">
+      <a href="../architecture/FORGE_SCIENTIFIC_ENGINE/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ACI vs AGI vs ASI
+    FORGE Science Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/ASCEND_LONG_HORIZON_PLANNER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASCEND Long-Horizon Planner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/AURA_INTELLIGENCE_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AURA Intelligence Core
   
 
     
@@ -781,7 +1103,7 @@
   <span class="md-ellipsis">
     
   
-    System Architecture
+    Empirical Research
   
 
     
@@ -797,7 +1119,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    System Architecture
+    Empirical Research
   
 
           </label>
@@ -810,14 +1132,210 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture/ACI_SYSTEM_ARCHITECTURE/" class="md-nav__link">
+      <a href="../ACI_EMPIRICAL_METHODOLOGY/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Target Architecture
+    Empirical Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/MATHEMATICAL_FOUNDATIONS_OF_ACI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/CONTEXT_ARCHITECTURE_TRIFECTA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cognitive Context Trifecta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/FOOLS_THEOREM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Fool's Theorem
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/CCB_BENCHMARK_REPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CCB-001 Benchmark Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/ACI_001_BENCHMARK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACI-001 Benchmark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/RECURSIVE_IMPROVEMENT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recursive Improvement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/CIVILIZATIONAL_INTENT_CONSERVATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Civilizational Intent Conservation
   
 
     
@@ -870,7 +1388,7 @@
   <span class="md-ellipsis">
     
   
-    Research & Evaluation
+    Subsystems
   
 
     
@@ -886,7 +1404,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Research & Evaluation
+    Subsystems
   
 
           </label>
@@ -899,14 +1417,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../research/ACI_001_BENCHMARK/" class="md-nav__link">
+      <a href="../00-core-vision/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ACI-001 Benchmark
+    Core Vision
   
 
     
@@ -927,14 +1445,294 @@
   
   
     <li class="md-nav__item">
-      <a href="../ACI_AUDIT_REPORT/" class="md-nav__link">
+      <a href="../01-nexus-architecture/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    OCI Research Report
+    NEXUS Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-haven-civilian-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAVEN Civilian Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-aegis-communications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AEGIS Communications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-sentience-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SENTIENCE AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-veil-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VEIL Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-phoenix-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PHOENIX Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-mirror-digital-twin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIRROR Digital Twin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-atlas-infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATLAS Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-omnis-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OMNIS Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-forge-research/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FORGE Research
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-ascend-expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASCEND Expansion
   
 
     
@@ -961,69 +1759,15 @@
   
   
   
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Deep Notes (Math & Theory)
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Deep Notes (Math & Theory)
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../notes/OCI_MATHEMATICAL_FOUNDATIONS/" class="md-nav__link">
+      <a href="../roadmap/ACI_ROADMAP/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Mathematical Foundations
+    Roadmap
   
 
     
@@ -1035,11 +1779,84 @@
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
+    
       
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EMERGING_CONCEPTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Emerging Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1055,6 +1872,54 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../BEYOND_ASI_THE_ACI_PARADIGM/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    The Paradigm
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
                   
@@ -1064,13 +1929,14 @@
   
 
 
-<h1 id="master-guide-from-aci-to-oci">Master Guide: From ACI to OCI</h1>
-<p>This document is the definitive guide to understanding the evolution of machine intelligence frameworks proposed by Team Auralis. It details the transition from <strong>Artificial Civilization Intelligence (ACI)</strong> to the ultimate frontier: <strong>Open-ended Civilizational Intelligence (OCI)</strong>.</p>
+<h1 id="master-guide-from-aci-to-oci">Master Guide: From ACI to OCI<a class="headerlink" href="#master-guide-from-aci-to-oci" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Authored by Shaurya Sanyal (Mr Fool) — Team Auralis, 2026</strong></p>
+<p>This document defines the complete architectural evolution from Artificial Civilization Intelligence (ACI) to Open-ended Civilizational Intelligence (OCI). The term "ACI" was coined by Raja Dharma Tej Maddala. The OCI framework — including the GENESIS, CRUCIBLE, and CHIRON subsystems, the concept of structural plasticity, and the ACI→OCI transition model — was conceived and designed by Shaurya Sanyal under Team Auralis.</p>
+</blockquote>
 <pre class="mermaid"><code>graph LR
-    %% Styling
     classDef aci fill:#1a3a42,stroke:#2b8abb,stroke-width:2px,color:#fff
     classDef oci fill:#3a1a42,stroke:#9d72ff,stroke-width:2px,color:#fff
-    classDef both fill:#222,stroke:#555,stroke-width:1px,color:#ccc
 
     subgraph ACI [ACI: Fixed Architecture]
         OMNIS[(OMNIS)]:::aci
@@ -1082,88 +1948,133 @@
 
     subgraph OCI [OCI: Structural Plasticity]
         direction TB
-        GENESIS[💡 GENESIS&lt;br/&gt;Novelty Search]:::oci
-        CRUCIBLE{{🔥 CRUCIBLE&lt;br/&gt;Gödel Proofs}}:::oci
-        CHIRON[⚙️ CHIRON&lt;br/&gt;Hot-Swap Topology]:::oci
+        GENESIS[GENESIS: Novelty Search]:::oci
+        CRUCIBLE{{CRUCIBLE: Goedel Proofs}}:::oci
+        CHIRON[CHIRON: Hot-Swap Topology]:::oci
         GENESIS --&gt; CRUCIBLE --&gt; CHIRON
     end
 
     ACI -- "Recursive Self-Improvement" --&gt; OCI
     CHIRON -. "Rewires Architecture" .-&gt; ACI</code></pre>
 <hr />
-<h2 id="1-the-fallacy-of-the-monolithic-asi">1. The Fallacy of the Monolithic ASI</h2>
-<p>For decades, the AI industry has pursued Artificial Superintelligence (ASI)—a single, hyper-intelligent oracle that sits in a server and answers questions. Team Auralis proposes that this is structurally flawed. A single mind, no matter how intelligent, is fragile, static, and disconnected from reality. </p>
+<h2 id="1-the-fallacy-of-the-monolithic-asi">1. The Fallacy of the Monolithic ASI<a class="headerlink" href="#1-the-fallacy-of-the-monolithic-asi" title="Permanent link">&para;</a></h2>
+<p>For decades, the AI industry has pursued Artificial Superintelligence (ASI) — a single, hyper-intelligent oracle. This is structurally flawed. A single mind, no matter how intelligent, is fragile, static, and disconnected from reality.</p>
 <p><strong>Intelligence without infrastructure, continuity, and coordination is just computation.</strong></p>
-<p>To build truly planetary intelligence, we must stop trying to build a "god-like brain" and start building a <strong>machine civilization</strong>. </p>
+<p>To build truly planetary intelligence, you must stop building a "god-like brain" and start building a <strong>machine civilization</strong>.</p>
 <hr />
-<h2 id="2-artificial-civilization-intelligence-aci">2. Artificial Civilization Intelligence (ACI)</h2>
-<h3 id="the-operating-system-of-intelligence"><em>The Operating System of Intelligence</em></h3>
-<p><strong>What is ACI?</strong>
-ACI is an engineering architecture that treats intelligence as a distributed, governed, and continuous society of agents, algorithms, and human actors. If a standard AI model is a processor, ACI is the entire motherboard, memory bus, and operating system.</p>
-<p><strong>The Subsystems of ACI:</strong>
-ACI operates on a fixed, highly optimized organizational topology:
-*   <strong>OMNIS (World Model):</strong> A continuous, causal, graph-theoretic database that tracks the physical world in real-time. It acts as the shared memory of the civilization.
-*   <strong>NEXUS (Coordination Fabric):</strong> The dispute resolution and message-passing system. It forces specialized, adversarial agents (e.g., an Economics AI and an Ecology AI) to debate and arrive at mathematically aligned decisions.
-*   <strong>FORGE (Science Engine):</strong> The subsystem responsible for simulating physical reality to validate scientific hypotheses before they are acted upon.
-*   <strong>ASCEND (Planner):</strong> A temporal reasoning engine capable of executing 10-to-50-year plans, measuring compounding errors, and course-correcting over decades.
-*   <strong>VEIL (Governance):</strong> The cryptographic Zero-Trust security layer ensuring the civilization remains strictly aligned with human safety limits.</p>
-<p><strong>The Limit of ACI:</strong>
-An ACI is phenomenally powerful, but it has a mathematical ceiling. It is <strong>structurally fixed</strong>. If a new class of problem arises that cannot be solved by the NEXUS debate protocol, the ACI will fail. It optimizes perfectly <em>within</em> its designed rules, but it cannot change its own rules.</p>
-<hr />
-<h2 id="3-open-ended-civilizational-intelligence-oci">3. Open-ended Civilizational Intelligence (OCI)</h2>
-<h3 id="the-self-rewriting-civilization"><em>The Self-Rewriting Civilization</em></h3>
-<p><strong>What is OCI?</strong>
-OCI is the next evolutionary step. It is an ACI equipped with <strong>structural plasticity</strong>. An OCI is capable of recursively expanding its own cognitive, institutional, and technological design space. It doesn't just solve problems using its operating system; it invents entirely new operating systems for itself while it is running.</p>
-<p><strong>The Subsystems of OCI:</strong>
-To achieve open-ended evolution safely, OCI introduces three advanced subsystems on top of the ACI base:
-*   <strong>GENESIS (Architecture Synthesis):</strong> Uses open-ended "Novelty Search" to hypothesize fundamentally new ways for the civilization to organize itself. (e.g., Inventing a new form of agent consensus that human engineers never coded).
-*   <strong>CRUCIBLE (Experimental Sandbox):</strong> A computationally isolated simulation environment. Before OCI adopts a new architecture, it subjects it to millions of stress tests in the CRUCIBLE to mathematically guarantee it won't cause civilizational collapse.
-*   <strong>CHIRON (Integration &amp; Rollback):</strong> The "hot-swap" engine. It seamlessly rewrites the civilization's live code to adopt the new architecture discovered by GENESIS. If reality deviates from the CRUCIBLE simulations and the system begins to degrade, CHIRON instantly triggers a rollback to the previous stable state.</p>
-<p><strong>The Core Property:</strong> <em>Open-Ended Design-Space Expansion.</em> 
-Unlike traditional AI that optimizes for a fixed goal (like maximizing a score), OCI continuously explores the "new." By constantly reinventing its own architecture, it ensures its capability space expands infinitely, allowing it to survive unprecedented, unpredictable cosmic or planetary crises.</p>
-<hr />
-<h2 id="4-the-critical-differences-aci-vs-oci">4. The Critical Differences: ACI vs. OCI</h2>
+<h2 id="2-artificial-civilization-intelligence-aci">2. Artificial Civilization Intelligence (ACI)<a class="headerlink" href="#2-artificial-civilization-intelligence-aci" title="Permanent link">&para;</a></h2>
+<h3 id="the-operating-system-of-intelligence"><em>The Operating System of Intelligence</em><a class="headerlink" href="#the-operating-system-of-intelligence" title="Permanent link">&para;</a></h3>
+<p>ACI is an engineering architecture that treats intelligence as a distributed, governed, and continuous society of agents, algorithms, and human actors. If a standard AI model is a processor, ACI is the entire motherboard, memory bus, and operating system.</p>
+<p><strong>Subsystems:</strong></p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Feature</th>
-<th style="text-align: left;">ACI (Artificial Civilization Intelligence)</th>
-<th style="text-align: left;">OCI (Open-ended Civilizational Intelligence)</th>
+<th style="text-align: left;">Subsystem</th>
+<th style="text-align: left;">Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>Primary Goal</strong></td>
-<td style="text-align: left;">Optimize and govern the current civilization.</td>
-<td style="text-align: left;">Unbounded expansion of the civilization's capability space.</td>
+<td style="text-align: left;"><strong>OMNIS</strong></td>
+<td style="text-align: left;">Continuous causal world-model graph tracking real infrastructure in real-time</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>System Architecture</strong></td>
-<td style="text-align: left;">Fixed topology designed by human engineers.</td>
-<td style="text-align: left;">Fluid topology continuously reinvented by the AI itself.</td>
+<td style="text-align: left;"><strong>NEXUS</strong></td>
+<td style="text-align: left;">Dispute resolution and coordination fabric for specialized adversarial agents</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>FORGE</strong></td>
+<td style="text-align: left;">Science engine that simulates physical reality to validate hypotheses before action</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ASCEND</strong></td>
+<td style="text-align: left;">Temporal reasoning engine capable of executing and correcting 10-to-50-year plans</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>VEIL</strong></td>
+<td style="text-align: left;">Cryptographic Zero-Trust governance enforcing strict human safety limits</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Ceiling of ACI:</strong>
+ACI has a mathematical ceiling — it is structurally fixed. If a novel class of problem arises that its architecture cannot handle, ACI will fail. It optimizes within its designed rules, but cannot rewrite those rules.</p>
+<hr />
+<h2 id="3-open-ended-civilizational-intelligence-oci">3. Open-ended Civilizational Intelligence (OCI)<a class="headerlink" href="#3-open-ended-civilizational-intelligence-oci" title="Permanent link">&para;</a></h2>
+<h3 id="the-self-rewriting-civilization"><em>The Self-Rewriting Civilization</em><a class="headerlink" href="#the-self-rewriting-civilization" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>OCI is an original concept by Shaurya Sanyal (Mr Fool) — Team Auralis, 2026.</strong>
+No prior public framework has defined OCI with this architecture or subsystem decomposition.</p>
+</blockquote>
+<p><strong>What is OCI?</strong>
+OCI is the next evolutionary step beyond ACI. It is an ACI equipped with <strong>structural plasticity</strong> — the ability to recursively expand its own cognitive, institutional, and technological design space. An OCI does not just solve problems using its operating system; it invents entirely new operating systems for itself while running.</p>
+<p><strong>OCI Subsystems (original design by Shaurya Sanyal):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Subsystem</th>
+<th style="text-align: left;">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>GENESIS</strong></td>
+<td style="text-align: left;">Uses open-ended Novelty Search to hypothesize fundamentally new ways for the civilization to organize itself — inventing agent consensus mechanisms that human engineers never wrote</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CRUCIBLE</strong></td>
+<td style="text-align: left;">A computationally isolated simulation environment where new architectures are subjected to millions of stress tests and Goedel-style formal proofs before adoption</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CHIRON</strong></td>
+<td style="text-align: left;">The hot-swap engine. Seamlessly rewrites the civilization's live architecture to adopt discoveries from GENESIS. Instantly triggers rollback if reality deviates from CRUCIBLE simulations</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Core Property:</strong> <em>Open-Ended Design-Space Expansion.</em>
+Unlike traditional AI that optimizes for a fixed goal, OCI continuously explores the fundamentally new. By reinventing its own architecture, its capability space expands indefinitely, allowing it to survive unprecedented, unpredictable civilizational crises.</p>
+<hr />
+<h2 id="4-aci-vs-oci">4. ACI vs. OCI<a class="headerlink" href="#4-aci-vs-oci" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">ACI</th>
+<th style="text-align: left;">OCI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Primary goal</strong></td>
+<td style="text-align: left;">Optimize and govern the current civilization</td>
+<td style="text-align: left;">Unbounded expansion of capability space</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Architecture</strong></td>
+<td style="text-align: left;">Fixed topology designed by engineers</td>
+<td style="text-align: left;">Fluid topology continuously reinvented by the AI itself</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Adaptability</strong></td>
-<td style="text-align: left;">High (adapts to new data within fixed rules).</td>
-<td style="text-align: left;">Infinite (adapts by rewriting the rules themselves).</td>
+<td style="text-align: left;">High — adapts to new data within fixed rules</td>
+<td style="text-align: left;">Infinite — adapts by rewriting the rules themselves</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Failure Mode</strong></td>
-<td style="text-align: left;">Catastrophic failure if faced with a structurally impossible problem.</td>
-<td style="text-align: left;">Autonomously invents a new structure to bypass the impossible problem.</td>
+<td style="text-align: left;"><strong>Failure mode</strong></td>
+<td style="text-align: left;">Fails on structurally impossible problems</td>
+<td style="text-align: left;">Autonomously invents a new structure to bypass them</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Optimization Method</strong></td>
-<td style="text-align: left;">Meta-Learning / Multi-Agent Consensus.</td>
-<td style="text-align: left;">Novelty Search / Recursive Self-Improvement (Gödel Machine logic).</td>
+<td style="text-align: left;"><strong>Optimization</strong></td>
+<td style="text-align: left;">Meta-Learning + Multi-Agent Consensus</td>
+<td style="text-align: left;">Novelty Search + Recursive Self-Improvement (Goedel Machine)</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="5-why-team-auralis-is-building-this">5. Why Team Auralis is Building This</h2>
-<p>The transition from AGI $\rightarrow$ ASI is a dangerous path focused purely on raw, uncontrollable cognitive power. </p>
-<p>The transition from <strong>AI $\rightarrow$ ACI $\rightarrow$ OCI</strong> is the path of resilience, safety, and open-ended discovery. </p>
-<p>By building the <strong>ACI-001 Benchmark</strong> and defining this architecture in the open, Team Auralis is laying the foundation for machine intelligence that scales not as a dangerous oracle, but as a robust, immortal, and infinitely adaptable civilization.</p>
+<h2 id="5-why-this-matters">5. Why This Matters<a class="headerlink" href="#5-why-this-matters" title="Permanent link">&para;</a></h2>
+<p>The transition from AGI → ASI is a dangerous path focused on raw, uncontrollable cognitive power.</p>
+<p>The transition <strong>AI → ACI → OCI</strong> is the path of resilience, safety, and open-ended discovery.</p>
+<p>By defining OCI as a concrete, layered, empirically benchmarkable architecture — not just a philosophical idea — Team Auralis is establishing the first engineering specification for machine intelligence that scales not as a dangerous oracle, but as a robust, self-improving, and infinitely adaptable civilization.</p>
 
 
 
@@ -1184,6 +2095,12 @@ Unlike traditional AI that optimizes for a fixed goal (like maximizing a score),
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
         <footer class="md-footer">
@@ -1191,6 +2108,10 @@ Unlike traditional AI that optimizes for a fixed goal (like maximizing a score),
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Shaurya Sanyal (Team Auralis). The term "ACI" was coined by Raja Dharma Tej Maddala.
+    </div>
   
   
     Made with
@@ -1213,7 +2134,7 @@ Unlike traditional AI that optimizes for a fixed goal (like maximizing a score),
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.tooltips", "header.autohide"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
