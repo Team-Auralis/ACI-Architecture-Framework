@@ -3,7 +3,7 @@
 [![Documentation Site](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://team-auralis.github.io/ACI-Architecture-Framework/)
 [![Unit Tests](https://img.shields.io/badge/tests-11%2F11%20passing-brightgreen?logo=python)](tests/test_generational_context.py)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue?logo=python)](generational_context/)
-[![Whitepaper](https://img.shields.io/badge/whitepaper-PDF%20Available-crimson?logo=adobe-acrobat-reader)](docs/papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf)
+[![Whitepaper](https://img.shields.io/badge/whitepaper-PDF%20Available-crimson?logo=adobe-acrobat-reader)](docs/papers/The_Softmax_Inundation_Theorem.pdf)
 [![License](https://img.shields.io/badge/license-Proprietary-lightgrey)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases)
 
@@ -209,8 +209,8 @@ ACI-Architecture-Framework/
 │   │   ├── CCB_BENCHMARK_REPORT.md # CCB-001 Verification Report
 │   │   └── MATHEMATICAL_FOUNDATIONS_OF_ACI.md
 │   ├── papers/
-│   │   ├── THE_FOOLS_THEOREM_WHITEPAPER.pdf # Typeset Academic Paper (PDF)
-│   │   └── The_Softmax_Inundation_Theorem.tex # LaTeX Source (submission-grade)
+│   │   ├── The_Softmax_Inundation_Theorem.tex # LaTeX Source
+│   │   └── The_Softmax_Inundation_Theorem.pdf # Compiled Paper (8 pp.)
 │   └── assets/                 # 3D Illustrations & Visual Assets
 ├── mkdocs.yml                  # MkDocs Material Configuration with MathJax
 └── site/                       # Compiled Static Documentation
@@ -261,10 +261,19 @@ Navigate to `http://localhost:8000/research/FOOLS_THEOREM/`.
 
 | Title | Document Type | Source / Download |
 |---|---|---|
-| **The Softmax Inundation Bound & Generational Context** | Academic Whitepaper (PDF) | [`THE_FOOLS_THEOREM_WHITEPAPER.pdf`](docs/papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf) |
+| **The Softmax Inundation Bound & Generational Context** | Academic Whitepaper (PDF, 8 pp.) | [`The_Softmax_Inundation_Theorem.pdf`](docs/papers/The_Softmax_Inundation_Theorem.pdf) |
 | **Softmax Inundation LaTeX Source** | LaTeX Document | [`The_Softmax_Inundation_Theorem.tex`](docs/papers/The_Softmax_Inundation_Theorem.tex) |
 | **Beyond ASI: The ACI Paradigm** | LaTeX Whitepaper | [`ACI_OCI_WHITEPAPER.tex`](docs/ACI_OCI_WHITEPAPER.tex) |
 | **Executive Summary — Beyond ASI** | Executive Summary (PDF) | [`Beyond_ASI.pdf`](docs/pdfs/Beyond_ASI.pdf) |
+
+### Rebuilding the Paper
+
+The PDF is compiled from the LaTeX source with [Tectonic](https://tectonic-typesetting.github.io/) (single binary, fetches only the packages it needs) or any TeX distribution:
+
+```bash
+cd docs/papers
+tectonic The_Softmax_Inundation_Theorem.tex
+```
 
 ---
 

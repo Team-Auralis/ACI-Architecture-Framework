@@ -160,7 +160,7 @@ Read the full specs: [Emerging Concepts](EMERGING_CONCEPTS.md) &bull; [Cognitive
 |----------|--------|
 | [Full Academic Whitepaper](ACI_OCI_WHITEPAPER.tex) | LaTeX (.tex) |
 | [Executive Summary — Beyond ASI](pdfs/Beyond_ASI.pdf) | PDF |
-| [Softmax Inundation & Generational Context Academic Whitepaper](papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf) | PDF |
+| [Softmax Inundation & Generational Context Academic Whitepaper](papers/The_Softmax_Inundation_Theorem.pdf) | PDF |
 | [Softmax Inundation & Generational Context LaTeX Source](papers/The_Softmax_Inundation_Theorem.tex) | LaTeX (.tex) |
 
 ---

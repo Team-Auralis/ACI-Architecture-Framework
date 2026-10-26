@@ -8,3 +8,10 @@ site/
 /show*.py
 /count.py
 /debug_test.py
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.xdv
+*.toc
