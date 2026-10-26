@@ -5,7 +5,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue?logo=python)](generational_context/)
 [![Whitepaper](https://img.shields.io/badge/whitepaper-PDF%20Available-crimson?logo=adobe-acrobat-reader)](docs/papers/The_Softmax_Inundation_Theorem.pdf)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases)
+[![Version](https://img.shields.io/badge/version-v0.1.0-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases/tag/v0.1.0)
 
 **A memory controller for long-horizon LLM agents.**
 
