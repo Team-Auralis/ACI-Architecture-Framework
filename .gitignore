@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+
+site/
+
+# local scratch scripts
+/test_*.py
+/show*.py
+/count.py
+/debug_test.py
