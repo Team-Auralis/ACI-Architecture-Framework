@@ -19,6 +19,24 @@ This document audits the ORION repository to assess its current state relative t
 - **ACI relevance**: Forms the Governance and Real-World Interaction layers.
 - **Recommended next step**: Extend database models to support OMNIS temporal data.
 
+## 1a. Generational Context Subsystem (Newly Reconciled)
+- **Existing capability**: AWE cache engine, GenerationalMemory, ContextOS wrapper with Gen-0 distillation, TTL enforcement, and capacity invariants.
+- **Evidence**: `generational_context/` (awe.py, memory.py, wrapper.py), `tests/test_generational_context.py` (12 tests passing).
+- **Implementation status**: GREEN
+- **Test status**: GREEN
+- **Limitations**: Proxy/algorithmic simulation only (hash-based attention modeling); no live transformer integration.
+- **ACI relevance**: Implements The Fool's Theorem mitigation and context management for long-horizon agents.
+- **Recommended next step**: Integrate with live model inference paths and add real attention telemetry.
+
+## 1b. CIC/CIC-Bench Governance Subsystem (Reconciled)
+- **Existing capability**: Intent model, provenance chaining, Ed25519-capable signed authorization tokens, Merkle-DAG audit log, proposal validation against intents.
+- **Evidence**: `cic_bench.py`, tests added in `tests/test_generational_context.py` (crypto + audit chain tests).
+- **Implementation status**: YELLOW
+- **Test status**: GREEN
+- **Limitations**: Simulation harness for benchmark scenarios; not integrated as a runtime policy engine across ORION subsystems.
+- **ACI relevance**: Implements Civilizational Intent Conservation mechanisms.
+- **Recommended next step**: Wire CIC governance into NEXUS/VEIL policy enforcement paths.
+
 ## 2. TITAN Cloud & PHOENIX Edge
 - **Existing capability**: Distributed mesh networking and edge deployment.
 - **Evidence**: CRDT integration, node telemetry, offline AURA capabilities.

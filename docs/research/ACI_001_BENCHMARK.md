@@ -161,3 +161,7 @@ All failure modes identified across the experiment series are catalogued here. T
 - AEA of 22.9% confirms that the system is learning genuine causal structure, not memorising training distributions.
 
 The next milestone is **v2.0-ACI-Beta**, targeting F-001, F-006, F-007 remediation and a Phase C score of >= 80/100.
+
+> [!IMPORTANT]
+> **ACI-001 Notice (Algorithmic/Simulation):** Reported scores are from the described benchmark protocol; mean CI should be computed correctly, and headline 90/100 excludes phases C and D in the provided summary. No full ORION implementation artifacts are present in this repository (this repo contains the ACI framework specification, generational_context implementation, and benchmark harnesses). Treat as simulation/benchmark protocol results pending live-model validation. **Current repository state (reconciled):** Generational context subsystem is implemented and tested; CIC/CIC-Bench is present as a simulation with hardened cryptographic interfaces (Ed25519-capable) and Merkle-DAG audit logging. Full ORION reference implementation remains partial as documented in ACI_CURRENT_STATE_AUDIT.md.
+

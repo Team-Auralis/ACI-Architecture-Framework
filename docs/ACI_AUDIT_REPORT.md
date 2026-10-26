@@ -28,7 +28,7 @@ A system cannot be claimed as an ACI simply because it uses multiple agents. Und
 3. Phase C blind testing on un-authored scenarios
 4. Phase D adversarial evaluation designed to actively break the system
 
-ORION v1.0-ACI-Alpha achieved 90/100 on Phase A, 90.45 ± 2.19 over 1,000 Phase B runs, 68/100 on Phase C (F-007 failure identified), and 15/100 on Phase D (F-001, F-006 failure modes identified).
+ORION v1.0-ACI-Alpha achieved 90/100 on Phase A, 90.45 ± 2.19 over 1,000 Phase B runs, 68/100 on Phase C (F-007 failure identified), and 15/100 on Phase D (F-001, F-006 failure modes identified). _Note (current repo state, reconciled):_ Full ORION reference implementation artifacts, seeds, and raw run data are not present as a complete system in this repository; the numbers above reflect the benchmark protocol/report as written. This repository provides the ACI framework specification, the `generational_context` reference implementation (tested), and benchmark harnesses (`cic_bench.py`, `ccb_bench.py`). For detailed implementation status, see [ACI_CURRENT_STATE_AUDIT.md](ACI_CURRENT_STATE_AUDIT.md).
 
 ## Prior Art Note
 

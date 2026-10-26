@@ -1,0 +1,596 @@
+﻿\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdftitle={The Softmax Inundation Bound},
+    pdfauthor={Shaurya Sanyal}
+}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\title{%
+  \textbf{The Softmax Inundation Bound}\\[0.4em]
+  \large Attention Dilution in Long-Context Transformers and\\
+  Generational Context as a Volume-Bounding Remedy
+}
+
+\author{%
+  \textbf{Shaurya Sanyal}\\
+  \textit{Team Auralis}\\
+  \texttt{shauryasanyal@gmail.com}
+}
+
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+% ---------------------------------------------------------------------------
+\begin{abstract}
+\noindent
+We isolate and formalize a simple but under-appreciated consequence of softmax
+normalization in transformer self-attention: when a fixed set of \emph{invariant}
+tokens competes with a growing set of distractor tokens, the aggregate attention
+mass on the invariant set is squeezed by the normalization denominator. We call
+this \emph{softmax inundation}. Under the standard bounded-projection-energy
+assumption we prove
+\[
+  A_{i,\mathrm{inv}} \;\le\; \frac{\kappa\, L_u}{L_u + |\mathcal{S}_{\mathrm{noise}}|}
+  \;=\; \mathcal{O}\!\left(\frac{L_u}{|\mathcal{S}_{\mathrm{noise}}|}\right),
+  \qquad \kappa = e^{2M_QM_K/\sqrt{d_k}},
+\]
+so that the invariant share decays at least as fast as the inverse of the
+distractor count.
+
+Because the inequality is conditional on uniform score bounds and can be
+uninformative when score contrast is large, we do not present it as a new law of
+attention. Its value is diagnostic: it isolates \emph{token volume} as the
+variable a system designer can actually control.
+
+We then introduce \textbf{Generational Context}, a three-tier agent memory
+architecture (Gen-0 ephemeral tool output with TTL distillation, Gen-1 working
+memory paged by Attention-Weighted Eviction, Gen-2 permanently pinned
+invariants), and prove that under a strict bound $C_{\mathrm{bound}}$ on active
+non-invariant volume, invariant attention admits a \emph{turn-independent}
+lower bound,
+\[
+  A_{i,\mathrm{inv}}^{(\mathrm{GC})} \;\ge\;
+  \frac{L_u}{L_u + \kappa\, C_{\mathrm{bound}}} \;>\; 0
+  \qquad \text{for all } t \ge 1 .
+\]
+This is the substantive claim: bounding volume removes horizon-dependence from
+the worst case. It is a guarantee about attention allocation, not about task
+success. We report algorithmic-simulation results, describe a reference
+implementation with cryptographic intent auditing, and state precisely what
+remains unverified.
+\end{abstract}
+
+% ---------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+Autonomous agents built on transformer language models typically treat the
+context window as an append-only transcript. Every tool call, every stack trace,
+every intermediate hypothesis is appended and never removed. This is convenient
+to implement and expensive to sustain.
+
+Two things are routinely conflated in discussion of this practice:
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Capacity.} Whether the transcript still fits in the window.
+  \item \textbf{Allocation.} Whether attention still lands on the tokens that
+        matter.
+\end{enumerate}
+
+Work on long-context models has largely addressed (i): windows grow, and
+retrieval quality within a window is measured by benchmarks such as RULER
+\cite{hsieh2024ruler} and by position-sensitive studies such as
+\emph{Lost in the Middle} \cite{liu2023lost}. But (ii) is a separate phenomenon,
+and it is governed by the softmax denominator rather than by the window size.
+
+Our contributions are deliberately modest and, we hope, clearly separated:
+
+\begin{itemize}
+  \item \S\ref{sec:inundation} states and proves the \emph{Softmax Inundation
+        Bound}. It is elementary; we claim only that it is a useful way to
+        isolate the mechanism, not that the mechanism was previously unknown.
+  \item \S\ref{sec:gc} introduces Generational Context and proves the
+        \emph{Generational Retention Guarantee}, a horizon-independent lower
+        bound on invariant attention under bounded active volume. This is the
+        result we consider the paper's actual contribution.
+  \item \S\ref{sec:awe}--\ref{sec:impl} describe the eviction policy, the
+        reference implementation, and a simulation harness.
+  \item \S\ref{sec:limits} is an explicit limitations section. We regard it as
+        part of the contribution rather than as boilerplate.
+\end{itemize}
+
+\paragraph{What this paper does not claim.}
+It does not claim that attention dilution causes reasoning failure in any
+particular model; residual streams, induction heads, and tool use can all
+compensate. It does not claim empirical gains on live models; we have not run
+those experiments. It does not claim novelty for softmax competition itself.
+
+% ---------------------------------------------------------------------------
+\section{Preliminaries}
+\label{sec:prelim}
+
+\subsection{Interaction transcript}
+
+Let an agent interact with an environment over discrete turns $t \in
+\mathbb{N}$. At turn $t$ the context is
+\begin{equation}
+  \mathcal{H}_t
+  = \bigl(\mathbf{u},\;
+    \mathbf{a}_1,\mathbf{o}_1,\mathbf{r}_1,\;
+    \dots,\;
+    \mathbf{a}_{t-1},\mathbf{o}_{t-1},\mathbf{r}_{t-1}\bigr),
+\end{equation}
+where $\mathbf{u} \in \mathcal{V}^{L_u}$ holds the user objective and system
+invariants, $\mathbf{a}_k$ are actions, $\mathbf{o}_k$ are raw environmental
+observations, and $\mathbf{r}_k$ are reasoning traces. The context length is
+\begin{equation}
+  N_t = L_u + \sum_{k<t}\bigl(L_a^{(k)} + L_o^{(k)} + L_r^{(k)}\bigr).
+\end{equation}
+
+\subsection{Scaled dot-product attention}
+
+For query position $i$ and key position $j$,
+\begin{equation}
+  A_{i,j}
+  = \frac{\exp\!\bigl(s_{i,j}\bigr)}{\sum_{m=1}^{N_t}\exp\!\bigl(s_{i,m}\bigr)},
+  \qquad
+  s_{i,j} = \frac{\mathbf{q}_i^{\top}\mathbf{k}_j}{\sqrt{d_k}},
+  \label{eq:attn}
+\end{equation}
+with $\mathbf{q}_i = \mathbf{X}_i W_Q$ and $\mathbf{k}_j = \mathbf{X}_j W_K$.
+
+\subsection{Partition of context}
+
+Fix a turn $t$ and partition the index set $J = \{1,\dots,N_t\}$ into three
+mutually disjoint subsets:
+\begin{align}
+  \mathcal{S}_{\mathrm{inv}} &: \text{invariant tokens}, &
+  |\mathcal{S}_{\mathrm{inv}}| &= L_u, \\
+  \mathcal{S}_{\mathrm{noise}} &: \text{raw observations}, &
+  |\mathcal{S}_{\mathrm{noise}}| &= \textstyle\sum_k L_o^{(k)}, \\
+  \mathcal{S}_{\mathrm{work}} &: \text{actions and reasoning}, &
+  |\mathcal{S}_{\mathrm{work}}| &= \textstyle\sum_k \bigl(L_a^{(k)}+L_r^{(k)}\bigr).
+\end{align}
+Write $A_{i,\mathrm{inv}} = \sum_{j \in \mathcal{S}_{\mathrm{inv}}} A_{i,j}$.
+
+\begin{assumption}[Bounded projection energy]
+\label{assump:bounded}
+There exist $M_Q, M_K > 0$ such that $\|\mathbf{q}_i\|_2 \le M_Q$ and
+$\|\mathbf{k}_j\|_2 \le M_K$ for all $i,j$. Consequently, by Cauchy--Schwarz,
+\begin{equation}
+  -B \;\le\; s_{i,j} \;\le\; B,
+  \qquad B = \frac{M_Q M_K}{\sqrt{d_k}} .
+\end{equation}
+Define the dynamic range factor $\kappa = e^{2B}$.
+\end{assumption}
+
+\begin{remark}
+Assumption~\ref{assump:bounded} is weak but not innocuous. Weight matrices in
+trained transformers are finite, so it always holds for \emph{some} $M_Q, M_K$;
+the question is whether the resulting $\kappa$ is small enough for the bound to
+say anything. See \S\ref{sec:limits}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\section{The Softmax Inundation Bound}
+\label{sec:inundation}
+
+\begin{theorem}[Softmax Inundation Bound]
+\label{thm:inundation}
+Under Assumption~\ref{assump:bounded}, for every query position $i$ and every
+turn $t$,
+\begin{equation}
+  A_{i,\mathrm{inv}}
+  \;\le\;
+  \frac{\kappa\, L_u}{L_u + |\mathcal{S}_{\mathrm{noise}}|},
+  \qquad \kappa = e^{2M_QM_K/\sqrt{d_k}} .
+  \label{eq:inundation}
+\end{equation}
+In particular, holding $L_u$ and the scoring regime fixed,
+\begin{equation}
+  A_{i,\mathrm{inv}} = \mathcal{O}\!\left(\frac{L_u}{|\mathcal{S}_{\mathrm{noise}}|}\right)
+  \quad \text{as } |\mathcal{S}_{\mathrm{noise}}| \to \infty .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Bounds on $s_{i,j}$ give $e^{-B} \le e^{s_{i,j}} \le e^{B}$ for all $j$. Hence
+\begin{equation}
+  \sum_{j \in \mathcal{S}_{\mathrm{inv}}} e^{s_{i,j}} \;\le\; L_u e^{B},
+\end{equation}
+and, dropping the non-negative $\mathcal{S}_{\mathrm{work}}$ terms from the
+denominator of \eqref{eq:attn},
+\begin{equation}
+  \sum_{m=1}^{N_t} e^{s_{i,m}}
+  \;\ge\; \bigl(L_u + |\mathcal{S}_{\mathrm{noise}}|\bigr) e^{-B}.
+\end{equation}
+Dividing,
+\begin{equation}
+  A_{i,\mathrm{inv}}
+  \;\le\;
+  \frac{L_u e^{B}}{\bigl(L_u + |\mathcal{S}_{\mathrm{noise}}|\bigr) e^{-B}}
+  \;=\;
+  \frac{e^{2B} L_u}{L_u + |\mathcal{S}_{\mathrm{noise}}|}.
+\end{equation}
+With $\kappa = e^{2B}$ this is \eqref{eq:inundation}.
+\end{proof}
+
+\begin{remark}[Reading the bound correctly]
+\label{rem:reading}
+Equation~\eqref{eq:inundation} is an \emph{upper} bound on the invariant share.
+It is informative when $\kappa$ is moderate; it becomes vacuous as soon as
+$\kappa L_u \gtrsim L_u + |\mathcal{S}_{\mathrm{noise}}|$, at which point the
+right-hand side exceeds $1$ and the inequality carries no information. This is
+not a defect of the proof but a genuine limitation of the argument: bounding
+norms alone does not force dilution. If distractor scores are systematically
+much smaller than invariant scores, $A_{i,\mathrm{inv}} \to 1$ regardless of
+$|\mathcal{S}_{\mathrm{noise}}|$.
+\end{remark}
+
+\begin{remark}[Relationship to known results]
+Softmax competition of this form is implicit in any analysis of attention with a
+growing key set, and explicit in streaming and long-context work
+\cite{xiao2023streamingllm,liu2023lost}. We do not claim the mechanism as new.
+The useful part, in our view, is the separation of \emph{volume} (which a system
+controls) from \emph{score contrast} (which it largely does not), because only
+the former is addressable by memory management.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\section{Generational Context}
+\label{sec:gc}
+
+If Theorem~\ref{thm:inundation} identifies volume as the controllable variable,
+the natural response is to control it. Generational Context borrows the shape of
+generational garbage collection and of virtual-memory paging, and applies both
+at the granularity of agent context rather than of KV blocks.
+
+\begin{definition}[Generational Context]
+\label{def:gc}
+Active context is partitioned into three tiers:
+\begin{enumerate}[label=\textbf{Gen-\arabic*}, leftmargin=*]
+  \item \emph{Tenured.} Founding objectives and system invariants. Pinned;
+        never evicted. Occupies $L_u$ tokens.
+  \item \emph{Evaporative.} Working memory: hypotheses, plans, uncommitted
+        deltas. Paged by Attention-Weighted Eviction (\S\ref{sec:awe}) under a
+        strict capacity $C_1$.
+  \item \emph{Ephemeral.} Raw tool output and logs. Passed through a
+        distillation map $\sigma_{\mathrm{distill}}$ producing at most $K_0$
+        tokens, with the raw form evicted under a turn-based TTL.
+\end{enumerate}
+Let $C_{\mathrm{overhead}}$ bound the structural tokens (role tags, delimiters,
+section headers) required to render the window, and set
+\begin{equation}
+  C_{\mathrm{bound}} = C_1 + K_0 + C_{\mathrm{overhead}} .
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Generational Retention Guarantee]
+\label{thm:retention}
+Under Assumption~\ref{assump:bounded}, and given a Generational Context with
+$C_{\mathrm{bound}} < \infty$,
+\begin{equation}
+  A_{i,\mathrm{inv}}^{(\mathrm{GC})}
+  \;\ge\;
+  \frac{L_u}{L_u + \kappa\, C_{\mathrm{bound}}}
+  \;>\; 0
+  \qquad \text{for all } t \ge 1 .
+  \label{eq:retention}
+\end{equation}
+In particular the bound is independent of the interaction horizon $t$.
+\end{theorem}
+
+\begin{proof}
+By Definition~\ref{def:gc}, at every turn the number of active non-invariant
+tokens satisfies
+\begin{equation}
+  \bigl|\mathcal{S}_{\mathrm{noninv}}^{(t)}\bigr|
+  \;\le\; C_1 + K_0 + C_{\mathrm{overhead}}
+  \;=\; C_{\mathrm{bound}}
+\end{equation}
+independently of $t$. Set
+\begin{equation}
+  R_t
+  = \frac{\sum_{m \notin \mathcal{S}_{\mathrm{inv}}} e^{s_{i,m}}}
+         {\sum_{j \in \mathcal{S}_{\mathrm{inv}}} e^{s_{i,j}}},
+  \qquad\text{so that}\qquad
+  A_{i,\mathrm{inv}} = \frac{1}{1 + R_t}.
+\end{equation}
+The numerator has at most $C_{\mathrm{bound}}$ terms, each at most $e^{B}$; the
+denominator has $L_u$ terms, each at least $e^{-B}$. Therefore
+\begin{equation}
+  R_t
+  \;\le\;
+  \frac{C_{\mathrm{bound}}\, e^{B}}{L_u\, e^{-B}}
+  \;=\;
+  \frac{\kappa\, C_{\mathrm{bound}}}{L_u}.
+\end{equation}
+Since $R \mapsto 1/(1+R)$ is decreasing on $[0,\infty)$,
+\begin{equation}
+  A_{i,\mathrm{inv}}
+  \;\ge\;
+  \frac{1}{1 + \kappa C_{\mathrm{bound}}/L_u}
+  \;=\;
+  \frac{L_u}{L_u + \kappa C_{\mathrm{bound}}} .
+\end{equation}
+Because $C_{\mathrm{bound}}$ is fixed by the memory controller, the right-hand
+side does not depend on $t$.
+\end{proof}
+
+\begin{corollary}[No horizon decay]
+\label{cor:no-decay}
+Under the hypotheses of Theorem~\ref{thm:retention},
+$\inf_{t \ge 1} A_{i,\mathrm{inv}}^{(t)} > 0$. That is, unbounded softmax
+inundation cannot occur, in the worst case, once active non-invariant volume is
+bounded.
+\end{corollary}
+
+\begin{remark}[What the guarantee is and is not]
+The bound is a \emph{worst-case} statement under uniform score assumptions. It
+does not say invariant attention is large; it says it cannot be driven to zero by
+volume alone. Task success additionally requires correct retrieval, valid tool
+use, and sound multi-step reasoning, none of which this theorem addresses. An
+adversary who controls distractor content rather than distractor count can
+violate the spirit of the result by inflating $s_{i,m}$ while staying inside
+Assumption~\ref{assump:bounded}; see \S\ref{sec:limits}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\section{Attention-Weighted Eviction}
+\label{sec:awe}
+
+Theorem~\ref{thm:retention} is a statement about a controller that actually
+maintains the volume bound. We use an adaptation of ARC \cite{megiddo2003arc},
+which already solves the \emph{recency versus frequency} allocation problem for
+paged memory.
+
+The cache maintains a recency list $T_1$, a frequency/saliency list $T_2$, ghost
+registries $B_1, B_2$ recording recently evicted keys, and an adaptation
+parameter $p$ targeting the size of $T_1$. Victim selection within a list uses an
+\emph{Information Density Score}
+\begin{equation}
+  \mathrm{IDS}(E)
+  = \frac{\mathrm{AttnWeight}(E) \cdot 100}{\mathrm{Entropy}(E) + 10^{-4}} ,
+  \label{eq:ids}
+\end{equation}
+with tier-based priors for entries whose attention statistics have not yet been
+measured. The cache enforces the post-condition
+\begin{equation}
+  \sum_{e \in T_1 \cup T_2} \mathrm{tokens}(e) \;\le\; C
+  \qquad \text{after every operation,}
+\end{equation}
+truncating any single entry larger than $C$ before insertion.
+
+Two implementation notes matter for correctness. First, promoting an entry from
+$T_1$ to $T_2$ must evict \emph{other} entries if the promotion grows the
+footprint; a naive implementation can select the newly promoted entry as its own
+victim. Second, ghost registries must be bounded, or the eviction bookkeeping
+grows without limit even though the active cache does not.
+
+% ---------------------------------------------------------------------------
+\section{Simulation Results}
+\label{sec:sim}
+
+We report results from a deterministic simulation harness (\texttt{ccb\_bench.py})
+that models three arms over scripted multi-turn scenarios:
+flat append-only, periodic compaction, and Generational Context. Attention
+quantities are computed with 128-dimensional hash-projected embeddings and an
+explicit softmax, not with trained transformer weights. Table~\ref{tab:ccb}
+reports final-turn means across three scenarios.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Arm} & \textbf{Active tokens} & \textbf{CSR} & \textbf{Attn(inv)} & \textbf{Cost (sim.)} \\
+\midrule
+Flat append-only      & 5{,}099 & 0.0059 & 0.0425 & \$0.0459 \\
+Periodic compaction   & 3{,}340 & 0.0077 & 0.0553 & \$0.0301 \\
+\textbf{Generational Context} & \textbf{129} & \textbf{0.2000} & \textbf{0.0757} & \textbf{\$0.0012} \\
+\bottomrule
+\end{tabular}
+\caption{CCB-001 simulation, final-turn means over three scripted scenarios.
+``CSR'' is the context signal ratio; ``Attn(inv)'' is the simulated attention
+share on invariant tokens. These are algorithmic proxies, not neural
+measurements. Absolute values are not comparable to published transformer
+results; only the ordering across arms is meaningful.}
+\label{tab:ccb}
+\end{table}
+
+\paragraph{What the simulation supports.} The harness shows that the memory
+policy realizes its volume target under scripted load, and that the resulting
+active footprint is roughly two orders of magnitude smaller than flat
+append-only. That is a statement about the controller.
+
+\paragraph{What it does not support.} It does not demonstrate that a trained
+transformer allocates attention to invariants in the same proportions, nor that
+task success improves. Those require live-model experiments, which we have not
+performed.
+
+% ---------------------------------------------------------------------------
+\section{Reference Implementation and Intent Auditing}
+\label{sec:impl}
+
+The architecture is implemented in the \texttt{generational\_context} package
+(Python standard library only). The controller exposes tool observation,
+reasoning recording, and prompt compilation; it enforces the capacity invariant
+of \S\ref{sec:awe} and the TTL behaviour of Gen-0.
+
+A separate benchmark exercises long-horizon intent conservation. In its current
+form it uses Ed25519-signed intent tokens over a canonical digest of the
+declared goal, values, constraints, and priorities, together with an append-only
+hash-chained audit log. A proposal is accepted only if its token verifies
+against the current intent digest and its signatory holds the required role.
+Earlier revisions of this component used an unsalted digest of static strings,
+which provided no security; that construction has been removed.
+
+We are explicit that this is an engineering component, not a validated security
+boundary. Its threat model is undocumented and its scenarios are authored by the
+same team that wrote the checker.
+
+% ---------------------------------------------------------------------------
+\section{Limitations}
+\label{sec:limits}
+
+We prefer to state these plainly rather than to bury them.
+
+\begin{enumerate}
+  \item \textbf{The inundation bound is elementary and conditional.}
+        Theorem~\ref{thm:inundation} follows from Cauchy--Schwarz and the
+        definition of softmax. It is informative only when $\kappa$ is moderate;
+        for realistic projection norms with $B$ even of order $10$, $\kappa$
+        exceeds $10^{8}$ and the bound is vacuous at practical context lengths.
+        The theorem is best read as a formalization of a mechanism, not as an
+        explanation of observed degradation at a particular scale.
+
+  \item \textbf{Uniform score assumptions are strong.} Both theorems assume the
+        same worst-case score envelope for invariant and distractor tokens.
+        Real attention scores are highly structured, and the ordering of
+        $\mathcal{S}_{\mathrm{inv}}$ versus $\mathcal{S}_{\mathrm{noise}}$ in
+        score space is exactly what determines the outcome. Our bounds are
+        agnostic to that ordering, which is both their strength and their
+        weakness.
+
+  \item \textbf{Multi-head and layer structure is ignored.} We analyze a single
+        head in isolation. Specialization across heads (induction, copy,
+        positional sinks) can preserve information that a per-head bound
+        suggests is lost.
+
+  \item \textbf{No live-model validation.} All quantitative results come from a
+        deterministic simulation with hash-based embeddings. We make no claims
+        about behaviour of trained models, and we would regard any such claim
+        drawn from these numbers as unsupported.
+
+  \item \textbf{The retention guarantee is about allocation, not success.}
+        Keeping invariants in the attention distribution is necessary at best.
+        An agent can attend to its instructions and still fail.
+
+  \item \textbf{Adversarial distractor content is out of scope.} A bounded
+        number of very high-scoring distractors can dominate attention. Volume
+        control does not defend against content attacks.
+\end{enumerate}
+
+\paragraph{Open empirical questions.}
+Does bounded-volume management measurably reduce goal drift in long agent
+sessions? Does distillation of Gen-0 preserve the error signature that made a
+failure diagnosable? Does AWE's IDS criterion outperform plain recency at equal
+capacity? Each is answerable with a controlled experiment and none is answered
+here.
+
+% ---------------------------------------------------------------------------
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Long-context behaviour.} Position-sensitive degradation is documented
+in \emph{Lost in the Middle} \cite{liu2023lost}; effective-context benchmarks
+show that nominal window size overstates usable context \cite{hsieh2024ruler}.
+Streaming inference with attention sinks \cite{xiao2023streamingllm} addresses
+the degenerate-statistics problem of unbounded KV growth. Our concern is
+different in emphasis: not how to keep generating coherently from a long stream,
+but how to keep a bounded working set aligned with declared invariants.
+
+\paragraph{Agent memory.} MemGPT \cite{packer2023memgpt} introduces virtual
+context management through function calls, with paging decisions made by the
+model itself. Generational Context makes those decisions with a deterministic
+controller instead, trading flexibility for predictable cost. Pinning invariants
+corresponds to MemGPT's always-in-context core memory; the difference is the
+explicit tiering and the TTL treatment of raw observations.
+
+\paragraph{Cache replacement.} ARC \cite{megiddo2003arc} supplies the adaptation
+mechanism. Attention-score-based eviction for KV caches is well established in
+the inference-efficiency literature. We apply the same idea at the granularity of
+semantic context entries rather than KV blocks.
+
+% ---------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+Softmax normalization means that adding distractor tokens competes with
+invariant tokens for a fixed budget of probability mass. We state that
+competition as an explicit bound, note carefully where the bound is informative
+and where it collapses, and then prove the complementary result: if a controller
+holds active non-invariant volume below a constant, the worst-case invariant
+share is bounded away from zero independently of how long the session runs.
+
+The second result is the one we would defend. It does not require any claim about
+model internals beyond bounded projections, it identifies a quantity a system can
+actually control, and it comes with an implementation whose capacity invariant is
+enforced rather than assumed.
+
+What it does not come with is evidence that any of this improves outcomes on real
+tasks. That is the next experiment, and we would rather state the gap than paper
+over it.
+
+% ---------------------------------------------------------------------------
+\section*{Acknowledgments}
+
+The term \emph{Artificial Civilization Intelligence} (ACI) was coined by Raja
+Dharma Tej Maddala. The architecture, proofs, implementation, and simulation
+harness in this document were produced by Team Auralis.
+
+% ---------------------------------------------------------------------------
+\begin{thebibliography}{9}
+
+\bibitem{hsieh2024ruler}
+C.-P. Hsieh, S. Sun, S. Kriman, S. Acharya, D. Rekesh, F. Jia, Y. Zhang, and
+B. Ginsburg.
+\newblock RULER: What's the real context size of your long-context language
+  models?
+\newblock \emph{arXiv:2404.06654}, 2024.
+
+\bibitem{liu2023lost}
+N.~F. Liu, K. Lin, J. Hewitt, A. Paranjape, M. Bevilacqua, F. Petroni, and
+P. Liang.
+\newblock Lost in the middle: How language models use long contexts.
+\newblock \emph{Transactions of the ACL}, 2024. arXiv:2307.03172.
+
+\bibitem{megiddo2003arc}
+N. Megiddo and D.~S. Modha.
+\newblock ARC: A self-tuning, low overhead replacement cache.
+\newblock In \emph{Proceedings of FAST}, 2003.
+
+\bibitem{packer2023memgpt}
+C. Packer, S. Wooders, K. Lin, V. Fang, S.~G. Patil, I. Stoica, and J.~E.
+  Gonzalez.
+\newblock MemGPT: Towards LLMs as operating systems.
+\newblock \emph{arXiv:2310.08560}, 2023.
+
+\bibitem{xiao2023streamingllm}
+G. Xiao, Y. Tian, B. Chen, S. Han, and M. Lewis.
+\newblock Efficient streaming language models with attention sinks.
+\newblock In \emph{Proceedings of ICLR}, 2024. arXiv:2309.17453.
+
+\end{thebibliography}
+
+\end{document}

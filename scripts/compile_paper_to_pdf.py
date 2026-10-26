@@ -14,15 +14,19 @@ from reportlab.platypus import (
     Table,
     TableStyle,
     KeepTogether,
-    HRFlowable
+    HRFlowable,
 )
 from reportlab.pdfgen import canvas
 
-PDF_OUTPUT_PATH = "E:/ACI-Architecture-Framework/docs/papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PDF_OUTPUT_PATH = os.path.join(
+    REPO_ROOT, "docs", "papers", "THE_FOOLS_THEOREM_WHITEPAPER.pdf"
+)
 
 
 class NumberedCanvas(canvas.Canvas):
     """Adds running headers and footers with dynamic page count."""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._saved_page_states = []
@@ -43,10 +47,14 @@ class NumberedCanvas(canvas.Canvas):
         self.saveState()
         self.setFont("Helvetica", 9)
         self.setFillColor(colors.HexColor("#555555"))
-        
+
         # Header (on pages > 1)
         if self._pageNumber > 1:
-            self.drawString(54, 750, "Softmax Inundation and Generational Context in Long-Horizon Agent Systems")
+            self.drawString(
+                54,
+                750,
+                "Softmax Inundation and Generational Context in Long-Horizon Agent Systems",
+            )
             self.drawRightString(612 - 54, 750, "ACI Research Preprint")
             self.setStrokeColor(colors.HexColor("#dddddd"))
             self.setLineWidth(0.5)
@@ -55,7 +63,11 @@ class NumberedCanvas(canvas.Canvas):
         # Footer
         page_text = f"Page {self._pageNumber} of {page_count}"
         self.drawRightString(612 - 54, 36, page_text)
-        self.drawString(54, 36, "Team Auralis & Autonomous Systems Research Group — Preprint Ref: ACI-MATH-2026-FT-REV2")
+        self.drawString(
+            54,
+            36,
+            "Team Auralis & Autonomous Systems Research Group — Preprint Ref: ACI-MATH-2026-FT-REV2",
+        )
         self.setStrokeColor(colors.HexColor("#dddddd"))
         self.setLineWidth(0.5)
         self.line(54, 48, 612 - 54, 48)
@@ -70,94 +82,109 @@ def build_academic_pdf():
         leftMargin=54,
         rightMargin=54,
         topMargin=54,
-        bottomMargin=54
+        bottomMargin=54,
     )
 
     styles = getSampleStyleSheet()
 
     # Custom Typography
     title_style = ParagraphStyle(
-        'DocTitle',
-        parent=styles['Normal'],
-        fontName='Helvetica-Bold',
+        "DocTitle",
+        parent=styles["Normal"],
+        fontName="Helvetica-Bold",
         fontSize=18,
         leading=22,
         alignment=1,
         textColor=colors.HexColor("#111827"),
-        spaceAfter=6
+        spaceAfter=6,
     )
     subtitle_style = ParagraphStyle(
-        'DocSubtitle',
-        parent=styles['Normal'],
-        fontName='Helvetica-Bold',
+        "DocSubtitle",
+        parent=styles["Normal"],
+        fontName="Helvetica-Bold",
         fontSize=11,
         leading=15,
         alignment=1,
         textColor=colors.HexColor("#4b5563"),
-        spaceAfter=12
+        spaceAfter=12,
     )
     author_style = ParagraphStyle(
-        'DocAuthor',
-        parent=styles['Normal'],
-        fontName='Helvetica',
+        "DocAuthor",
+        parent=styles["Normal"],
+        fontName="Helvetica",
         fontSize=9.5,
         leading=13,
         alignment=1,
         textColor=colors.HexColor("#374151"),
-        spaceAfter=14
+        spaceAfter=14,
     )
     abstract_body = ParagraphStyle(
-        'AbstractBody',
-        parent=styles['Normal'],
-        fontName='Helvetica-Oblique',
+        "AbstractBody",
+        parent=styles["Normal"],
+        fontName="Helvetica-Oblique",
         fontSize=8.5,
         leading=12,
-        textColor=colors.HexColor("#374151")
+        textColor=colors.HexColor("#374151"),
     )
     h1_style = ParagraphStyle(
-        'Heading1_Custom',
-        parent=styles['Heading1'],
-        fontName='Helvetica-Bold',
+        "Heading1_Custom",
+        parent=styles["Heading1"],
+        fontName="Helvetica-Bold",
         fontSize=12,
         leading=16,
         textColor=colors.HexColor("#111827"),
         spaceBefore=12,
         spaceAfter=5,
-        keepWithNext=True
+        keepWithNext=True,
     )
     body_style = ParagraphStyle(
-        'Body_Custom',
-        parent=styles['Normal'],
-        fontName='Times-Roman',
+        "Body_Custom",
+        parent=styles["Normal"],
+        fontName="Times-Roman",
         fontSize=9.5,
         leading=13.5,
         textColor=colors.HexColor("#1f2937"),
-        spaceAfter=5
+        spaceAfter=5,
     )
     theorem_box = ParagraphStyle(
-        'TheoremBox',
-        parent=styles['Normal'],
-        fontName='Times-Italic',
+        "TheoremBox",
+        parent=styles["Normal"],
+        fontName="Times-Italic",
         fontSize=9,
         leading=13,
-        textColor=colors.HexColor("#111827")
+        textColor=colors.HexColor("#111827"),
     )
     code_style = ParagraphStyle(
-        'CodeStyle',
-        parent=styles['Normal'],
-        fontName='Courier',
+        "CodeStyle",
+        parent=styles["Normal"],
+        fontName="Courier",
         fontSize=8,
         leading=10.5,
-        textColor=colors.HexColor("#1e293b")
+        textColor=colors.HexColor("#1e293b"),
     )
 
     story = []
 
     # Title & Metadata
     story.append(Spacer(1, 6))
-    story.append(Paragraph("Softmax Inundation and Generational Context in Long-Horizon Agent Systems", title_style))
-    story.append(Paragraph("Analytical Attention Dilution Bounds and the Generational Memory Architecture", subtitle_style))
-    story.append(Paragraph("<b>Shaurya Sanyal</b> &bull; Team Auralis &bull; Autonomous Systems Research Group<br/><font color='#6b7280'>Preprint Ref: ACI-MATH-2026-FT-REV2 &bull; October 2026</font>", author_style))
+    story.append(
+        Paragraph(
+            "Softmax Inundation and Generational Context in Long-Horizon Agent Systems",
+            title_style,
+        )
+    )
+    story.append(
+        Paragraph(
+            "Analytical Attention Dilution Bounds and the Generational Memory Architecture",
+            subtitle_style,
+        )
+    )
+    story.append(
+        Paragraph(
+            "<b>Shaurya Sanyal</b> &bull; Team Auralis &bull; Autonomous Systems Research Group<br/><font color='#6b7280'>Preprint Ref: ACI-MATH-2026-FT-REV2 &bull; October 2026</font>",
+            author_style,
+        )
+    )
 
     # Abstract Box
     abstract_text = (
@@ -165,49 +192,59 @@ def build_academic_pdf():
         "append-only linear interaction transcript. We analyze the theoretical and empirical consequences of this paradigm. "
         "We formalize the <b>Softmax Inundation Bound</b>, an analytical upper bound showing that under bounded projection energy, "
         "the maximum aggregate self-attention probability mass allocated to a fixed set of invariant constraint tokens decays "
-        "asymptotically as <i>O(L_u / |S_noise|)</i> when unpruned execution observations accumulate. This attention dilution creates "
-        "a systemic vulnerability: as noisy tracebacks dominate context length, attention heads dilute focus from foundational system "
-        "invariants toward high-entropy symptom tokens. To resolve this failure mode, we specify <b>Generational Context</b>, an "
+        "asymptotically as <i>O(L_u / |S_noise|)</i> when unpruned execution observations accumulate. This bound is conditional: it is "
+        "informative only while the attention score dynamic range remains moderate, and it is vacuous for large score contrast. Where it "
+        "does bite, it identifies token volume as the variable a system designer can control. To address volume, we specify <b>Generational Context</b>, an "
         "operating-system-inspired memory architecture that separates memory into <b>Gen-0 Ephemeral</b> (tool outputs distilled to 3-line "
         "signatures and evicted in 1 turn), <b>Gen-1 Evaporative</b> (working memory paged via the Attention-Weighted Eviction algorithm), "
         "and <b>Gen-2 Tenured</b> (permanently pinned invariants). We prove that Generational Context maintains a non-zero lower bound "
-        "on invariant attention uniformly for all interaction turns <i>t &isin; N</i>, eliminating unbounded softmax dilution and stabilizing "
-        "long-horizon autonomy."
+        "on invariant attention uniformly for all interaction turns <i>t &isin; N</i>, removing horizon-dependence from the worst case. "
+        "This is a guarantee about attention allocation, not about task success; live-model validation is future work."
     )
     abstract_table = Table([[Paragraph(abstract_text, abstract_body)]], colWidths=[504])
-    abstract_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
-        ('BOX', (0, 0), (-1, -1), 0.75, colors.HexColor("#cbd5e1")),
-        ('TOPPADDING', (0, 0), (-1, -1), 8),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-        ('LEFTPADDING', (0, 0), (-1, -1), 12),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
-    ]))
+    abstract_table.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
+                ("BOX", (0, 0), (-1, -1), 0.75, colors.HexColor("#cbd5e1")),
+                ("TOPPADDING", (0, 0), (-1, -1), 8),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+                ("LEFTPADDING", (0, 0), (-1, -1), 12),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+            ]
+        )
+    )
     story.append(abstract_table)
     story.append(Spacer(1, 10))
 
     # Section 1
     story.append(Paragraph("1. Introduction", h1_style))
-    story.append(Paragraph(
-        "Despite expansions in foundation model context windows, practical autonomy in multi-turn software engineering loops "
-        "remains fragile. Agents frequently lose adherence to system constraints, repeat failed tool invocations, and apply "
-        "superficial micro-patches around symptoms rather than addressing root causes.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "In typical agent sessions, over 90% of active tokens consist of raw tool outputs (compiler stderr, test dumps, DOM trees). "
-        "We analyze this pathology via <b>Payload Inundation</b> (attention dilution), <b>Error Gravitation</b> (semantic bias toward "
-        "error tracebacks), and <b>Generational Context</b> (multi-tiered memory management).",
-        body_style
-    ))
+    story.append(
+        Paragraph(
+            "Despite expansions in foundation model context windows, practical autonomy in multi-turn software engineering loops "
+            "remains fragile. Agents frequently lose adherence to system constraints, repeat failed tool invocations, and apply "
+            "superficial micro-patches around symptoms rather than addressing root causes.",
+            body_style,
+        )
+    )
+    story.append(
+        Paragraph(
+            "In typical agent sessions, over 90% of active tokens consist of raw tool outputs (compiler stderr, test dumps, DOM trees). "
+            "We analyze this pathology via <b>Payload Inundation</b> (attention dilution), <b>Error Gravitation</b> (semantic bias toward "
+            "error tracebacks), and <b>Generational Context</b> (multi-tiered memory management).",
+            body_style,
+        )
+    )
 
     # Section 2: Mathematical Formulation
     story.append(Paragraph("2. The Softmax Inundation Bound", h1_style))
-    story.append(Paragraph(
-        "Let context tokens be partitioned into Invariant Subspace S_inv (|S_inv| = L_u) and Observation Subspace S_noise. "
-        "Under bounded query and key energies ||q_i||_2 &le; M_Q and ||k_j||_2 &le; M_K, let &kappa; = exp(2 M_Q M_K / sqrt(d_k)).",
-        body_style
-    ))
+    story.append(
+        Paragraph(
+            "Let context tokens be partitioned into Invariant Subspace S_inv (|S_inv| = L_u) and Observation Subspace S_noise. "
+            "Under bounded query and key energies ||q_i||_2 &le; M_Q and ||k_j||_2 &le; M_K, let &kappa; = exp(2 M_Q M_K / sqrt(d_k)).",
+            body_style,
+        )
+    )
 
     # Theorem 1 Box
     thm1_text = (
@@ -219,23 +256,29 @@ def build_academic_pdf():
         "Dividing numerator by denominator yields the result directly."
     )
     t_thm1 = Table([[Paragraph(thm1_text, theorem_box)]], colWidths=[504])
-    t_thm1.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#f0fdf4")),
-        ('BOX', (0, 0), (-1, -1), 0.75, colors.HexColor("#86efac")),
-        ('PADDING', (0, 0), (-1, -1), 8),
-    ]))
+    t_thm1.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#f0fdf4")),
+                ("BOX", (0, 0), (-1, -1), 0.75, colors.HexColor("#86efac")),
+                ("PADDING", (0, 0), (-1, -1), 8),
+            ]
+        )
+    )
     story.append(t_thm1)
     story.append(Spacer(1, 8))
 
     # Section 3: Generational Context
     story.append(Paragraph("3. Generational Context & Retention Guarantee", h1_style))
-    story.append(Paragraph(
-        "Generational Context stratifies memory into three lifecycle tiers: "
-        "<b>Gen-0 Ephemeral</b> (tool outputs distilled to 3 lines and purged in 1 turn), "
-        "<b>Gen-1 Evaporative</b> (working memory paged via AWE), and "
-        "<b>Gen-2 Tenured</b> (permanently pinned invariants).",
-        body_style
-    ))
+    story.append(
+        Paragraph(
+            "Generational Context stratifies memory into three lifecycle tiers: "
+            "<b>Gen-0 Ephemeral</b> (tool outputs distilled to 3 lines and purged in 1 turn), "
+            "<b>Gen-1 Evaporative</b> (working memory paged via AWE), and "
+            "<b>Gen-2 Tenured</b> (permanently pinned invariants).",
+            body_style,
+        )
+    )
 
     # Theorem 2 Box
     thm2_text = (
@@ -247,19 +290,41 @@ def build_academic_pdf():
         "<i>where R_t &le; (&kappa; C_bound) / L_u. Invariant attention remains strictly bounded away from zero uniformly for all interaction turns t &isin; N.</i>"
     )
     t_thm2 = Table([[Paragraph(thm2_text, theorem_box)]], colWidths=[504])
-    t_thm2.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#eff6ff")),
-        ('BOX', (0, 0), (-1, -1), 0.75, colors.HexColor("#93c5fd")),
-        ('PADDING', (0, 0), (-1, -1), 8),
-    ]))
+    t_thm2.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#eff6ff")),
+                ("BOX", (0, 0), (-1, -1), 0.75, colors.HexColor("#93c5fd")),
+                ("PADDING", (0, 0), (-1, -1), 8),
+            ]
+        )
+    )
     story.append(t_thm2)
     story.append(Spacer(1, 6))
 
     # Sensitivity Analysis Table
-    sens_title = Paragraph("<b>Numerical Sensitivity Analysis & Comparative Bound Analysis (L_u = 100, C_bound = 150)</b>", ParagraphStyle('SensTitle', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=8, leading=10, textColor=colors.HexColor("#334155"), spaceAfter=3))
+    sens_title = Paragraph(
+        "<b>Numerical Sensitivity Analysis & Comparative Bound Analysis (L_u = 100, C_bound = 150)</b>",
+        ParagraphStyle(
+            "SensTitle",
+            parent=styles["Normal"],
+            fontName="Helvetica-Bold",
+            fontSize=8,
+            leading=10,
+            textColor=colors.HexColor("#334155"),
+            spaceAfter=3,
+        ),
+    )
     story.append(sens_title)
     sens_data = [
-        ["Regime", "Logit Gap (\u0394s)", "Contrast (\u03ba)", "GenContext Min Attn", "Flat Context (N=5k)", "Bound Ratio R(5k)"],
+        [
+            "Regime",
+            "Logit Gap (\u0394s)",
+            "Contrast (\u03ba)",
+            "GenContext Min Attn",
+            "Flat Context (N=5k)",
+            "Bound Ratio R(5k)",
+        ],
         ["Illustrative Low Contrast", "1.0", "2.72", "19.70%", "0.73%", "27.0x"],
         ["Illustrative Intermediate", "2.0", "7.39", "8.28%", "0.27%", "30.7x"],
         ["Illustrative Moderate", "3.0", "20.09", "3.21%", "0.10%", "32.3x"],
@@ -267,29 +332,51 @@ def build_academic_pdf():
         ["Illustrative Extreme Gap", "6.0", "403.4", "0.165%", "0.0049%", "33.3x"],
     ]
     t_sens = Table(sens_data, colWidths=[130, 75, 65, 85, 85, 64])
-    t_sens.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#334155")),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 7),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('ALIGN', (0, 1), (0, -1), 'LEFT'),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
-        ('TOPPADDING', (0, 0), (-1, -1), 2),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#e2e8f0")),
-        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
-        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 1), (-1, -1), 6.8),
-    ]))
+    t_sens.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#334155")),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, 0), 7),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("ALIGN", (0, 1), (0, -1), "LEFT"),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                ("TOPPADDING", (0, 0), (-1, -1), 2),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#e2e8f0")),
+                (
+                    "ROWBACKGROUNDS",
+                    (0, 1),
+                    (-1, -1),
+                    [colors.white, colors.HexColor("#f8fafc")],
+                ),
+                ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
+                ("FONTSIZE", (0, 1), (-1, -1), 6.8),
+            ]
+        )
+    )
     story.append(t_sens)
-    story.append(Paragraph(
-        "<i>Comparative Bound Analysis:</i> Flat context values represent theoretical lower bounds under identical uniform score assumptions, not empirical observations. The theoretical bound ratio R(&kappa;, N) = (L_u + &kappa; N) / (L_u + &kappa; C_bound) approaches N / C_bound as &kappa; &rarr; &infin; (33.3x at N = 5,000; 333.3x at N = 50,000). For finite &kappa;, R ranges from 27.0x to 33.3x (at N = 5k) and 268.1x to 332.8x (at N = 50k). This compares theoretical bound expressions, not measured attention distributions in a neural model.",
-        ParagraphStyle('SensNote', parent=styles['Normal'], fontName='Helvetica-Oblique', fontSize=7, leading=9, textColor=colors.HexColor("#64748b"), spaceBefore=2, spaceAfter=4)
-    ))
+    story.append(
+        Paragraph(
+            "<i>Comparative Bound Analysis:</i> Flat context values represent theoretical lower bounds under identical uniform score assumptions, not empirical observations. The theoretical bound ratio R(&kappa;, N) = (L_u + &kappa; N) / (L_u + &kappa; C_bound) approaches N / C_bound as &kappa; &rarr; &infin; (33.3x at N = 5,000; 333.3x at N = 50,000). For finite &kappa;, R ranges from 27.0x to 33.3x (at N = 5k) and 268.1x to 332.8x (at N = 50k). This compares theoretical bound expressions, not measured attention distributions in a neural model.",
+            ParagraphStyle(
+                "SensNote",
+                parent=styles["Normal"],
+                fontName="Helvetica-Oblique",
+                fontSize=7,
+                leading=9,
+                textColor=colors.HexColor("#64748b"),
+                spaceBefore=2,
+                spaceAfter=4,
+            ),
+        )
+    )
     story.append(Spacer(1, 4))
 
     # Section 4: AWE Algorithm
-    story.append(Paragraph("4. The Attention-Weighted Eviction (AWE) Algorithm", h1_style))
+    story.append(
+        Paragraph("4. The Attention-Weighted Eviction (AWE) Algorithm", h1_style)
+    )
     algo_text = (
         "<b>Algorithm 1: AWE with Hard Capacity Invariant</b><br/>"
         "&nbsp;&nbsp;1: <b>Input:</b> Capacity C, incoming chunk E, boundary parameter p<br/>"
@@ -301,59 +388,92 @@ def build_academic_pdf():
         "&nbsp;&nbsp;7: <b>else</b> Evict lowest IDS chunk; Insert E into T1; <b>assert</b> total_tokens() &le; C"
     )
     t_algo = Table([[Paragraph(algo_text, code_style)]], colWidths=[504])
-    t_algo.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
-        ('BOX', (0, 0), (-1, -1), 0.75, colors.HexColor("#cbd5e1")),
-        ('PADDING', (0, 0), (-1, -1), 8),
-    ]))
+    t_algo.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
+                ("BOX", (0, 0), (-1, -1), 0.75, colors.HexColor("#cbd5e1")),
+                ("PADDING", (0, 0), (-1, -1), 8),
+            ]
+        )
+    )
     story.append(t_algo)
     story.append(Spacer(1, 8))
 
     # Section 5: Token Footprint Table
-    story.append(Paragraph("5. Empirical Token Compaction & Attention Simulation", h1_style))
-    story.append(Paragraph(
-        "<i>Methodological Scope Notice:</i> Attention metrics represent a deterministic 128-dimensional subword hash-projection "
-        "surrogate modeling softmax dilution mechanics, distinct from neural transformer forward passes. Controlled empirical evaluations "
-        "with live neural models (e.g., Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across SWE-bench Verified are <b>planned future work</b> (Phase 2); "
-        "no live model reasoning claims are made prior to Phase 2 completion.",
-        abstract_body
-    ))
+    story.append(
+        Paragraph("5. Empirical Token Compaction & Attention Simulation", h1_style)
+    )
+    story.append(
+        Paragraph(
+            "<i>Methodological Scope Notice:</i> Attention metrics represent a deterministic 128-dimensional subword hash-projection "
+            "surrogate modeling softmax dilution mechanics, distinct from neural transformer forward passes. Controlled empirical evaluations "
+            "with live neural models (e.g., Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across SWE-bench Verified are <b>planned future work</b> (Phase 2); "
+            "no live model reasoning claims are made prior to Phase 2 completion.",
+            abstract_body,
+        )
+    )
     story.append(Spacer(1, 4))
     bench_data = [
-        ["Architecture Arm", "Mean Active Tokens", "Context Signal Ratio (CSR)", "Simulated Attn(Inv) (Proxy)", "Token Reduction"],
+        [
+            "Architecture Arm",
+            "Mean Active Tokens",
+            "Context Signal Ratio (CSR)",
+            "Simulated Attn(Inv) (Proxy)",
+            "Token Reduction",
+        ],
         ["Arm A: Flat Append-Only", "5,099", "0.0059", "0.0425", "Baseline"],
         ["Arm B: Auto-Compaction", "3,340", "0.0077", "0.0553", "-34.5%"],
-        ["Arm C: Generational Context", "129", "0.2000", "0.0757", "-97.5% (33.9x CSR)"],
+        [
+            "Arm C: Generational Context",
+            "129",
+            "0.2000",
+            "0.0757",
+            "-97.5% (33.9x CSR)",
+        ],
     ]
-    t_bench = Table(bench_data, colWidths=[130, 95, 120, 115, 80 if len(bench_data[0])==5 else 44])
-    t_bench = Table(bench_data, colWidths=[130, 100, 125, 115, 34 if len(bench_data[0])==5 else 34][:len(bench_data[0])])
-    t_bench.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#1e293b")),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 8),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('ALIGN', (0, 1), (0, -1), 'LEFT'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 4),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e1")),
-        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
-        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 1), (-1, -1), 7.5),
-        ('TEXTCOLOR', (4, 3), (4, 3), colors.HexColor("#16a34a")),
-        ('FONTNAME', (4, 3), (4, 3), 'Helvetica-Bold'),
-    ]))
+    t_bench = Table(
+        bench_data,
+        colWidths=[130, 100, 125, 115, 34][: len(bench_data[0])],
+    )
+    t_bench.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#1e293b")),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, 0), 8),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("ALIGN", (0, 1), (0, -1), "LEFT"),
+                ("BOTTOMPADDING", (0, 0), (-1, 0), 4),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e1")),
+                (
+                    "ROWBACKGROUNDS",
+                    (0, 1),
+                    (-1, -1),
+                    [colors.white, colors.HexColor("#f8fafc")],
+                ),
+                ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
+                ("FONTSIZE", (0, 1), (-1, -1), 7.5),
+                ("TEXTCOLOR", (4, 3), (4, 3), colors.HexColor("#16a34a")),
+                ("FONTNAME", (4, 3), (4, 3), "Helvetica-Bold"),
+            ]
+        )
+    )
     story.append(t_bench)
     story.append(Spacer(1, 10))
 
     # Section 6: Related Work & Conclusion
     story.append(Paragraph("6. Related Work & Conclusion", h1_style))
-    story.append(Paragraph(
-        "Our work connects with Liu et al. (2023) on context retrieval degradation, Xiao et al. (2023) on attention sinks, "
-        "Packer et al. (2023) on MemGPT tiered memory, and Megiddo & Modha (2003) on ARC. By formalizing the Softmax Inundation Bound "
-        "and providing the Generational Context architecture, we offer a deterministic, verifiable memory framework that preserves "
-        "foundational constraints across arbitrary interaction horizons.",
-        body_style
-    ))
+    story.append(
+        Paragraph(
+            "Our work connects with Liu et al. (2023) on context retrieval degradation, Xiao et al. (2023) on attention sinks, "
+            "Packer et al. (2023) on MemGPT tiered memory, and Megiddo & Modha (2003) on ARC. By formalizing the Softmax Inundation Bound "
+            "and providing the Generational Context architecture, we offer a deterministic, verifiable memory framework that preserves "
+            "foundational constraints across arbitrary interaction horizons.",
+            body_style,
+        )
+    )
     story.append(Spacer(1, 6))
 
     refs = [
@@ -361,10 +481,22 @@ def build_academic_pdf():
         "[2] N. Megiddo and D. S. Modha, 'ARC: A self-tuning, low overhead replacement cache,' in USENIX FAST, 2003.",
         "[3] N. F. Liu et al., 'Lost in the middle: How language models use long contexts,' TACL, 2024.",
         "[4] G. Xiao et al., 'Efficient streaming language models with attention sinks,' in ICLR, 2024.",
-        "[5] C. Packer et al., 'MemGPT: Towards LLMs as operating systems,' arXiv:2310.08560, 2023."
+        "[5] C. Packer et al., 'MemGPT: Towards LLMs as operating systems,' arXiv:2310.08560, 2023.",
     ]
     for r in refs:
-        story.append(Paragraph(r, ParagraphStyle('RefStyle', parent=styles['Normal'], fontName='Helvetica', fontSize=7.5, leading=10, textColor=colors.HexColor("#4b5563"))))
+        story.append(
+            Paragraph(
+                r,
+                ParagraphStyle(
+                    "RefStyle",
+                    parent=styles["Normal"],
+                    fontName="Helvetica",
+                    fontSize=7.5,
+                    leading=10,
+                    textColor=colors.HexColor("#4b5563"),
+                ),
+            )
+        )
 
     doc.build(story, canvasmaker=NumberedCanvas)
     print(f"Academic PDF compiled successfully: {PDF_OUTPUT_PATH}")

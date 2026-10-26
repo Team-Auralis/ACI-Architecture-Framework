@@ -1,10 +1,10 @@
 # ACI Architecture Framework
 
 [![Documentation Site](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://team-auralis.github.io/ACI-Architecture-Framework/)
-[![Unit Tests](https://img.shields.io/badge/tests-8%2F8%20passing-brightgreen?logo=python)](tests/test_generational_context.py)
+[![Unit Tests](https://img.shields.io/badge/tests-11%2F11%20passing-brightgreen?logo=python)](tests/test_generational_context.py)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue?logo=python)](generational_context/)
 [![Whitepaper](https://img.shields.io/badge/whitepaper-PDF%20Available-crimson?logo=adobe-acrobat-reader)](docs/papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf)
-[![License](https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-lightgrey)](LICENSE)
+[![License](https://img.shields.io/badge/license-Proprietary-lightgrey)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases)
 
 > The official specification, reference implementation, benchmark suite, and research ledger for **Artificial Civilization Intelligence (ACI)** — a post-AGI architectural paradigm designed for persistent, multi-decade, planetary-scale governance.
@@ -70,13 +70,15 @@ As unmanaged noise tokens accumulate ($|\mathcal{S}_{\text{noise}}| \to \infty$)
 
 $$A_{i, \text{inv}} = \mathcal{O}\left( \frac{L_u}{|\mathcal{S}_{\text{noise}}|} \right) \longrightarrow 0$$
 
-> **Core Insight:** Increasing raw context window size without memory management does not solve long-horizon reasoning—it dilutes foundational invariant attention toward zero.
+> **Core Insight:** The bound is on *allocation*, not on capability. It says that a fixed set of invariants must compete for a bounded pool of attention probability against an unbounded number of distractors — so volume is a variable a system can control, and score contrast is not.
+>
+> **Caveat.** The bound is only informative while $\kappa$ is moderate. For large score contrast the right-hand side exceeds $1$ and the inequality is vacuous; the *ratio* column below saturates at $N / C_{\text{bound}}$ (the asymptote of 33× at $N = 5$k), which is what a bounded-volume controller can guarantee regardless of $\kappa$. It is not a claim that attention to invariants decays to zero in any trained model.
 
 ### Theorem 2: Invariant Attention Retention Under Generational Context
 
 Under **Generational Context**, active working memory is bounded by an operating-system-inspired 3-tier eviction architecture ($|\mathcal{S}_{\text{non-inv}}^{(t)}| \le C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}} < \infty$). 
 
-Under identical uniform score bounds, invariant attention satisfies a strictly positive uniform lower bound independently of interaction horizon $t$:
+Under identical uniform score bounds, invariant attention satisfies a strictly positive uniform lower bound independently of interaction horizon $t$. This is a conditional *worst-case* guarantee about allocation, not a claim about task success:
 
 $$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} > 0 \quad \forall t \in \mathbb{N}$$
 
@@ -130,30 +132,23 @@ The framework includes a zero-dependency, production-hardened Python implementat
 ### Quickstart
 
 ```python
-from generational_context import (
-    ContextOS,
-    EphemeralBuffer,
-    AdaptiveReplacementAttentionCache,
-    CacheEntry
-)
+from generational_context import ContextOS
 
-# 1. Initialize ContextOS with invariant constraints and cache capacity
+# 1. Initialize ContextOS with invariant constraints
 agent_os = ContextOS(
-    invariant_directive="INVARIANT: You are a reliable civilizational agent. Never emit unverified state changes.",
-    max_tokens=2048,
-    cache_capacity=1024
+    goal="Maintain system reliability",
+    invariants=["INVARIANT: You are a reliable civilizational agent. Never emit unverified state changes."],
+    max_working_tokens=2048,
+    egi_threshold=0.3,
 )
 
-# 2. Record agent actions and transient tool observations (Gen-0 Ephemeral)
-agent_os.step(
-    action="query_subsystem_telemetry(grid_id='sector_7')",
-    observation="Status: 200 OK. Voltage nominal (230V). 542 lines of telemetry truncated..."
-)
+# 2. Record agent actions and transient tool observations
+agent_os.observe_tool("query_subsystem_telemetry", {"grid_id": "sector_7"}, "Status: 200 OK. Voltage nominal (230V). ...")
+agent_os.record_reasoning("Telemetry nominal, proceeding with verification.")
 
-# 3. Retrieve formatted context window - guaranteed invariant retention
-prompt = agent_os.get_prompt()
-print(f"Active Prompt Tokens: {prompt.token_count}")
-print(f"Invariant Included: {prompt.invariant_present}")
+# 3. Retrieve formatted context window
+prompt = agent_os.compile_prompt()
+print(f"Prompt length (chars): {len(prompt)}")
 ```
 
 ### Memory Tiers Overview
@@ -172,10 +167,12 @@ The Context Cognitive Benchmark (CCB-001) evaluates context retention and error 
 
 | Metric | Flat Append-Only | Periodic Compaction | Generational Context (ACI) | Advantage |
 |---|---|---|---|---|
-| **Active Token Footprint** | 5,099 tokens | 674 tokens | **129 tokens** | **-97.47% reduction** |
-| **Cognitive Signal Ratio (CSR)** | 0.0059 | 0.0445 | **0.2000** | **33.9× improvement** |
-| **Invariant Attention Share (Est.)** | 0.0076% | 0.0577% | **0.2588%** | **34.1× preservation** |
-| **Cascading Error Loops** | Observed (Severe) | Intermittent | **Zero Detected** | **Deterministic Recovery** |
+| **Active Token Footprint (final turn, avg.)** | 5,099 tokens | 3,340 tokens | **129 tokens** | **-97.47% reduction** |
+| **Cognitive Signal Ratio (CSR, final turn, avg.)** | 0.0059 | 0.0077 | **0.2000** | **33.9× improvement** |
+| **Invariant Attention Share (Est., final turn, avg.)** | 0.0425* | 0.0553* | **0.0757*** | **1.78×** |
+| **Error Gravitation Index (EGI, final turn, avg.)** | 0.2071 | 0.2071 | **0.2380** | **+14.9%** |
+| **Simulated Active-Context Cost (final turn, avg. sum)** | $0.0459 | $0.0301 | **$0.00116** | **-97.47% reduction** |
+| **Cascading Error Loops** | Simulation metric (EGI) | Simulation metric (EGI) | Simulation metric (EGI) | *Algorithmic simulation only* |
 
 ### ACI-001 Institutional Benchmark
 
@@ -204,7 +201,7 @@ ACI-Architecture-Framework/
 │   ├── __init__.py             # Public API: ContextOS, Buffers, Caches
 │   └── awe.py                  # Attention-Weighted Eviction & Framing Engine
 ├── tests/
-│   └── test_generational_context.py # 8/8 Passing Unit Tests
+│   └── test_generational_context.py # 11/11 Passing Unit Tests
 ├── ccb_bench.py                # CCB-001 Benchmark Simulation Harness
 ├── docs/                       # Technical Specifications & Documentation
 │   ├── research/
@@ -213,7 +210,7 @@ ACI-Architecture-Framework/
 │   │   └── MATHEMATICAL_FOUNDATIONS_OF_ACI.md
 │   ├── papers/
 │   │   ├── THE_FOOLS_THEOREM_WHITEPAPER.pdf # Typeset Academic Paper (PDF)
-│   │   └── THE_FOOLS_THEOREM_WHITEPAPER.tex # LaTeX Source
+│   │   └── The_Softmax_Inundation_Theorem.tex # LaTeX Source (submission-grade)
 │   └── assets/                 # 3D Illustrations & Visual Assets
 ├── mkdocs.yml                  # MkDocs Material Configuration with MathJax
 └── site/                       # Compiled Static Documentation
@@ -228,13 +225,12 @@ ACI-Architecture-Framework/
 The test suite validates envelope overhead budgeting, cache capacity invariants, tie-break determinism, and eviction accuracy:
 
 ```bash
-python -m unittest discover tests -v
+python -m pytest -v
 ```
 
 Output:
 ```
-Ran 8 tests in 0.011s
-OK
+11 passed in 0.43s
 ```
 
 ### 2. Run the CCB-001 Benchmark
@@ -266,7 +262,7 @@ Navigate to `http://localhost:8000/research/FOOLS_THEOREM/`.
 | Title | Document Type | Source / Download |
 |---|---|---|
 | **The Softmax Inundation Bound & Generational Context** | Academic Whitepaper (PDF) | [`THE_FOOLS_THEOREM_WHITEPAPER.pdf`](docs/papers/THE_FOOLS_THEOREM_WHITEPAPER.pdf) |
-| **Softmax Inundation LaTeX Source** | LaTeX Document | [`THE_FOOLS_THEOREM_WHITEPAPER.tex`](docs/papers/THE_FOOLS_THEOREM_WHITEPAPER.tex) |
+| **Softmax Inundation LaTeX Source** | LaTeX Document | [`The_Softmax_Inundation_Theorem.tex`](docs/papers/The_Softmax_Inundation_Theorem.tex) |
 | **Beyond ASI: The ACI Paradigm** | LaTeX Whitepaper | [`ACI_OCI_WHITEPAPER.tex`](docs/ACI_OCI_WHITEPAPER.tex) |
 | **Executive Summary — Beyond ASI** | Executive Summary (PDF) | [`Beyond_ASI.pdf`](docs/pdfs/Beyond_ASI.pdf) |
 

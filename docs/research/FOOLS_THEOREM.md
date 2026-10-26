@@ -10,9 +10,9 @@
 
 The standard execution architecture for autonomous AI agents treats the transformer context window as an append-only linear interaction transcript. In this paper, we analyze the mathematical and empirical limits of this paradigm in long-horizon problem-solving tasks.
 
-We formalize the **Softmax Inundation Bound**, an analytical upper bound showing that when raw environmental observations (compiler dumps, test logs, DOM trees) accumulate without eviction, the maximum aggregate attention probability mass allocated to founding system invariants and root user constraints decays as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$ under bounded projection energies. When noisy distractor tokens dominate context length, attention heads experience severe dilution, shifting probability mass away from foundational task constraints and toward high-volume symptom traces—an operational pathology we designate as **The Fool's State**.
+We formalize the **Softmax Inundation Bound**: under uniform bounded projection energies, the aggregate attention probability mass allocated to a fixed set of invariant tokens decays as $\mathcal{O}(L_u / |\mathcal{S}_{\text{noise}}|)$ when noisy distractor tokens accumulate without eviction. This is a consequence of softmax normalization (the "competing terms" effect) rather than a novel physical law. When noisy distractor tokens dominate context length, attention heads experience dilution, shifting probability mass away from foundational task constraints and toward high-volume symptom traces—an operational pathology we designate as **The Fool's State**.
 
-To resolve this limitation without relying on unbounded context expansion, we specify **Generational Context**, an operating-system-inspired memory management architecture that stratifies agent memory into **Gen-0 Ephemeral** (tool outputs distilled to 3-line signatures and evicted in 1 step), **Gen-1 Evaporative** (working memory paged dynamically via the Attention-Weighted Eviction algorithm), and **Gen-2 Tenured** (permanently pinned invariants). We prove that under Generational Context, invariant attention remains strictly lower-bounded independently of interaction horizon $t$, preventing volume-driven context dilution and stabilizing long-horizon autonomy.
+To mitigate this volume-driven dilution without relying on unbounded context expansion, we specify **Generational Context**, an operating-system-inspired memory management architecture that stratifies agent memory into **Gen-0 Ephemeral** (tool outputs distilled to compact signatures with TTL-based eviction), **Gen-1 Evaporative** (working memory paged dynamically via the Attention-Weighted Eviction algorithm), and **Gen-2 Tenured** (permanently pinned invariants). We prove a conditional lower bound: under Generational Context with bounded active non-invariant volume, invariant attention mass remains strictly lower-bounded independently of interaction horizon $t$ under uniform bounded score assumptions. This bound is conditional and does not guarantee task success.
 
 ### 1.1 Formal Scope: Attention Allocation vs. Cognitive Reasoning Success
 
@@ -60,7 +60,7 @@ We partition the context token positions $J = \{1, \dots, N_t\}$ into three mutu
 
 ## 3. The Softmax Inundation Bound
 
-### Theorem 1: The Softmax Inundation Upper Bound
+### Theorem 1: The Softmax Inundation Upper Bound (Conditional)
 
 Let the key and query projections satisfy bounded Euclidean norms:
 
@@ -72,9 +72,11 @@ Then for any query $\mathbf{q}_i$, the aggregate attention probability mass allo
 
 $$A_{i, \text{inv}} \le \frac{\kappa L_u}{L_u + |\mathcal{S}_{\text{noise}}|}$$
 
-In particular, as raw observation tokens accumulate ($|\mathcal{S}_{\text{noise}}| \to \infty$):
+*This bound is conditional on uniform bounded projection energies. If distractor tokens can achieve large dot products relative to invariants, the effective bound is weaker; if distractors have very small scores, the mass on invariants can approach 1 regardless of $|\mathcal{S}_{\text{noise}}|$. In particular, as raw observation tokens accumulate ($|\mathcal{S}_{\text{noise}}| \to \infty$) with comparable scores:*
 
 $$A_{i, \text{inv}} = \mathcal{O}\left( \frac{L_u}{|\mathcal{S}_{\text{noise}}|} \right)$$
+
+*The $\mathcal{O}(L_u/|\mathcal{S}_{\text{noise}}|)$ behavior is a direct consequence of softmax normalization under the uniform-score regime; similar forms appear in analyses of attention dilution (e.g., StreamingLLM, context-rot literature).*
 
 #### Proof:
 By definition of the softmax operator:
@@ -138,20 +140,20 @@ $$\mathcal{C}_{\text{active}} = \mathcal{G}_2^{\text{Tenured}} \;\cup\; \mathcal
 
 ### 5.2 The Generational Retention Guarantee
 
-#### Theorem 2 (Lower Bound on Invariant Attention under Generational Context)
+#### Theorem 2 (Conditional Lower Bound on Invariant Attention under Generational Context)
 *Let memory be managed according to Generational Context with a bounded Gen-0 distillation $\|\sigma_{\text{distill}}(\mathcal{G}_0)\| \le K_0$, a strictly bounded Gen-1 working capacity $\|\mathcal{G}_1\| \le C_1$, and bounded structural formatting overhead $C_{\text{overhead}} \le M_{\max} \cdot \delta_{\text{env}}$ (accounting for all retained delimiters, role tags, section headers, and metadata framing). Let the total active non-invariant token volume be strictly bounded by:*
 
 $$C_{\text{bound}} = C_1 + K_0 + C_{\text{overhead}} < \infty$$
 
-*Assume that the bounded projection energy condition:*
+*Assume the bounded projection energy condition holds uniformly for all active keys:*
 
 $$-\frac{M_Q M_K}{\sqrt{d_k}} \le \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}} \le \frac{M_Q M_K}{\sqrt{d_k}}$$
 
-*holds uniformly for all active keys, and let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:*
+*Let $\kappa = \exp\left(\frac{2 M_Q M_K}{\sqrt{d_k}}\right)$. Then for all interaction turns $t \in \mathbb{N}$, the aggregate attention probability mass on the invariant subspace satisfies:*
 
 $$A_{i, \text{inv}} \ge \frac{L_u}{L_u + \kappa C_{\text{bound}}} > 0$$
 
-*The attention allocated to founding system invariants remains strictly bounded away from zero, uniformly and independently of the total interaction turns $t$.*
+*This is a conditional lower bound under uniform bounded scores. Bounding token volume prevents unbounded dilution, but it does not guarantee large attention allocations or task success. The bound is most meaningful as a worst-case structural guarantee; in practice attention depends on content alignment, heads, and model architecture.*
 
 #### Proof:
 Under Generational Context, Gen-0 raw outputs are evicted at every turn, leaving only the distilled representation $\le K_0$. Gen-1 is strictly capped at $C_1$ tokens by the AWE cache controller. Furthermore, all structural delimiters, role tags, turn headers, and markdown fencing are bounded by $C_{\text{overhead}}$.
@@ -270,3 +272,8 @@ By formalizing the **Softmax Inundation Bound**, we have established the analyti
 * **Document Ref**: `ACI-SPEC-MATH-GC-002`
 * **Status**: `Mathematically Verified & Production Hardened`
 * **Package**: `generational_context` (Standard Library, Python 3.10+)
+
+> [!IMPORTANT]
+> **Methodological Scope Notice (Algorithmic Simulation):** The FOOL'S THEOREM and CCB results are derived from deterministic algorithmic simulations using hash-based embeddings and softmax arithmetic, not from live transformer forward passes. The bounds are conditional on uniform bounded projection energies; in realistic regimes with unbounded score contrast they can be vacuous or not directly predictive. "Attention preservation" conflates token compression with attention mass retention. Treat all quantitative claims as simulation results.  
+> **Implementation Status (Current):** The reference implementation `generational_context/` (AWE, ContextOS, GenerationalMemory) is present in this repository with passing unit tests (11/11); it enforces capacity invariants, Gen-0 distillation/eviction, turn-based TTL scaffolding, and provides Ed25519-signed CIC with Merkle audit. The theoretical bounds are design claims; empirical validation against live neural models remains future work.
+

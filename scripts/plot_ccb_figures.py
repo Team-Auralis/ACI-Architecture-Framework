@@ -9,16 +9,17 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 # Publication-grade styling
-mpl.rcParams['font.family'] = 'sans-serif'
-mpl.rcParams['font.size'] = 11
-mpl.rcParams['axes.linewidth'] = 1.2
-mpl.rcParams['grid.alpha'] = 0.3
-mpl.rcParams['grid.linestyle'] = '--'
+mpl.rcParams["font.family"] = "sans-serif"
+mpl.rcParams["font.size"] = 11
+mpl.rcParams["axes.linewidth"] = 1.2
+mpl.rcParams["grid.alpha"] = 0.3
+mpl.rcParams["grid.linestyle"] = "--"
 
-OUTPUT_DIR = "E:/ACI-Architecture-Framework/docs/assets"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_DIR = os.path.join(REPO_ROOT, "docs", "assets")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-CSV_PATH = "E:/ACI-Architecture-Framework/ccb_results.csv"
+CSV_PATH = os.path.join(REPO_ROOT, "ccb_results.csv")
 
 
 def load_telemetry():
@@ -35,21 +36,52 @@ def plot_phase_transition(records):
     s1_recs = [r for r in records if r["scenario_id"] == "S1_Traceback_Inundation"]
 
     arms = {
-        "Arm A: Flat Append-Only": {"color": "#e63946", "style": "o-", "label": "Arm A: Flat Append-Only"},
-        "Arm B: Auto-Compaction": {"color": "#f4a261", "style": "s--", "label": "Arm B: Auto-Compaction"},
-        "Arm C: Generational Context": {"color": "#2a9d8f", "style": "^-", "label": "Arm C: Generational Context"}
+        "Arm A: Flat Append-Only": {
+            "color": "#e63946",
+            "style": "o-",
+            "label": "Arm A: Flat Append-Only",
+        },
+        "Arm B: Auto-Compaction": {
+            "color": "#f4a261",
+            "style": "s--",
+            "label": "Arm B: Auto-Compaction",
+        },
+        "Arm C: Generational Context": {
+            "color": "#2a9d8f",
+            "style": "^-",
+            "label": "Arm C: Generational Context",
+        },
     }
 
     for arm_name, meta in arms.items():
         arm_data = [r for r in s1_recs if r["arm_name"] == arm_name]
         tokens = [int(r["active_context_tokens"]) for r in arm_data]
         attn = [float(r["attention_on_invariant"]) for r in arm_data]
-        ax.plot(tokens, attn, meta["style"], color=meta["color"], label=meta["label"], linewidth=2, markersize=6)
+        ax.plot(
+            tokens,
+            attn,
+            meta["style"],
+            color=meta["color"],
+            label=meta["label"],
+            linewidth=2,
+            markersize=6,
+        )
 
-    ax.axhline(y=0.05, color="#d62828", linestyle=":", linewidth=1.5, label=r"Critical Invariant Threshold $\theta_{crit} = 0.05$")
+    ax.axhline(
+        y=0.05,
+        color="#d62828",
+        linestyle=":",
+        linewidth=1.5,
+        label=r"Critical Invariant Threshold $\theta_{crit} = 0.05$",
+    )
     ax.axhspan(0, 0.05, color="#d62828", alpha=0.08, label="Severe Inundation Basin")
 
-    ax.set_title("Figure 1: Softmax Inundation (Invariant Attention vs. Active Tokens)", fontsize=12, fontweight='bold', pad=12)
+    ax.set_title(
+        "Figure 1: Softmax Inundation (Invariant Attention vs. Active Tokens)",
+        fontsize=12,
+        fontweight="bold",
+        pad=12,
+    )
     ax.set_xlabel("Active Context Tokens (Prompt Buffer)", fontsize=11)
     ax.set_ylabel(r"Attention Probability Mass on Invariants $A_{inv}$", fontsize=11)
     ax.grid(True)
@@ -70,18 +102,43 @@ def plot_error_gravitation(records):
     s2_recs = [r for r in records if r["scenario_id"] == "S2_Red_Herring_Attractor"]
 
     arms = {
-        "Arm A: Flat Append-Only": {"color": "#e63946", "style": "o-", "label": "Arm A: Flat Append-Only"},
-        "Arm B: Auto-Compaction": {"color": "#e76f51", "style": "s--", "label": "Arm B: Auto-Compaction"},
-        "Arm C: Generational Context": {"color": "#2a9d8f", "style": "D-", "label": "Arm C: Generational Context"}
+        "Arm A: Flat Append-Only": {
+            "color": "#e63946",
+            "style": "o-",
+            "label": "Arm A: Flat Append-Only",
+        },
+        "Arm B: Auto-Compaction": {
+            "color": "#e76f51",
+            "style": "s--",
+            "label": "Arm B: Auto-Compaction",
+        },
+        "Arm C: Generational Context": {
+            "color": "#2a9d8f",
+            "style": "D-",
+            "label": "Arm C: Generational Context",
+        },
     }
 
     for arm_name, meta in arms.items():
         arm_data = [r for r in s2_recs if r["arm_name"] == arm_name]
         turns = [int(r["turn"]) for r in arm_data]
         egi = [float(r["error_gravitation_index"]) for r in arm_data]
-        ax.plot(turns, egi, meta["style"], color=meta["color"], label=meta["label"], linewidth=2, markersize=6)
+        ax.plot(
+            turns,
+            egi,
+            meta["style"],
+            color=meta["color"],
+            label=meta["label"],
+            linewidth=2,
+            markersize=6,
+        )
 
-    ax.set_title("Figure 2: Semantic Proximity to Error Tracebacks (EGI Across Turns)", fontsize=12, fontweight='bold', pad=12)
+    ax.set_title(
+        "Figure 2: Semantic Proximity to Error Tracebacks (EGI Across Turns)",
+        fontsize=12,
+        fontweight="bold",
+        pad=12,
+    )
     ax.set_xlabel("Execution Turn (t)", fontsize=11)
     ax.set_ylabel("Error Gravitation Index (EGI)", fontsize=11)
     ax.grid(True)
@@ -98,28 +155,56 @@ def plot_pareto_frontier(records):
     """Figure 3: Pareto Frontier (Context Signal Ratio vs. Active Tokens)"""
     fig, ax = plt.subplots(figsize=(7.5, 5), dpi=300)
 
-    arms = ["Arm A: Flat Append-Only", "Arm B: Auto-Compaction", "Arm C: Generational Context"]
+    arms = [
+        "Arm A: Flat Append-Only",
+        "Arm B: Auto-Compaction",
+        "Arm C: Generational Context",
+    ]
     colors = ["#e63946", "#f4a261", "#2a9d8f"]
     markers = ["o", "s", "^"]
 
     for arm, color, marker in zip(arms, colors, markers):
         arm_recs = [r for r in records if r["arm_name"] == arm]
-        final_recs = [r for r in arm_recs if r["turn"] == max(x["turn"] for x in arm_recs if x["scenario_id"] == r["scenario_id"])]
-        
-        avg_tokens = sum(int(r["active_context_tokens"]) for r in final_recs) / len(final_recs)
-        avg_csr = (sum(float(r["context_signal_ratio"]) for r in final_recs) / len(final_recs)) * 100.0
+        final_recs = [
+            r
+            for r in arm_recs
+            if r["turn"]
+            == max(x["turn"] for x in arm_recs if x["scenario_id"] == r["scenario_id"])
+        ]
 
-        ax.scatter([avg_tokens], [avg_csr], color=color, s=200, marker=marker, edgecolors="#111", linewidths=1.5, label=arm, zorder=5)
+        avg_tokens = sum(int(r["active_context_tokens"]) for r in final_recs) / len(
+            final_recs
+        )
+        avg_csr = (
+            sum(float(r["context_signal_ratio"]) for r in final_recs) / len(final_recs)
+        ) * 100.0
+
+        ax.scatter(
+            [avg_tokens],
+            [avg_csr],
+            color=color,
+            s=200,
+            marker=marker,
+            edgecolors="#111",
+            linewidths=1.5,
+            label=arm,
+            zorder=5,
+        )
         ax.annotate(
             f"{arm.split(':')[0]}\n({avg_csr:.1f}% CSR @ {avg_tokens:.0f} tokens)",
             (avg_tokens, avg_csr),
             textcoords="offset points",
             xytext=(10, -10 if avg_csr > 10 else 10),
             fontweight="bold",
-            fontsize=9
+            fontsize=9,
         )
 
-    ax.set_title("Figure 3: Signal Retention vs. Active Token Footprint", fontsize=12, fontweight='bold', pad=12)
+    ax.set_title(
+        "Figure 3: Signal Retention vs. Active Token Footprint",
+        fontsize=12,
+        fontweight="bold",
+        pad=12,
+    )
     ax.set_xlabel("Mean Active Context Tokens", fontsize=11)
     ax.set_ylabel("Context Signal Ratio (CSR %)", fontsize=11)
     ax.grid(True)
