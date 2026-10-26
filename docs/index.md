@@ -196,4 +196,4 @@ Copyright &copy; 2026 **Shaurya Sanyal (Team Auralis)** and contributors.
 * **Attribution**: The term **"Artificial Civilization Intelligence" (ACI)** was coined by **Raja Dharma Tej Maddala**. Credit for the name goes to him.
 * **Engineering & Architecture**: The engineering framework, reference implementations, formal theorems, benchmark suites (ACI-001, CCB-001), and empirical research in this repository were designed, implemented, and maintained by **Team Auralis** (Shaurya Sanyal and contributors).
 
-This repository is published under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license unless otherwise stated in individual files.
+The **code** in this repository (the `generational_context` package and all scripts) is released under the **Apache License 2.0**, including an explicit patent grant. The **prose and papers** under `docs/` are published under **CC BY-NC-ND 4.0** unless otherwise stated in individual files.

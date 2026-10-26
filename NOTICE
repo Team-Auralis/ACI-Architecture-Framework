@@ -1,0 +1,11 @@
+ACI Architecture Framework
+Copyright 2026 Shaurya Sanyal (Team Auralis) and contributors
+
+The term "Artificial Civilization Intelligence" (ACI) was coined by
+Raja Dharma Tej Maddala and is used with attribution.
+
+The `generational_context` package and the code in this repository are
+licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Prose documentation under docs/ and the papers under docs/papers/ are
+licensed under CC BY-NC-ND 4.0 (see LICENSE.CC-BY-NC-ND-4.0).

@@ -4,7 +4,7 @@
 [![Unit Tests](https://img.shields.io/badge/tests-11%2F11%20passing-brightgreen?logo=python)](tests/test_generational_context.py)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue?logo=python)](generational_context/)
 [![Whitepaper](https://img.shields.io/badge/whitepaper-PDF%20Available-crimson?logo=adobe-acrobat-reader)](docs/papers/The_Softmax_Inundation_Theorem.pdf)
-[![License](https://img.shields.io/badge/license-Proprietary-lightgrey)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases)
 
 **A memory controller for long-horizon LLM agents.**
@@ -307,4 +307,6 @@ Copyright &copy; 2026 **Shaurya Sanyal (Team Auralis)** and contributors.
 
 * **Attribution**: The term **"Artificial Civilization Intelligence" (ACI)** was originally coined by **Raja Dharma Tej Maddala**. Credit for the name goes to him.
 * **Engineering & Research**: The architectural design, formal theorems, mathematical proofs, `generational_context` engine, benchmarks (CCB-001, ACI-001), and research ledger were authored, implemented, and maintained by **Shaurya Sanyal** and **Team Auralis**.
-* This repository is published under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license.
+* **Code** — the `generational_context` package and all scripts in this repository are released under the **Apache License 2.0** ([`LICENSE`](LICENSE)), including an explicit patent grant. Use it commercially, fork it, ship it.
+* **Prose & papers** — documentation under `docs/` and the papers under `docs/papers/` are published under **CC BY-NC-ND 4.0** ([`LICENSE.CC-BY-NC-ND-4.0`](LICENSE.CC-BY-NC-ND-4.0)).
+* **Attribution** — see [`NOTICE`](NOTICE).

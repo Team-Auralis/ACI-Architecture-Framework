@@ -5,12 +5,11 @@ I can't post these — every one ties the submission to your identity.
 
 ## Read this first
 
-**1. The licence will sink every post below.** [`LICENSE`](LICENSE) says "all
-rights reserved" and "no part may be reproduced, distributed, or transmitted in
-any form without prior written permission." The first comment on every thread
-will be *"so I can't actually use it"*, and the thread ends there. Adoption is
-the mechanism by which a repo becomes known; this forbids adoption. I left it
-alone because relicensing your own IP is a decision only you can make.
+**1. The licence is resolved.** The code is Apache-2.0, so people can actually
+run, fork and ship it — that was the blocker standing in front of everything
+else. One caveat survives: the prose and the paper are CC BY-NC-ND 4.0, which
+forbids commercial reuse and derivative versions. Quoting is fine; reusing the
+diagrams is not. Know the answer before you get asked.
 
 **2. Do not call Theorem 1 a new theorem.** It is Cauchy–Schwarz plus the
 definition of softmax. A mathematician will say so in the first comment and
@@ -161,5 +160,5 @@ Stdlib only. `python ccb_bench.py` reproduces it.
   a thread, not the original post.
 - If someone reports a concrete failure case, open an issue for it and link the
   issue in the thread. Visible maintenance is the signal people read for.
-- If the licence is still proprietary, expect the top comment to be about that
-  and nothing else.
+- If someone asks what they're allowed to do with it, answer plainly: Apache-2.0
+  for the code, CC BY-NC-ND for the prose. Don't let it become a licence thread.
