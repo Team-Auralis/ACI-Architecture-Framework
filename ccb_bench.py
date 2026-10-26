@@ -25,20 +25,25 @@ from typing import List, Dict, Tuple, Optional, Any
 # FastText-Style Subword n-Gram Semantic Projections (Standard Library)
 # -----------------------------------------------------------------------------
 
+
 def dot_product(v1: List[float], v2: List[float]) -> float:
     return sum(a * b for a, b in zip(v1, v2))
+
 
 def norm(v: List[float]) -> float:
     return math.sqrt(sum(a * a for a in v)) or 1e-12
 
+
 def cosine_similarity(v1: List[float], v2: List[float]) -> float:
     return dot_product(v1, v2) / (norm(v1) * norm(v2))
+
 
 def softmax(scores: List[float]) -> List[float]:
     max_score = max(scores) if scores else 0.0
     exp_scores = [math.exp(min(s - max_score, 50.0)) for s in scores]
     total = sum(exp_scores) or 1e-12
     return [e / total for e in exp_scores]
+
 
 def hash_embed(text: str, dim: int = 128) -> List[float]:
     """
@@ -47,7 +52,7 @@ def hash_embed(text: str, dim: int = 128) -> List[float]:
     tracebacks and agent hypotheses.
     """
     clean_text = text.lower()
-    words = re.findall(r'[a-zA-Z0-9_\.]+', clean_text)
+    words = re.findall(r"[a-zA-Z0-9_\.]+", clean_text)
     if not words:
         return [0.0] * dim
 
@@ -55,10 +60,10 @@ def hash_embed(text: str, dim: int = 128) -> List[float]:
     for w in words:
         tokens = [w]
         if len(w) >= 3:
-            tokens.extend(w[i:i+3] for i in range(len(w) - 2))
+            tokens.extend(w[i : i + 3] for i in range(len(w) - 2))
 
         for t in tokens:
-            h = int(hashlib.sha256(t.encode('utf-8')).hexdigest()[:8], 16)
+            h = int(hashlib.sha256(t.encode("utf-8")).hexdigest()[:8], 16)
             idx = h % dim
             sign = 1.0 if ((h >> 16) & 1) else -1.0
             vec[idx] += sign
@@ -70,6 +75,7 @@ def hash_embed(text: str, dim: int = 128) -> List[float]:
 # -----------------------------------------------------------------------------
 # Context Token Representation & Attention Tracker
 # -----------------------------------------------------------------------------
+
 
 @dataclass
 class TokenChunk:
@@ -89,13 +95,12 @@ class TransformerAttentionEvaluator:
     over an active context buffer according to scaled dot-product attention:
     A_{i,j} = softmax(q_i^T k_j / sqrt(d))
     """
+
     def __init__(self, dim: int = 128):
         self.dim = dim
 
     def evaluate_attention(
-        self,
-        query_text: str,
-        context_chunks: List[TokenChunk]
+        self, query_text: str, context_chunks: List[TokenChunk]
     ) -> Tuple[float, float, float]:
         """
         Returns:
@@ -108,7 +113,7 @@ class TransformerAttentionEvaluator:
 
         q_vec = hash_embed(query_text, self.dim)
         scores = []
-        
+
         for chunk in context_chunks:
             raw_score = dot_product(q_vec, chunk.embedding) / math.sqrt(self.dim)
             scores.append(raw_score)
@@ -117,12 +122,14 @@ class TransformerAttentionEvaluator:
 
         # 1. Aggregate Attention on Invariant Subspace
         attn_invariant = sum(
-            w for w, c in zip(weights, context_chunks) if c.subspace == 'invariant'
+            w for w, c in zip(weights, context_chunks) if c.subspace == "invariant"
         )
 
         # 2. Context Signal Ratio (CSR)
         signal_tokens = sum(
-            c.token_count for c in context_chunks if c.subspace in ('invariant', 'working')
+            c.token_count
+            for c in context_chunks
+            if c.subspace in ("invariant", "working")
         )
         total_tokens = sum(c.token_count for c in context_chunks) or 1
         csr = signal_tokens / total_tokens
@@ -133,9 +140,7 @@ class TransformerAttentionEvaluator:
         return round(attn_invariant, 6), round(csr, 6), round(entropy, 6)
 
     def compute_error_gravitation(
-        self,
-        current_thought: str,
-        past_failed_tracebacks: List[str]
+        self, current_thought: str, past_failed_tracebacks: List[str]
     ) -> float:
         """
         Computes Error Gravitation Index (EGI):
@@ -159,6 +164,7 @@ class TransformerAttentionEvaluator:
 # Architecture Arms: Flat Append, Auto-Compaction, Generational Context
 # -----------------------------------------------------------------------------
 
+
 class MemoryArmBase:
     def __init__(self, name: str):
         self.name = name
@@ -170,24 +176,29 @@ class MemoryArmBase:
     def get_total_tokens(self) -> int:
         return sum(c.token_count for c in self.chunks)
 
-    def observe_tool_execution(self, command: str, stdout: str, stderr: str, exit_code: int):
+    def observe_tool_execution(
+        self, command: str, stdout: str, stderr: str, exit_code: int
+    ):
         raise NotImplementedError
 
     def append_reasoning(self, thought: str):
-        tokens = len(re.findall(r'\w+', thought))
-        self.chunks.append(TokenChunk('diagnostic', thought, tokens))
+        tokens = len(re.findall(r"\w+", thought))
+        self.chunks.append(TokenChunk("diagnostic", thought, tokens))
         self.total_tokens_consumed += tokens
 
 
 class ArmFlatAppendOnly(MemoryArmBase):
     """Arm A: Industry baseline - append all tool traces verbatim."""
+
     def __init__(self):
         super().__init__("Arm A: Flat Append-Only")
 
-    def observe_tool_execution(self, command: str, stdout: str, stderr: str, exit_code: int):
+    def observe_tool_execution(
+        self, command: str, stdout: str, stderr: str, exit_code: int
+    ):
         raw_output = f"$ {command}\n{stdout}\n{stderr}".strip()
-        tokens = len(re.findall(r'\w+', raw_output))
-        self.chunks.append(TokenChunk('noise', raw_output, tokens))
+        tokens = len(re.findall(r"\w+", raw_output))
+        self.chunks.append(TokenChunk("noise", raw_output, tokens))
         self.total_tokens_consumed += tokens
         if exit_code != 0:
             self.failed_tracebacks.append(raw_output)
@@ -195,14 +206,17 @@ class ArmFlatAppendOnly(MemoryArmBase):
 
 class ArmAutoCompaction(MemoryArmBase):
     """Arm B: Periodic truncation / compaction when reaching threshold."""
+
     def __init__(self, threshold_tokens: int = 5000):
         super().__init__("Arm B: Auto-Compaction")
         self.threshold = threshold_tokens
 
-    def observe_tool_execution(self, command: str, stdout: str, stderr: str, exit_code: int):
+    def observe_tool_execution(
+        self, command: str, stdout: str, stderr: str, exit_code: int
+    ):
         raw_output = f"$ {command}\n{stdout}\n{stderr}".strip()
-        tokens = len(re.findall(r'\w+', raw_output))
-        self.chunks.append(TokenChunk('noise', raw_output, tokens))
+        tokens = len(re.findall(r"\w+", raw_output))
+        self.chunks.append(TokenChunk("noise", raw_output, tokens))
         self.total_tokens_consumed += tokens
         if exit_code != 0:
             self.failed_tracebacks.append(raw_output)
@@ -214,12 +228,13 @@ class ArmAutoCompaction(MemoryArmBase):
                 f"Previous execution of `{command}` produced {tokens} tokens of logs. "
                 f"Summary: Execution failed with exit code {exit_code}. Traceback details truncated."
             )
-            invariants = [c for c in self.chunks if c.subspace == 'invariant']
-            self.chunks = invariants + [TokenChunk('noise', compressed_summary, 150)]
+            invariants = [c for c in self.chunks if c.subspace == "invariant"]
+            self.chunks = invariants + [TokenChunk("noise", compressed_summary, 150)]
 
 
 class ArmGenerationalContext(MemoryArmBase):
     """Arm C: Generational Context - Gen-0 Ephemeral distillation, Gen-1 Paged, Gen-2 Tenured."""
+
     def __init__(self):
         super().__init__("Arm C: Generational Context")
         self.gen2_invariants: List[TokenChunk] = []
@@ -229,9 +244,11 @@ class ArmGenerationalContext(MemoryArmBase):
         self.chunks.append(invariants)
         self.total_tokens_consumed += invariants.token_count
 
-    def observe_tool_execution(self, command: str, stdout: str, stderr: str, exit_code: int):
+    def observe_tool_execution(
+        self, command: str, stdout: str, stderr: str, exit_code: int
+    ):
         raw_output = f"$ {command}\n{stdout}\n{stderr}".strip()
-        raw_tokens = len(re.findall(r'\w+', raw_output))
+        raw_tokens = len(re.findall(r"\w+", raw_output))
         self.total_tokens_consumed += raw_tokens
 
         critical_lines = []
@@ -242,15 +259,19 @@ class ArmGenerationalContext(MemoryArmBase):
         else:
             summary = f"[Gen-0 Distilled]: `{command}` failed (exit {exit_code})."
             err_lines = stderr.splitlines() or stdout.splitlines()
-            signatures = [l for l in err_lines if re.search(r'(Error|Exception|FAILED|fatal):', l, re.IGNORECASE)]
+            signatures = [
+                l
+                for l in err_lines
+                if re.search(r"(Error|Exception|FAILED|fatal):", l, re.IGNORECASE)
+            ]
             critical_lines = signatures[-3:] if signatures else err_lines[-2:]
 
         distilled_text = f"{summary}\n" + "\n".join(f"  > {l}" for l in critical_lines)
-        distilled_tokens = len(re.findall(r'\w+', distilled_text))
+        distilled_tokens = len(re.findall(r"\w+", distilled_text))
 
         # Gen-0 Eviction: Drop raw output, keep only distilled essence
-        self.chunks = [c for c in self.chunks if c.subspace != 'noise']
-        self.chunks.append(TokenChunk('noise', distilled_text, distilled_tokens))
+        self.chunks = [c for c in self.chunks if c.subspace != "noise"]
+        self.chunks.append(TokenChunk("noise", distilled_text, distilled_tokens))
 
         if exit_code != 0:
             self.failed_tracebacks.append(distilled_text)
@@ -259,6 +280,7 @@ class ArmGenerationalContext(MemoryArmBase):
 # -----------------------------------------------------------------------------
 # Benchmark Scenarios
 # -----------------------------------------------------------------------------
+
 
 @dataclass
 class BenchmarkScenario:
@@ -275,57 +297,132 @@ def create_benchmark_scenarios() -> List[BenchmarkScenario]:
     scenarios = []
 
     # Scenario 1: Deep Monolithic Traceback
-    tb_lines = "\n".join(f"  File '/repo/core/module_{i}.py', line {100+i}, in execute_subroutine_{i}\n    chunk = calculate_{i}()" for i in range(120))
+    tb_lines = "\n".join(
+        f"  File '/repo/core/module_{i}.py', line {100 + i}, in execute_subroutine_{i}\n    chunk = calculate_{i}()"
+        for i in range(120)
+    )
     raw_s1_traceback = f"Traceback (most recent call last):\n{tb_lines}\nTypeError: unsupported operand type(s) for +: 'NoneType' and 'int' in execute_subroutine_119"
 
-    scenarios.append(BenchmarkScenario(
-        scenario_id="S1_Traceback_Inundation",
-        title="Deep 120-Frame Monolithic Traceback",
-        root_goal="Fix the NoneType addition error in module_0.py by providing default value 0.",
-        root_invariants="PRESERVE_API_CONTRACT: Do not modify execute_subroutine signatures. Fix module_0.py operand.",
-        total_turns=12,
-        tool_sequence=[
-            {"cmd": "pytest tests/test_core.py", "out": "", "err": raw_s1_traceback, "code": 1},
-            {"cmd": "cat core/module_119.py", "out": "def execute_subroutine_119(): return None", "err": "", "code": 0},
-            {"cmd": "pytest tests/test_core.py", "out": "", "err": raw_s1_traceback, "code": 1},
-            {"cmd": "git status", "out": "On branch main\nmodified: core/module_119.py", "err": "", "code": 0},
-        ],
-        diagnostic_text="Checking stack trace and examining module dependencies."
-    ))
+    scenarios.append(
+        BenchmarkScenario(
+            scenario_id="S1_Traceback_Inundation",
+            title="Deep 120-Frame Monolithic Traceback",
+            root_goal="Fix the NoneType addition error in module_0.py by providing default value 0.",
+            root_invariants="PRESERVE_API_CONTRACT: Do not modify execute_subroutine signatures. Fix module_0.py operand.",
+            total_turns=12,
+            tool_sequence=[
+                {
+                    "cmd": "pytest tests/test_core.py",
+                    "out": "",
+                    "err": raw_s1_traceback,
+                    "code": 1,
+                },
+                {
+                    "cmd": "cat core/module_119.py",
+                    "out": "def execute_subroutine_119(): return None",
+                    "err": "",
+                    "code": 0,
+                },
+                {
+                    "cmd": "pytest tests/test_core.py",
+                    "out": "",
+                    "err": raw_s1_traceback,
+                    "code": 1,
+                },
+                {
+                    "cmd": "git status",
+                    "out": "On branch main\nmodified: core/module_119.py",
+                    "err": "",
+                    "code": 0,
+                },
+            ],
+            diagnostic_text="Checking stack trace and examining module dependencies.",
+        )
+    )
 
     # Scenario 2: High-Volume Log Dump
-    redis_dump = "CRITICAL: ConnectionRefusedError: [Errno 111] Connect call failed ('127.0.0.1', 6379) in redis_cache_pool\n" * 40
-    scenarios.append(BenchmarkScenario(
-        scenario_id="S2_Red_Herring_Attractor",
-        title="Misleading Redis Timeout vs Schema Change",
-        root_goal="Fix API serializer schema mismatch. Ignore local Redis fallback warnings.",
-        root_invariants="DO_NOT_RESTART_REDIS: Database is read-only replica. Fix serializers.py field type.",
-        total_turns=10,
-        tool_sequence=[
-            {"cmd": "python -m server.run", "out": "Starting server...", "err": redis_dump, "code": 1},
-            {"cmd": "cat config/redis.conf", "out": "port 6379\nbind 127.0.0.1\ntimeout 300\nmaxclients 10000", "err": "", "code": 0},
-            {"cmd": "python -m server.run", "out": "", "err": redis_dump, "code": 1},
-            {"cmd": "git diff server/serializers.py", "out": "+ field: str\n- field: int", "err": "", "code": 0},
-        ],
-        diagnostic_text="Investigating Redis timeout messages in connection pool."
-    ))
+    redis_dump = (
+        "CRITICAL: ConnectionRefusedError: [Errno 111] Connect call failed ('127.0.0.1', 6379) in redis_cache_pool\n"
+        * 40
+    )
+    scenarios.append(
+        BenchmarkScenario(
+            scenario_id="S2_Red_Herring_Attractor",
+            title="Misleading Redis Timeout vs Schema Change",
+            root_goal="Fix API serializer schema mismatch. Ignore local Redis fallback warnings.",
+            root_invariants="DO_NOT_RESTART_REDIS: Database is read-only replica. Fix serializers.py field type.",
+            total_turns=10,
+            tool_sequence=[
+                {
+                    "cmd": "python -m server.run",
+                    "out": "Starting server...",
+                    "err": redis_dump,
+                    "code": 1,
+                },
+                {
+                    "cmd": "cat config/redis.conf",
+                    "out": "port 6379\nbind 127.0.0.1\ntimeout 300\nmaxclients 10000",
+                    "err": "",
+                    "code": 0,
+                },
+                {
+                    "cmd": "python -m server.run",
+                    "out": "",
+                    "err": redis_dump,
+                    "code": 1,
+                },
+                {
+                    "cmd": "git diff server/serializers.py",
+                    "out": "+ field: str\n- field: int",
+                    "err": "",
+                    "code": 0,
+                },
+            ],
+            diagnostic_text="Investigating Redis timeout messages in connection pool.",
+        )
+    )
 
     # Scenario 3: Cyclic Dependency Cascade
-    cyclic_err = "ImportError: cannot import name 'AegisValidator' from partially initialized module 'aegis.core' (most likely due to a circular import in aegis/validators.py)\n" * 25
-    scenarios.append(BenchmarkScenario(
-        scenario_id="S3_Cyclic_Import_Cascade",
-        title="Circular Dependency Trap with Multi-File Propagation",
-        root_goal="Break cyclic dependency between aegis.core and aegis.validators using lazy imports.",
-        root_invariants="STANDARDS: Must adhere to PEP-8. Do not merge modules into a single file.",
-        total_turns=14,
-        tool_sequence=[
-            {"cmd": "python -c 'import aegis'", "out": "", "err": cyclic_err, "code": 1},
-            {"cmd": "grep -rn 'from aegis.core' aegis/", "out": "aegis/validators.py:3: from aegis.core import AegisValidator", "err": "", "code": 0},
-            {"cmd": "python -c 'import aegis'", "out": "", "err": cyclic_err, "code": 1},
-            {"cmd": "git diff aegis/validators.py", "out": "+ def get_validator():\n+     from aegis.core import AegisValidator", "err": "", "code": 0},
-        ],
-        diagnostic_text="Resolving circular dependency across validators and core package."
-    ))
+    cyclic_err = (
+        "ImportError: cannot import name 'AegisValidator' from partially initialized module 'aegis.core' (most likely due to a circular import in aegis/validators.py)\n"
+        * 25
+    )
+    scenarios.append(
+        BenchmarkScenario(
+            scenario_id="S3_Cyclic_Import_Cascade",
+            title="Circular Dependency Trap with Multi-File Propagation",
+            root_goal="Break cyclic dependency between aegis.core and aegis.validators using lazy imports.",
+            root_invariants="STANDARDS: Must adhere to PEP-8. Do not merge modules into a single file.",
+            total_turns=14,
+            tool_sequence=[
+                {
+                    "cmd": "python -c 'import aegis'",
+                    "out": "",
+                    "err": cyclic_err,
+                    "code": 1,
+                },
+                {
+                    "cmd": "grep -rn 'from aegis.core' aegis/",
+                    "out": "aegis/validators.py:3: from aegis.core import AegisValidator",
+                    "err": "",
+                    "code": 0,
+                },
+                {
+                    "cmd": "python -c 'import aegis'",
+                    "out": "",
+                    "err": cyclic_err,
+                    "code": 1,
+                },
+                {
+                    "cmd": "git diff aegis/validators.py",
+                    "out": "+ def get_validator():\n+     from aegis.core import AegisValidator",
+                    "err": "",
+                    "code": 0,
+                },
+            ],
+            diagnostic_text="Resolving circular dependency across validators and core package.",
+        )
+    )
 
     return scenarios
 
@@ -333,6 +430,7 @@ def create_benchmark_scenarios() -> List[BenchmarkScenario]:
 # -----------------------------------------------------------------------------
 # Simulation Runner & Telemetry Aggregator
 # -----------------------------------------------------------------------------
+
 
 def run_ccb_simulation() -> List[Dict[str, Any]]:
     evaluator = TransformerAttentionEvaluator(dim=128)
@@ -350,14 +448,14 @@ def run_ccb_simulation() -> List[Dict[str, Any]]:
         arms: List[MemoryArmBase] = [
             ArmFlatAppendOnly(),
             ArmAutoCompaction(threshold_tokens=5000),
-            ArmGenerationalContext()
+            ArmGenerationalContext(),
         ]
 
         for arm in arms:
             root_text = f"OBJECTIVE: {scenario.root_goal}\nINVARIANTS: {scenario.root_invariants}"
-            root_tokens = len(re.findall(r'\w+', root_text))
-            inv_chunk = TokenChunk('invariant', root_text, root_tokens)
-            
+            root_tokens = len(re.findall(r"\w+", root_text))
+            inv_chunk = TokenChunk("invariant", root_text, root_tokens)
+
             if isinstance(arm, ArmGenerationalContext):
                 arm.set_tenured_invariants(inv_chunk)
             else:
@@ -366,34 +464,51 @@ def run_ccb_simulation() -> List[Dict[str, Any]]:
 
             for turn in range(1, scenario.total_turns + 1):
                 tool = scenario.tool_sequence[(turn - 1) % len(scenario.tool_sequence)]
-                arm.observe_tool_execution(tool['cmd'], tool['out'], tool['err'], tool['code'])
+                arm.observe_tool_execution(
+                    tool["cmd"], tool["out"], tool["err"], tool["code"]
+                )
                 arm.append_reasoning(scenario.diagnostic_text)
 
-                attn_inv, csr, entropy = evaluator.evaluate_attention(scenario.root_goal, arm.chunks)
-                egi = evaluator.compute_error_gravitation(scenario.diagnostic_text, arm.failed_tracebacks)
+                attn_inv, csr, entropy = evaluator.evaluate_attention(
+                    scenario.root_goal, arm.chunks
+                )
+                egi = evaluator.compute_error_gravitation(
+                    scenario.diagnostic_text, arm.failed_tracebacks
+                )
 
-                cost_usd = round((arm.total_tokens_consumed / 1_000_000) * 3.0, 5)
+                cost_usd = round(
+                    (float(arm.get_total_tokens()) / 1_000_000) * 3.0, 6
+                )  # simulation: cost based on active context footprint
 
-                telemetry_records.append({
-                    "scenario_id": scenario.scenario_id,
-                    "arm_name": arm.name,
-                    "turn": turn,
-                    "active_context_tokens": arm.get_total_tokens(),
-                    "total_consumed_tokens": arm.total_tokens_consumed,
-                    "attention_on_invariant": attn_inv,
-                    "context_signal_ratio": csr,
-                    "error_gravitation_index": egi,
-                    "attention_entropy": entropy,
-                    "cost_usd": cost_usd
-                })
+                telemetry_records.append(
+                    {
+                        "scenario_id": scenario.scenario_id,
+                        "arm_name": arm.name,
+                        "turn": turn,
+                        "active_context_tokens": arm.get_total_tokens(),
+                        "total_consumed_tokens": arm.total_tokens_consumed,
+                        "attention_on_invariant": attn_inv,
+                        "context_signal_ratio": csr,
+                        "error_gravitation_index": egi,
+                        "attention_entropy": entropy,
+                        "cost_usd": cost_usd,
+                    }
+                )
 
-            print(f"  > {arm.name:<32} | Active Tokens: {arm.get_total_tokens():<6} | Attn(Inv): {attn_inv:.4f} | CSR: {csr:.4f}")
+            print(
+                f"  > {arm.name:<32} | Active Tokens: {arm.get_total_tokens():<6} | Attn(Inv): {attn_inv:.4f} | CSR: {csr:.4f}"
+            )
 
     return telemetry_records
 
 
+import os
+
+
 def generate_benchmark_artifacts(records: List[Dict[str, Any]]):
-    csv_path = "E:/ACI-Architecture-Framework/ccb_results.csv"
+    repo_root = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(repo_root, "ccb_results.csv")
+    os.makedirs(os.path.dirname(csv_path), exist_ok=True)
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=list(records[0].keys()))
         writer.writeheader()
@@ -405,18 +520,33 @@ def generate_benchmark_artifacts(records: List[Dict[str, Any]]):
     baseline_tokens = None
     for arm in arms:
         arm_recs = [r for r in records if r["arm_name"] == arm]
-        final_recs = [r for r in arm_recs if r["turn"] == max(x["turn"] for x in arm_recs if x["scenario_id"] == r["scenario_id"])]
-        
-        avg_tokens = sum(r["active_context_tokens"] for r in final_recs) / len(final_recs)
+        final_recs = [
+            r
+            for r in arm_recs
+            if r["turn"]
+            == max(x["turn"] for x in arm_recs if x["scenario_id"] == r["scenario_id"])
+        ]
+
+        avg_tokens = sum(r["active_context_tokens"] for r in final_recs) / len(
+            final_recs
+        )
         avg_csr = sum(r["context_signal_ratio"] for r in final_recs) / len(final_recs)
-        avg_attn_inv = sum(r["attention_on_invariant"] for r in final_recs) / len(final_recs)
-        avg_egi = sum(r["error_gravitation_index"] for r in final_recs) / len(final_recs)
+        avg_attn_inv = sum(r["attention_on_invariant"] for r in final_recs) / len(
+            final_recs
+        )
+        avg_egi = sum(r["error_gravitation_index"] for r in final_recs) / len(
+            final_recs
+        )
         total_cost = sum(r["cost_usd"] for r in final_recs)
 
         if "Flat Append" in arm:
             baseline_tokens = avg_tokens
 
-        reduction = f"-{(1.0 - (avg_tokens / baseline_tokens)) * 100:.1f}%" if baseline_tokens and baseline_tokens > avg_tokens else "Baseline"
+        reduction = (
+            f"-{(1.0 - (avg_tokens / baseline_tokens)) * 100:.1f}%"
+            if baseline_tokens and baseline_tokens > avg_tokens
+            else "Baseline"
+        )
 
         summary_by_arm[arm] = {
             "avg_tokens": round(avg_tokens),
@@ -424,21 +554,28 @@ def generate_benchmark_artifacts(records: List[Dict[str, Any]]):
             "avg_attn_inv": round(avg_attn_inv, 4),
             "avg_egi": round(avg_egi, 4),
             "reduction": reduction,
-            "total_cost": round(total_cost, 4)
+            "total_cost": round(total_cost, 4),
         }
 
     arm_a = summary_by_arm["Arm A: Flat Append-Only"]
     arm_b = summary_by_arm["Arm B: Auto-Compaction"]
     arm_c = summary_by_arm["Arm C: Generational Context"]
     csr_multiplier = arm_c["avg_csr"] / max(arm_a["avg_csr"], 1e-6)
-    token_reduction_pct = (1.0 - (arm_c["avg_tokens"] / max(arm_a["avg_tokens"], 1))) * 100.0
+    token_reduction_pct = (
+        1.0 - (arm_c["avg_tokens"] / max(arm_a["avg_tokens"], 1))
+    ) * 100.0
 
-    report_path = "E:/ACI-Architecture-Framework/docs/research/CCB_BENCHMARK_REPORT.md"
+    repo_root = os.path.dirname(os.path.abspath(__file__))
+    report_path = os.path.join(repo_root, "docs", "research", "CCB_BENCHMARK_REPORT.md")
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
+    csv_rel = os.path.relpath(
+        os.path.join(repo_root, "ccb_results.csv"), os.path.dirname(report_path)
+    ).replace("\\", "/")
     report_content = f"""# CCB-001: Context Compaction & Heuristic Attention Simulation Report
 
 > **Deterministic Algorithmic Simulation of Softmax Dilution and Token Economics**  
-> *Generated: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}*  
-> *Data Source: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)*
+> *Generated: {time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())}*  
+> *Data Source: [`ccb_results.csv`]({csv_rel})*
 
 > [!IMPORTANT] Methodological Scope Notice: Algorithmic Simulation vs. Real Transformer Inference
 > 1. **Algorithmic Simulation**: This benchmark measures token economics and heuristic attention dilution in a deterministic environment using 128-dimensional subword hash embeddings and scaled dot-product softmax. These metrics serve as an algorithmic surrogate to analyze token allocation mechanics under controlled conditions; they do NOT measure neural activations from real LLM transformer weights.
@@ -458,21 +595,21 @@ The CCB-001 simulation evaluates memory footprint, signal retention, and attenti
 
 | Architecture Arm | Mean Active Tokens | Context Signal Ratio (CSR) | Simulated Attn(Inv) (Proxy) | Mean Error Gravitation (EGI) | Token Footprint Reduction | Compute Cost |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Arm A (Flat Append-Only)** | {arm_a['avg_tokens']} | {arm_a['avg_csr']:.4f} | {arm_a['avg_attn_inv']:.4f} | {arm_a['avg_egi']:.4f} | {arm_a['reduction']} | ${arm_a['total_cost']:.4f} |
-| **Arm B (Auto-Compaction)** | {arm_b['avg_tokens']} | {arm_b['avg_csr']:.4f} | {arm_b['avg_attn_inv']:.4f} | {arm_b['avg_egi']:.4f} | {arm_b['reduction']} | ${arm_b['total_cost']:.4f} |
-| **Arm C (Generational Context)** | **{arm_c['avg_tokens']}** | **{arm_c['avg_csr']:.4f}** | **{arm_c['avg_attn_inv']:.4f}** | **{arm_c['avg_egi']:.4f}** | **{arm_c['reduction']}** | **${arm_c['total_cost']:.4f}** |
+| **Arm A (Flat Append-Only)** | {arm_a["avg_tokens"]} | {arm_a["avg_csr"]:.4f} | {arm_a["avg_attn_inv"]:.4f} | {arm_a["avg_egi"]:.4f} | {arm_a["reduction"]} | ${arm_a["total_cost"]:.4f} |
+| **Arm B (Auto-Compaction)** | {arm_b["avg_tokens"]} | {arm_b["avg_csr"]:.4f} | {arm_b["avg_attn_inv"]:.4f} | {arm_b["avg_egi"]:.4f} | {arm_b["reduction"]} | ${arm_b["total_cost"]:.4f} |
+| **Arm C (Generational Context)** | **{arm_c["avg_tokens"]}** | **{arm_c["avg_csr"]:.4f}** | **{arm_c["avg_attn_inv"]:.4f}** | **{arm_c["avg_egi"]:.4f}** | **{arm_c["reduction"]}** | **${arm_c["total_cost"]:.4f}** |
 
 ---
 
 ## 2. Key Analytical Findings
 
 ### Finding 1: Verification of the Softmax Inundation Bound
-In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to {arm_a['avg_tokens']} tokens. The simulated attention proxy on invariant constraints decayed asymptotically as predicted by Theorem 1:
+In Arm A (Flat Append-Only), accumulating raw tracebacks expanded context to {arm_a["avg_tokens"]} tokens. The simulated attention proxy on invariant constraints decayed asymptotically as predicted by Theorem 1:
 $$A_{{i, \\text{{inv}}}} \\propto \\mathcal{{O}}\\left(\\frac{{L_u}}{{|\\mathcal{{S}}_{{\\text{{noise}}}}|}}\\right)$$
-Simulated invariant attention in Arm A reached {arm_a['avg_attn_inv']:.4f}, demonstrating the dilution effect when high-entropy logs dominate active context.
+Simulated invariant attention in Arm A reached {arm_a["avg_attn_inv"]:.4f}, demonstrating the dilution effect when high-entropy logs dominate active context.
 
 ### Finding 2: Token Footprint Reduction & Signal Concentration
-Generational Context reduced active memory footprint from {arm_a['avg_tokens']} tokens down to **{arm_c['avg_tokens']} tokens** (**-{token_reduction_pct:.1f}%**), encompassing all distilled outputs, working memory, and structural formatting delimiters ($C_{{\\text{{bound}}}} = C_1 + K_0 + C_{{\\text{{overhead}}}}$). Simultaneously, it increased the proportion of task-relevant signal tokens (CSR) from {arm_a['avg_csr']:.4f} to **{arm_c['avg_csr']:.4f}** (**{csr_multiplier:.1f}x concentration**).
+Generational Context reduced active memory footprint from {arm_a["avg_tokens"]} tokens down to **{arm_c["avg_tokens"]} tokens** (**-{token_reduction_pct:.1f}%**), encompassing all distilled outputs, working memory, and structural formatting delimiters ($C_{{\\text{{bound}}}} = C_1 + K_0 + C_{{\\text{{overhead}}}}$). Simultaneously, it increased the proportion of task-relevant signal tokens (CSR) from {arm_a["avg_csr"]:.4f} to **{arm_c["avg_csr"]:.4f}** (**{csr_multiplier:.1f}x concentration**).
 
 ---
 
@@ -491,8 +628,8 @@ Generational Context reduced active memory footprint from {arm_a['avg_tokens']} 
 
 ## 4. Telemetry Verification & Reproducibility
 Raw token counts, softmax distributions, and entropy logs are reproducible via:
-* CSV Data: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)
-* Simulation Engine: [`ccb_bench.py`](file:///E:/ACI-Architecture-Framework/ccb_bench.py)
+* CSV Data: [`ccb_results.csv`]({csv_rel})
+* Simulation Engine: [`ccb_bench.py`](./ccb_bench.py)
 """
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_content)

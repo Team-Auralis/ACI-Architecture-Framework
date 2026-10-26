@@ -1,8 +1,8 @@
 # CCB-001: Context Compaction & Heuristic Attention Simulation Report
 
 > **Deterministic Algorithmic Simulation of Softmax Dilution and Token Economics**  
-> *Generated: 2026-10-24 06:45:14 UTC*  
-> *Data Source: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)*
+> *Generated: 2026-10-26 16:07:28 UTC*  
+> *Data Source: [`ccb_results.csv`](../../ccb_results.csv)*
 
 > [!IMPORTANT] Methodological Scope Notice: Algorithmic Simulation vs. Real Transformer Inference
 > 1. **Algorithmic Simulation**: This benchmark measures token economics and heuristic attention dilution in a deterministic environment using 128-dimensional subword hash embeddings and scaled dot-product softmax. These metrics serve as an algorithmic surrogate to analyze token allocation mechanics under controlled conditions; they do NOT measure neural activations from real LLM transformer weights.
@@ -23,8 +23,8 @@ The CCB-001 simulation evaluates memory footprint, signal retention, and attenti
 | Architecture Arm | Mean Active Tokens | Context Signal Ratio (CSR) | Simulated Attn(Inv) (Proxy) | Mean Error Gravitation (EGI) | Token Footprint Reduction | Compute Cost |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Arm A (Flat Append-Only)** | 5099 | 0.0059 | 0.0425 | 0.2071 | Baseline | $0.0459 |
-| **Arm B (Auto-Compaction)** | 3340 | 0.0077 | 0.0553 | 0.2071 | -34.5% | $0.0459 |
-| **Arm C (Generational Context)** | **129** | **0.2000** | **0.0757** | **0.2380** | **-97.5%** | **$0.0459** |
+| **Arm B (Auto-Compaction)** | 3340 | 0.0077 | 0.0553 | 0.2071 | -34.5% | $0.0301 |
+| **Arm C (Generational Context)** | **129** | **0.2000** | **0.0757** | **0.2380** | **-97.5%** | **$0.0012** |
 
 ---
 
@@ -55,5 +55,5 @@ Generational Context reduced active memory footprint from 5099 tokens down to **
 
 ## 4. Telemetry Verification & Reproducibility
 Raw token counts, softmax distributions, and entropy logs are reproducible via:
-* CSV Data: [`ccb_results.csv`](file:///E:/ACI-Architecture-Framework/ccb_results.csv)
-* Simulation Engine: [`ccb_bench.py`](file:///E:/ACI-Architecture-Framework/ccb_bench.py)
+* CSV Data: [`ccb_results.csv`](../../ccb_results.csv)
+* Simulation Engine: [`ccb_bench.py`](./ccb_bench.py)
