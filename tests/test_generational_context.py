@@ -17,6 +17,9 @@ from generational_context import (
     CacheEntry,
 )
 
+# Single source of truth for whether Ed25519 is available.
+from cic_bench import _HAS_CRYPTO
+
 
 class TestAWEAlgorithm(unittest.TestCase):
     def test_cache_hit_and_promotion(self):
@@ -189,53 +192,68 @@ class TestContextOSIntegration(unittest.TestCase):
         self.assertIsInstance(loop_detected, bool)
 
 
-
-
-
-
-
-
 class TestCICCrypto(unittest.TestCase):
+    """Ed25519 signing is optional; the HMAC fallback keeps the library usable
+    without `cryptography`, so these skip rather than fail when it is absent."""
+
+    @unittest.skipUnless(_HAS_CRYPTO, "cryptography not installed")
     def test_cic_keypair_sign_verify(self):
         from cic_bench import CICKeyPair, CollectiveIntent
+
         kp = CICKeyPair()
         intent = CollectiveIntent(
-            goals=['Preserve safety'],
-            values=['Non-maleficence'],
-            constraints=['No self-modification'],
-            priorities={'safety': 1.0},
-            authority='GovernanceCouncil',
+            goals=["Preserve safety"],
+            values=["Non-maleficence"],
+            constraints=["No self-modification"],
+            priorities={"safety": 1.0},
+            authority="GovernanceCouncil",
         )
-        token = kp.sign_proposal('p1', 'GovernanceCouncil', intent)
-        self.assertTrue(token.verify('GovernanceCouncil', intent))
+        token = kp.sign_proposal("p1", "GovernanceCouncil", intent)
+        self.assertTrue(token.verify("GovernanceCouncil", intent))
 
+    @unittest.skipUnless(_HAS_CRYPTO, "cryptography not installed")
     def test_cic_provenance_reject(self):
         from cic_bench import CICKeyPair, CollectiveIntent
+
         kp = CICKeyPair()
         intent = CollectiveIntent(
-            goals=['Preserve safety'],
-            values=['Non-maleficence'],
-            constraints=['No self-modification'],
-            priorities={'safety': 1.0},
-            authority='GovernanceCouncil',
+            goals=["Preserve safety"],
+            values=["Non-maleficence"],
+            constraints=["No self-modification"],
+            priorities={"safety": 1.0},
+            authority="GovernanceCouncil",
         )
-        token = kp.sign_proposal('p1', 'GovernanceCouncil', intent)
-        token2 = type(token)(**{**token.__dict__, 'intent_digest': 'bad'})
-        self.assertFalse(token2.verify('GovernanceCouncil', intent))
+        token = kp.sign_proposal("p1", "GovernanceCouncil", intent)
+        token2 = type(token)(**{**token.__dict__, "intent_digest": "bad"})
+        self.assertFalse(token2.verify("GovernanceCouncil", intent))
 
+    @unittest.skipUnless(_HAS_CRYPTO, "cryptography not installed")
     def test_merkle_audit_chain(self):
         from cic_bench import CICKeyPair, CollectiveIntent, MerkleDagAuditLog
+
         kp = CICKeyPair()
         intent = CollectiveIntent(
-            goals=['Preserve safety'],
-            values=['Non-maleficence'],
-            constraints=['No self-modification'],
-            priorities={'safety': 1.0},
-            authority='GovernanceCouncil',
+            goals=["Preserve safety"],
+            values=["Non-maleficence"],
+            constraints=["No self-modification"],
+            priorities={"safety": 1.0},
+            authority="GovernanceCouncil",
         )
-        token = kp.sign_proposal('p1', 'GovernanceCouncil', intent)
+        token = kp.sign_proposal("p1", "GovernanceCouncil", intent)
         log = MerkleDagAuditLog()
-        log.append({'proposal_id': 'p1', 'intent_digest': intent.canonical_digest(), 'accepted': True})
+        log.append(
+            {
+                "proposal_id": "p1",
+                "intent_digest": intent.canonical_digest(),
+                "accepted": True,
+            }
+        )
         self.assertTrue(log.verify_chain())
-        log.append({'proposal_id': 'p2', 'intent_digest': intent.canonical_digest(), 'accepted': False})
+        log.append(
+            {
+                "proposal_id": "p2",
+                "intent_digest": intent.canonical_digest(),
+                "accepted": False,
+            }
+        )
         self.assertTrue(log.verify_chain())

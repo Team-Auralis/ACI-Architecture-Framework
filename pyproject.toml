@@ -21,6 +21,19 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+crypto = ["cryptography>=41"]
+test = ["pytest", "cryptography>=41"]
+dev = [
+  "mkdocs-material",
+  "pymdown-extensions",
+  "mkdocs-git-revision-date-localized-plugin",
+]
+
+# Flat-layout discovery would otherwise pick up site/ and overrides/ as packages.
+[tool.setuptools]
+packages = ["generational_context"]
+
 [project.urls]
 Homepage = "https://github.com/Team-Auralis/ACI-Architecture-Framework"
 Repository = "https://github.com/Team-Auralis/ACI-Architecture-Framework"

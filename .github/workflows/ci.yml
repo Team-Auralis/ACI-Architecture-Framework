@@ -19,8 +19,7 @@ jobs:
           python-version: 3.x
       - name: Install dependencies
         run: |
-          pip install -e ".[dev,test]" || pip install pytest
-          pip install mkdocs-material pymdown-extensions mkdocs-git-revision-date-localized-plugin
+          pip install -e ".[dev,test]"
       - name: Run tests
         run: |
           python -m pytest -v
