@@ -7,7 +7,18 @@
 [![License](https://img.shields.io/badge/license-Proprietary-lightgrey)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v1.0--ACI--Alpha-indigo)](https://github.com/Team-Auralis/ACI-Architecture-Framework/releases)
 
-> The official specification, reference implementation, benchmark suite, and research ledger for **Artificial Civilization Intelligence (ACI)** — a post-AGI architectural paradigm designed for persistent, multi-decade, planetary-scale governance.
+**A memory controller for long-horizon LLM agents.**
+
+An agent working a long task appends every tool response to its history. By turn 40 the original instruction is a rounding error in the softmax denominator, and the agent starts patching symptoms instead of solving the problem. This bounds the volume of everything that is *not* the standing goal, so the goal keeps its share of attention however long the run gets.
+
+In the bundled deterministic simulation: **5,099 → 129 active tokens (-97.5%)**, invariant attention share **0.0425 → 0.0757**, cognitive signal ratio **33.9×** better.
+
+```bash
+pip install -e ".[test]"
+python ccb_bench.py
+```
+
+No API keys, no third-party dependencies, 11 tests passing. Full numbers are in [CCB-001](#ccb-001-context-benchmark); the proofs and their limits are in the [paper](docs/papers/The_Softmax_Inundation_Theorem.pdf).
 
 ---
 
