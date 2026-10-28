@@ -1,0 +1,9 @@
+turn,arm,ctx,share,uniform
+2,append-only,202,0.4226,0.3069
+2,bounded,202,0.4226,0.3069
+5,append-only,381,0.4047,0.1627
+5,bounded,322,0.4063,0.1925
+10,append-only,682,0.3935,0.0909
+10,bounded,322,0.4063,0.1925
+20,append-only,1282,0.3881,0.0484
+20,bounded,322,0.4063,0.1925
