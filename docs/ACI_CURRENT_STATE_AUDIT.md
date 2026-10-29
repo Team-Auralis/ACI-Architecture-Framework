@@ -24,7 +24,7 @@ This document audits the ORION repository to assess its current state relative t
 - **Evidence**: `generational_context/` (awe.py, memory.py, wrapper.py), `tests/test_generational_context.py` (12 tests passing).
 - **Implementation status**: GREEN
 - **Test status**: GREEN
-- **Limitations**: Proxy/algorithmic simulation only (hash-based attention modeling); no live transformer integration.
+- **Limitations**: Live transformer measurements performed on Qwen2.5-0.5B; empirical evaluations on frontier models (Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across SWE-bench Verified remain future work.
 - **ACI relevance**: Implements The Fool's Theorem mitigation and context management for long-horizon agents.
 - **Recommended next step**: Integrate with live model inference paths and add real attention telemetry.
 

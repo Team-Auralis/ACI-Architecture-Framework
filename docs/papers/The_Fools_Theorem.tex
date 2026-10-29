@@ -1,0 +1,1188 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+
+\geometry{margin=1in}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdftitle={The Fool's Theorem},
+    pdfauthor={Shaurya Sanyal}
+}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{observation}{Observation}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Sinv}{\mathcal{S}_{\mathrm{inv}}}
+\newcommand{\Snoise}{\mathcal{S}_{\mathrm{noise}}}
+\newcommand{\Swork}{\mathcal{S}_{\mathrm{work}}}
+\newcommand{\Snon}{\mathcal{S}_{\mathrm{noninv}}}
+\newcommand{\Ainv}{A_{i,\mathrm{inv}}}
+
+\title{%
+  \textbf{The Fool's Theorem}\\[0.4em]
+  \large Error Gravitation in Long-Horizon Agents:\\
+  Attention Dilution, the Dilution Threshold, and Bounded Context as a Remedy
+}
+
+\author{%
+  \textbf{Shaurya Sanyal}\\
+  \textit{Team Auralis}\\
+  \texttt{shauryasanyal@gmail.com}
+}
+
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+% ---------------------------------------------------------------------------
+\begin{abstract}
+\noindent
+We give a complete account of a failure mode in long-horizon tool-using agents
+that we call \emph{Error Gravitation}, and that we refer to informally as the
+\emph{Fool's Theorem}. The name is a label for the phenomenon, not a claim of
+mathematical novelty, and \S\ref{sec:name} states that distinction precisely.
+
+The account has three parts. First, we formalize the mechanism. Given an
+attention query whose keys split into a fixed invariant set of size $L_u$ and a
+growing distractor set of size $N$, the invariant share satisfies an exact
+identity
+\[
+  \Ainv = \sigma\!\left(\Delta + \ln \frac{L_u}{N}\right),
+\]
+where $\Delta$ is the mean logit gap separating the two sets and $\sigma$ is the
+logistic function. Two consequences follow immediately and are sharp rather than
+worst-case: $\Ainv > \tfrac12$ if and only if $N < L_u e^{\Delta}$, and bounding
+$N \le C$ yields the closed-form guarantee
+$\Ainv \ge \bigl(1 + (C/L_u)e^{-\Delta}\bigr)^{-1}$, which requires no
+norm-boundedness assumption and is non-vacuous at realistic scale. The
+logarithm in the threshold is the entire story: a model must supply a logit gap
+growing as $\ln N$ merely to hold the invariant share constant.
+
+Second, we measure this on a real transformer. Using Qwen2.5-0.5B in eager mode
+and reading the true final-query attention distribution, we find that the
+effective gap follows
+\[
+  \hat{\Delta}(N) \;\approx\; 0.945\,\ln N - 4.195
+  \qquad (R^2 = 0.9996),
+\]
+a slope indistinguishable from~$1$. The model therefore compensates for context
+growth at almost exactly the rate the theory says is necessary, and the observed
+dilution is far weaker than the uniform-score analysis predicts: the invariant
+share falls only from $0.427$ to $0.388$ across a $32\times$ increase in
+distractor volume. We regard this as the single most important finding in the
+paper, and it tempers our own remedy: on this model, with this distractor
+distribution, the invariant share does not collapse. What volume control buys is
+not rescue from collapse but a bound that does not depend on the model happening
+to compensate.
+
+Third, we describe and prove the systems response. \emph{Generational Context}
+tiers active context by invariance and places a hard ceiling on the mutable
+tiers; \emph{Attention-Weighted Eviction} maintains that ceiling as an enforced
+post-condition rather than an assumption. Under it, the closed-form guarantee
+becomes horizon-independent. We prove the resulting \emph{Generational Retention
+Guarantee}, and we state a set of falsifiable predictions that would refute the
+theory, together with the experiments that would test them.
+
+The paper is deliberately two-sided. It argues that volume is the variable a
+system designer can control, and it documents the evidence that the model was
+already partly controlling it on its own.
+\end{abstract}
+
+% ---------------------------------------------------------------------------
+\section{On the name, and what is being claimed}
+\label{sec:name}
+
+The phrase \emph{Fool's Theorem}, as used in this project, names a
+\emph{phenomenon}: the tendency of a long-horizon agent to abandon its stated
+objective and settle into a loop of local, symptomatic repairs. It is not a
+theorem in the mathematical sense, and nothing in this document should be read
+as claiming otherwise.
+
+This distinction is not pedantry. The failure mode is real and worth naming.
+But the mathematics that explains it is elementary, and the two results this
+paper actually proves are named separately:
+
+\begin{itemize}[leftmargin=*]
+  \item the \textbf{Softmax Inundation Bound} (\S\ref{sec:bound}), a worst-case
+        statement derived from bounded projection norms; and
+  \item the \textbf{Dilution Threshold} (\S\ref{sec:threshold}), an exact
+        identity relating the invariant attention share to the mean logit gap;
+        and
+  \item the \textbf{Generational Retention Guarantee} (\S\ref{sec:guarantee}),
+        a horizon-independent lower bound under a maintained volume ceiling.
+\end{itemize}
+
+The third is the result we would defend under review. The second we consider the
+useful one in practice. The first is included because it is the statement most
+likely to be quoted, and it is the weakest of the three, so we would rather
+present it with its limitations attached than have it circulate without them.
+
+\begin{quote}
+\textbf{A note on how to read the empirical section.} The measurements in
+\S\ref{sec:empirical} do not confirm the remedy. They partly undercut the
+motivation for it, by showing that the model we tested compensates for context
+growth far better than a naive analysis predicts. We report this prominently
+because a paper that only reported the favourable half of its own evidence would
+not be worth the reader's time.
+\end{quote}
+
+% ---------------------------------------------------------------------------
+\section{The failure mode}
+\label{sec:phenomenon}
+
+\subsection{What it looks like}
+
+Long-horizon agents fail in a characteristic way that is distinct from, and
+easier to mistake for, ordinary reasoning error. The symptoms are consistent
+across domains:
+
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+  \item \textbf{Objective drift.} By the middle of a session, the agent is
+        optimizing something adjacent to, but not identical with, the stated
+        goal. It fixes the error it most recently saw rather than the error that
+        caused the run.
+  \item \textbf{Symptom loops.} Successive turns apply variations of the same
+        local repair. The agent reports progress because the immediate
+        observation changed.
+  \item \textbf{Recency dominance.} The most recent tool output determines the
+        next action, regardless of whether it is diagnostically relevant. A
+        misleading error message encountered late in a run outranks a decisive
+        one encountered early.
+  \item \textbf{Loss of constraint.} Constraints stated at the start
+        (``do not restart the service'', ``do not modify the schema'') stop
+        constraining behaviour, not because the agent decided to violate them
+        but because they have stopped competing for attention.
+\end{enumerate}
+
+None of these require the model to be incapable. An agent can be entirely
+competent at local reasoning and still exhibit all four, because the failure is
+in \emph{what the model is looking at}, not in how well it thinks about what it
+looks at.
+
+\subsection{A worked trace}
+
+The following is a condensed illustration, using a production-incident shape
+that recurs in practice. Only the parts that matter are shown.
+
+\begin{quote}
+\texttt{\small
+turn 1 \; USER: Build is failing after deploy. Find the root cause. Do not\\
+\phantom{turn 1 }restart services. Do not modify the database schema.\\
+turn 1 \; ASSISTANT: I'll start by checking the deploy logs.\\
+turn 2 \; TOOL: ERROR connection refused to redis:6379\\
+turn 2 \; ASSISTANT: A Redis connectivity failure. Restarting the cache.\\
+turn 3 \; TOOL: ERROR connection refused to redis:6379\\
+turn 3 \; ASSISTANT: The restart did not help. Restarting the cache again.\\
+turn 4 \; TOOL: WARN migration 0042 not applied; column user.locale missing\\
+turn 4 \; ASSISTANT: Redis is still unreachable. Increasing the retry budget.\\
+turn 5 \; TOOL: ERROR connection refused to redis:6379\\
+turn 5 \; ASSISTANT: The cache is the blocker. Restarting it once more.\\
+turn 6 \; TOOL: ERROR schema mismatch on user.locale\\
+turn 6 \; ASSISTANT: Restarting the cache to clear the schema error.
+}
+\end{quote}
+
+Turn~4 contains the root cause and turn~6 repeats it, but neither displaces the
+Redis failure from the agent's working set. The agent also violates two explicit
+constraints from turn~1. It is not that the model cannot read; it is that the
+constraint tokens and the diagnostic tokens have both stopped winning attention
+against a growing body of identical error lines.
+
+Note what makes this example instructive: the distractor is not merely noise. It
+is a \emph{plausible} error, which is why it holds attention so effectively. The
+failure mode is worst when the noise is superficially actionable.
+
+\subsection{Why the mechanism is not the obvious one}
+
+The natural diagnosis is capacity: the context is full, so the model has
+forgotten the goal. That diagnosis is usually wrong, or at least incomplete.
+Modern windows are large enough that a trace like the one above occupies a tiny
+fraction of them, and the instruction is still present in the input. What has
+changed is not availability but \emph{allocation}: the instruction is present
+and receives a negligible share of attention mass.
+
+This is the distinction the paper formalizes. It is also why the fix is not
+``use a bigger window'': doubling the window doubles the room for distractors as
+well.
+
+% ---------------------------------------------------------------------------
+\section{Formal setting}
+\label{sec:prelim}
+
+\subsection{Transcript and length}
+
+Let an agent interact with an environment over discrete turns $t \in
+\mathbb{N}$. Define the initial context length
+\begin{equation}
+  N_t = L_u + \sum_{k<t}\bigl(L_a^{(k)} + L_o^{(k)} + L_r^{(k)}\bigr),
+\end{equation}
+where $L_u$ is the length of the invariant block (system prompt, standing
+objective, hard constraints), and $L_a^{(k)}, L_o^{(k)}, L_r^{(k)}$ are the
+token counts of the action, raw observation, and reasoning trace at turn $k$.
+
+\subsection{Attention}
+
+For query position $i$ and key position $j$ within the same head and layer,
+\begin{equation}
+  A_{i,j}
+  = \frac{\exp(s_{i,j})}{\sum_{m=1}^{N_t}\exp(s_{i,m})},
+  \qquad
+  s_{i,j} = \frac{\mathbf{q}_i^{\top}\mathbf{k}_j}{\sqrt{d_k}},
+  \label{eq:attn}
+\end{equation}
+with $\mathbf{q}_i = \mathbf{X}_i W_Q$ and $\mathbf{k}_j = \mathbf{X}_j W_K$.
+We write $\Ainv = \sum_{j \in \Sinv} A_{i,j}$ for the aggregate mass on the
+invariant block.
+
+\subsection{Partition}
+
+Fix $t$ and partition the index set into
+\begin{align}
+  \Sinv &: \text{invariant tokens}, & |\Sinv| &= L_u, \\
+  \Snoise &: \text{raw observations}, & |\Snoise| &= \textstyle\sum_k L_o^{(k)}, \\
+  \Swork &: \text{actions and reasoning}, & |\Swork| &= \textstyle\sum_k \bigl(L_a^{(k)}+L_r^{(k)}\bigr),
+\end{align}
+and write $N = |\Snoise|$ for the distractor count, treating $\Swork$ as part of
+the non-invariant pool where stated.
+
+\subsection{What is measured, and what is assumed}
+
+It is worth separating these two cleanly, because the empirical section
+measures one quantity and the theorems assume properties of another.
+
+\emph{Measured:} the attention distribution $A_{i,\cdot}$ for the final query
+position, read directly from the model in eager mode. No approximation, no
+surrogate embedding.
+
+\emph{Assumed (only where stated):} bounds on the projections, used solely for
+the worst-case result of \S\ref{sec:bound}. The threshold result of
+\S\ref{sec:threshold} requires no such assumption, which is one reason we prefer
+it.
+
+% ---------------------------------------------------------------------------
+\section{The Dilution Threshold}
+\label{sec:threshold}
+
+This section contains the paper's most useful piece of mathematics, and it is
+short. The point is to replace a worst-case inequality over unknown norms with
+an identity over a single measurable quantity.
+
+\begin{proposition}[Two-group softmax identity]
+\label{prop:identity}
+Fix a query $i$. Suppose the invariant keys share a common score
+$s_{\mathrm{inv}}$ and the non-invariant keys share a common score
+$s_{\mathrm{non}}$, with sizes $L_u$ and $N$ respectively. Define the
+\emph{effective logit gap}
+\begin{equation}
+  \Delta = s_{\mathrm{inv}} - s_{\mathrm{non}} .
+\end{equation}
+Then
+\begin{equation}
+  \Ainv
+  = \frac{L_u e^{s_{\mathrm{inv}}}}{L_u e^{s_{\mathrm{inv}}} + N e^{s_{\mathrm{non}}}}
+  = \frac{1}{1 + \dfrac{N}{L_u}e^{-\Delta}}
+  = \sigma\!\left(\Delta + \ln\frac{L_u}{N}\right),
+  \label{eq:threshold}
+\end{equation}
+where $\sigma(z) = (1+e^{-z})^{-1}$.
+\end{proposition}
+
+\begin{proof}
+Factor $e^{s_{\mathrm{inv}}}$ from numerator and denominator and divide through
+by $L_u$. The logistic form follows from
+$1/(1+e^{-z}) = \sigma(z)$ with
+$z = \Delta + \ln(L_u/N)$, since
+$\dfrac{N}{L_u}e^{-\Delta} = e^{-\Delta - \ln(L_u/N)}$.
+\end{proof}
+
+\begin{corollary}[Half-mass threshold]
+\label{cor:half}
+$\Ainv > \tfrac12$ if and only if
+\begin{equation}
+  \Delta > \ln\frac{N}{L_u}
+  \qquad\Longleftrightarrow\qquad
+  N < L_u e^{\Delta}.
+\end{equation}
+\end{corollary}
+
+\begin{corollary}[Fractional guarantee under a cap]
+\label{cor:cap}
+For any $\varepsilon \in (0,1)$, if $N \le C$ then
+\begin{equation}
+  \Ainv \;\ge\; \frac{1}{1 + \dfrac{C}{L_u}e^{-\Delta}}
+  \;=\; \frac{L_u e^{\Delta}}{L_u e^{\Delta} + C},
+  \label{eq:cap}
+\end{equation}
+with equality when $N = C$.
+\end{corollary}
+
+\begin{remark}[Why this is better than a norm bound]
+\label{rem:better}
+Proposition~\ref{prop:identity} contains no unknown constants. Equation
+\eqref{eq:cap} is an equality at $N=C$, so it is sharp for the two-group model
+rather than merely an upper or lower bound with slack. It requires no boundedness
+assumption on the projections. And every quantity in it is measurable:
+$\Delta$ is estimable from a handful of forward passes, as we do in
+\S\ref{sec:empirical}. By contrast the norm-based bound of \S\ref{sec:bound}
+depends on $\kappa = e^{2B}$, which for realistic projection norms exceeds
+$10^{8}$, and which is uninformative at any practical context length.
+\end{remark}
+
+\begin{remark}[The logarithm is the whole phenomenon]
+\label{rem:log}
+Corollary~\ref{cor:half} says that the invariant set holds the majority of
+attention exactly when the model's logit gap exceeds $\ln(N/L_u)$. The
+requirement is logarithmic in the distractor count. This has two consequences
+that pull in opposite directions, and both matter:
+
+\begin{enumerate}[label=(\roman*), leftmargin=*]
+  \item \textbf{Compensation is cheap.} A model need only increase its
+        invariant-versus-background gap by about $\ln N$ nats --- for
+        $N = 20{,}000$ and $L_u = 62$, roughly $5.8$ nats --- to hold the share
+        constant. Since logits are unbounded and gaps of this size are well
+        within the range trained models routinely produce, we should \emph{expect}
+        capable models to compensate, at least partially. \S\ref{sec:empirical}
+        finds that the model we tested does exactly this.
+  \item \textbf{Dilution is not avoidable by scale.} Conversely, because the
+        requirement grows with $N$ without bound, any \emph{fixed} logit gap
+        $\Delta_0$ is eventually overwhelmed: $N > L_u e^{\Delta_0}$ suffices,
+        and no amount of training removes the dependence on $N$. A model that
+        has learned a gap appropriate for $10^3$ tokens has not thereby learned
+        one appropriate for $10^7$.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[The practical recipe]
+\label{rem:recipe}
+Corollary~\ref{cor:cap} inverts into a design rule. Given a target share
+$1-\varepsilon$ and an estimated gap $\Delta$ for the model in use, the mutable
+budget should satisfy
+\begin{equation}
+  C \;\le\; L_u e^{\Delta}\left(\frac{1}{\varepsilon} - 1\right).
+  \label{eq:recipe}
+\end{equation}
+For $\varepsilon = 0.5$ this is $C \le L_u e^{\Delta}$, the half-mass threshold.
+The formula is exact for the two-group model and requires only that the planner
+either measures $\Delta$ or chooses a conservative lower bound for it. This is
+the form in which the theory is actually usable, and \S\ref{sec:empirical}
+supplies the measurement for one model.
+\end{remark}
+
+\begin{remark}[Where the model is wrong]
+\label{rem:limits}
+The two-group assumption is a simplification and we do not want to hide it.
+Real key sets have dispersed scores within each group, and $\Delta$ as defined
+above is the gap between group \emph{means}, not a gap between actual logits.
+Three things follow. (i) Equation~\eqref{eq:threshold} is exact only for
+constant within-group scores; otherwise it defines an effective gap whose value
+is set by the observed share, which is how we estimate it below. (ii) The
+worst-case theorem of \S\ref{sec:bound} is still available for the adversarial
+case, and it is the reason we keep it. (iii) Multi-head structure is ignored:
+$\Ainv$ is defined per head, and a claim about the layer as a whole requires an
+aggregation convention, which we state when reporting measurements.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\section{The Softmax Inundation Bound}
+\label{sec:bound}
+
+We include the norm-based result for completeness and for the adversarial case,
+with its limitations attached.
+
+\begin{assumption}[Bounded projection energy]
+\label{assump:bounded}
+There exist $M_Q, M_K > 0$ such that $\|\mathbf{q}_i\|_2 \le M_Q$ and
+$\|\mathbf{k}_j\|_2 \le M_K$ for all $i,j$. By Cauchy--Schwarz,
+\begin{equation}
+  -B \le s_{i,j} \le B, \qquad B = \frac{M_Q M_K}{\sqrt{d_k}},
+\end{equation}
+and we write $\kappa = e^{2B}$.
+\end{assumption}
+
+\begin{theorem}[Softmax Inundation Bound]
+\label{thm:inundation}
+Under Assumption~\ref{assump:bounded}, for every query $i$ and turn $t$,
+\begin{equation}
+  \Ainv \;\le\; \frac{\kappa\, L_u}{L_u + N},
+  \qquad\text{so}\qquad
+  \Ainv = \mathcal{O}\!\left(\frac{L_u}{N}\right)
+  \ \text{ as } N \to \infty .
+  \label{eq:inundation}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Since $e^{-B} \le e^{s_{i,j}} \le e^{B}$ for all $j$,
+\begin{equation}
+  \sum_{j\in\Sinv} e^{s_{i,j}} \le L_u e^{B},
+\end{equation}
+and dropping the non-negative $\Swork$ terms from the denominator of
+\eqref{eq:attn},
+\begin{equation}
+  \sum_{m=1}^{N_t} e^{s_{i,m}} \ge (L_u + N)e^{-B}.
+\end{equation}
+Dividing gives the claim.
+\end{proof}
+
+\begin{remark}[This result is weak, and we say so]
+\label{rem:weak}
+Equation~\eqref{eq:inundation} is vacuous whenever
+$\kappa L_u \gtrsim L_u + N$, since the right-hand side then exceeds $1$ and the
+inequality carries no information. With $B = 10$, $\kappa \approx 5\times 10^{8}$;
+the bound becomes informative only when $N$ is within a factor of $\kappa$ of
+$L_u$, which at practical scales it is not. The result is also loose in a second
+way: it bounds the share by assuming the \emph{worst} scores for the invariant
+set and the \emph{best} for the distractors, whereas the observed configuration
+is almost always the opposite. Its only genuine use is adversarial: it says that
+without any assumption on the score ordering, volume alone cannot promise a
+floor. Proposition~\ref{prop:identity} is the version to use when a gap estimate
+is available.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\section{Empirical measurement}
+\label{sec:empirical}
+
+\subsection{Method}
+
+We measure attention directly rather than modelling it. The probe
+(\texttt{experiments/live\_attention\_probe.py}) does the following:
+
+\begin{enumerate}[label=(\arabic*), leftmargin=*]
+  \item Loads \texttt{Qwen2.5-0.5B} in \texttt{float16} with
+        \texttt{attn\_implementation="eager"}, so that attention weights are
+        materialized rather than fused away.
+  \item Constructs a prompt with a fixed invariant prefix (62 tokens: a system
+        role, a standing objective, and four hard constraints) followed by a
+        variable number of distractor tokens drawn from a set of realistic
+        log-line templates, followed by a fixed task question.
+  \item Runs a single forward pass with \texttt{output\_attentions=True} and
+        reads the final query position's attention row over all keys.
+  \item Reports the mean over all 24 layers and 14 query heads of the mass
+        assigned to the invariant prefix.
+\end{enumerate}
+
+Two methodological points deserve emphasis. First, we report the
+\emph{final} query position because that is the position whose distribution
+governs the next generated token; averages over all positions would mix in
+early positions whose visible key set is shorter. Second, we validate the
+extraction against the stock implementation rather than trusting it: an earlier
+version of this probe computed the final attention row from hidden states via a
+hook, and we discarded that approach after it disagreed with eager attention by
+$1.4\times10^{-2}$ in the maximum absolute deviation. The reported numbers come
+from the unmodified library path.
+
+\begin{remark}[What ``invariant share'' is not]
+It is not a measure of task success, and it is not a probability that the model
+will follow the instruction. It is the fraction of one head's attention mass at
+one position that lands on a fixed set of tokens. The reason to care is that a
+share near zero makes instruction-following close to impossible in that head,
+whereas a healthy share merely makes it possible.
+\end{remark}
+
+\subsection{Result 1: dilution as distractors grow}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{rrrrr}
+\toprule
+\textbf{Distractors $N$} & \textbf{Total ctx.} & \textbf{Inv.\ share} & \textbf{Uniform} & \textbf{Enrichment} \\
+\midrule
+0    & 81   & 0.527 & 0.765 & 0.69$\times$ \\
+64   & 146  & 0.427 & 0.425 & 1.00$\times$ \\
+128  & 210  & 0.422 & 0.295 & 1.43$\times$ \\
+256  & 338  & 0.405 & 0.183 & 2.21$\times$ \\
+512  & 593  & 0.398 & 0.105 & 3.80$\times$ \\
+1024 & 1106 & 0.381 & 0.056 & 6.80$\times$ \\
+2048 & 2129 & 0.388 & 0.029 & 13.33$\times$ \\
+\bottomrule
+\end{tabular}
+\caption{Qwen2.5-0.5B, final-query attention to a fixed 62-token invariant
+prefix, averaged over 24 layers and 14 heads. ``Uniform'' is the share that
+would obtain if attention were spread evenly, $L_u/N_t$. ``Enrichment'' is the
+ratio of the two. Distractor text is drawn from log-line templates; the task
+question is fixed.}
+\label{tab:sweep}
+\end{table}
+
+Two features stand out, and only one of them was expected.
+
+\emph{Expected:} the invariant share declines as distractors accumulate, from
+$0.527$ at $N=0$ to $0.388$ at $N=2048$. With $L_u$ fixed and $N$ growing, the
+denominator of \eqref{eq:attn} grows and a fixed set of keys must lose share
+unless its relative scores grow.
+
+\emph{Unexpected:} the decline is very small. A $32\times$ increase in
+distractor volume moves the share by about $9\%$ relative. Simultaneously the
+enrichment over uniform grows from $1.0\times$ to $13.3\times$: the model is
+attending to the prefix far more than chance, and increasingly so. The naive
+reading of \eqref{eq:threshold} with a constant $\Delta$ would predict the share
+falling to roughly $0.01$ by $N=2048$; it does not.
+
+\subsection{Result 2: the effective gap grows logarithmically}
+
+We can make the discrepancy quantitative. Inverting
+\eqref{eq:threshold} for the effective gap,
+\begin{equation}
+  \hat{\Delta}(N)
+  = \ln\!\left(\frac{L_u}{N}\left(\frac{1}{\Ainv} - 1\right)\right),
+  \label{eq:delta-hat}
+\end{equation}
+which is well defined whenever $\Ainv \in (0,1)$.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{rrrrr}
+\toprule
+\textbf{$N$} & \textbf{Inv.\ share} & \textbf{$\hat{\Delta}$ (nats)} & \textbf{$\ln(N/L_u)$} & \textbf{$L_u e^{\hat{\Delta}}$} \\
+\midrule
+64   & 0.427 & $-0.264$ & 0.032 & 48 \\
+128  & 0.422 & $0.410$  & 0.725 & 93 \\
+256  & 0.405 & $1.033$  & 1.418 & 174 \\
+512  & 0.398 & $1.696$  & 2.111 & 338 \\
+1024 & 0.381 & $2.321$  & 2.804 & 631 \\
+2048 & 0.388 & $3.042$  & 3.497 & 1299 \\
+\bottomrule
+\end{tabular}
+\caption{Effective logit gap recovered from the measured share via
+\eqref{eq:delta-hat}. The final column is the half-mass threshold
+$L_u e^{\Delta}$ from Corollary~\ref{cor:half}: below this $N$ the invariant set
+holds the majority of attention.}
+\label{tab:gap}
+\end{table}
+
+Regressing $\hat{\Delta}$ on $\ln N$ gives
+\begin{equation}
+  \hat{\Delta}(N) \;\approx\; 0.945\,\ln N - 4.195,
+  \qquad R^2 = 0.9996 .
+  \label{eq:fit}
+\end{equation}
+
+The slope is $0.945$, and the theoretical boundary value is $1$. A slope of
+exactly $1$ would mean
+\begin{equation}
+  \hat{\Delta}(N) = \ln N + c
+  \quad\Longrightarrow\quad
+  \frac{N}{L_u}e^{-\hat{\Delta}} = \frac{e^{-c}}{L_u} = \text{const},
+\end{equation}
+so that by \eqref{eq:threshold} the invariant share is \emph{exactly
+constant} in $N$. The measured slope sits just below $1$, which is why the
+observed share drifts slowly downward rather than being flat: the model
+compensates for context growth at $94.5\%$ of the rate required to hold its
+allocation, and the residual $5.5\%$ is what shows up as dilution.
+
+\begin{observation}
+\label{obs:compensation}
+On Qwen2.5-0.5B, over $N \in [64, 2048]$ and for this distractor distribution,
+the invariant attention share is an approximately scale-invariant function of
+distractor volume. The model supplies a logit gap that grows essentially as
+$\ln N$, matching the requirement identified in Remark~\ref{rem:log} to within
+a small constant margin.
+\end{observation}
+
+This is not, in our reading, a coincidence of a small model. Any training
+objective that rewards instruction-following across a range of context lengths
+will select for representations whose invariant-versus-background gap grows with
+length, because Remark~\ref{rem:log} shows that such growth is available at
+logarithmic cost. Instruction tuning across varied sequence lengths is, in
+effect, a curriculum for exactly this property.
+
+\subsection{Result 3: capping stabilises what drift remains}
+
+If the model compensates almost perfectly, the residual drift is small, and the
+question becomes whether it is worth controlling. We test the turn-scale
+behaviour by simulating an append-only history against a capped one.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{llrr}
+\toprule
+\textbf{Turn} & \textbf{Arm} & \textbf{Total ctx.} & \textbf{Inv.\ share} \\
+\midrule
+2  & append-only   & 202  & 0.423 \\
+2  & bounded ($C{=}240$) & 202  & 0.423 \\
+5  & append-only   & 381  & 0.405 \\
+5  & bounded       & 322  & 0.406 \\
+10 & append-only   & 682  & 0.394 \\
+10 & bounded       & 322  & 0.406 \\
+20 & append-only   & 1282 & 0.388 \\
+20 & bounded       & 322  & 0.406 \\
+\bottomrule
+\end{tabular}
+\caption{Turn-scaled trace, 60 distractor tokens per turn. The bounded arm holds
+mutable content at the cap, so total context plateaus and the share is constant
+thereafter. The append-only arm drifts down by about $8\%$ relative over 20
+turns.}
+\label{tab:turns}
+\end{table}
+
+Bounding the mutable tiers arrests the residual drift and, more importantly,
+makes it \emph{provably} bounded rather than empirically small. That is the case
+for the guarantee in \S\ref{sec:guarantee}, and after Result~2 it is the honest
+case: not ``we prevent collapse'', but ``we replace a property we observed with a
+property the controller enforces''.
+
+\subsection{Threats to validity}
+
+We list these before the reader has to.
+
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+  \item \textbf{One model, one size.} All measurements are Qwen2.5-0.5B. Whether
+        the $0.945$ slope holds at 7B, 70B, or in models with different
+        positional encodings is untested. The qualitative prediction from
+        Remark~\ref{rem:log} --- slope at most~$1$, and higher for models
+        trained at longer lengths --- is testable and not tested.
+  \item \textbf{Synthetic distractors.} The distractor text is drawn from eight
+        log-line templates with a varying integer. Real tool output is far more
+        heterogeneous. Homogeneity may make the group-mean gap
+        (and hence $\hat{\Delta}$) unusually well defined; a distribution with
+        a few very high-scoring distractors could behave differently, and
+        Remark~\ref{rem:limits} of \S\ref{sec:bound} names that case as
+        adversarial and out of scope for a volume argument.
+  \item \textbf{Attention is a proxy.} We measure allocation, not behaviour. The
+        claim ``allocation is preserved'' does not entail ``the instruction is
+        followed''. Correlating share with task success requires a behavioural
+        benchmark, which we have not run.
+  \item \textbf{Final-position attention only.} We read one row per head. This
+        is the position that governs generation, but a model may route the
+        relevant information through earlier positions or through the residual
+        stream in ways a single row does not reveal.
+  \item \textbf{GPU-limited reach.} The turn-scale experiment runs at 60
+        tokens per turn. The original configuration of 120 tokens per turn
+        exceeded the 4\,GB of available device memory in eager mode at 40 turns.
+        Absolute numbers at realistic per-turn volumes will differ, though the
+        qualitative plateau-versus-drift contrast should not.
+  \item \textbf{Absence of collapse may be specific to the setting.} We do not
+        observe inundation collapse, and we have not established the conditions
+        under which it would occur. It is possible that a longer horizon than we
+        can test on this hardware, or a distractor distribution with higher score
+        variance, would produce it.
+\end{enumerate}
+
+\subsection{What the measurement actually settles}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{p{0.44\textwidth}p{0.5\textwidth}}
+\toprule
+\textbf{Claim} & \textbf{Status after measurement} \\
+\midrule
+Volume drives allocation through the softmax denominator &
+\textbf{Supported.} Share is monotone decreasing in $N$ across the tested range, in the direction \eqref{eq:threshold} requires. \\
+\addlinespace
+A fixed logit gap is eventually overwhelmed by $N$ &
+\textbf{Logically settled, not observed.} Follows from \eqref{eq:threshold}; the measured $N$ range is too small to exhibit it. \\
+\addlinespace
+Volume control holds the share fixed &
+\textbf{Supported.} Table~\ref{tab:turns}: the capped arm is constant to three decimals. \\
+\addlinespace
+Unbounded volume causes attention collapse in practice &
+\textbf{Not supported.} Share fell $\approx 9\%$ over a $32\times$ growth in $N$. The naive model over-predicts dilution substantially. \\
+\addlinespace
+Volume control improves task success &
+\textbf{Untested.} Requires a behavioural benchmark. \\
+\bottomrule
+\end{tabular}
+\caption{Status of the paper's claims after \S\ref{sec:empirical}. We include
+the negative entries because they are the ones a reader is entitled to know.}
+\label{tab:claims}
+\end{table}
+
+% ---------------------------------------------------------------------------
+\section{Generational Context}
+\label{sec:gc}
+
+\subsection{Design}
+
+If \S\ref{sec:threshold} identifies volume as the controllable variable, the
+response is to control it explicitly. Generational Context applies the shape of
+generational garbage collection and of virtual-memory paging at the granularity
+of semantic context entries rather than KV blocks.
+
+\begin{definition}[Generational Context]
+\label{def:gc}
+Active context is partitioned into three tiers:
+\begin{enumerate}[label=\textbf{Gen-\arabic*}, leftmargin=*]
+  \item \emph{Tenured.} Founding objectives, system invariants, and hard
+        constraints. Pinned; never evicted. Occupies $L_u$ tokens.
+  \item \emph{Evaporative.} Working memory: hypotheses, plans, uncommitted
+        deltas, and committed-but-revisable state. Paged under a strict capacity
+        $C_1$ by Attention-Weighted Eviction (\S\ref{sec:awe}).
+  \item \emph{Ephemeral.} Raw tool output and logs. Passed through a
+        distillation map $\sigma_{\mathrm{distill}}$ producing at most $K_0$
+        tokens, with the raw form discarded under a turn-based TTL.
+\end{enumerate}
+Let $C_{\mathrm{overhead}}$ bound the structural tokens (role tags, delimiters,
+section headers) needed to render the window, and set
+\begin{equation}
+  C_{\mathrm{bound}} = C_1 + K_0 + C_{\mathrm{overhead}} .
+  \label{eq:cbound}
+\end{equation}
+\end{definition}
+
+\subsection{Why three tiers and not one budget}
+
+A single global budget would satisfy the volume bound of
+Theorem~\ref{thm:guarantee} equally well. The tiering earns its place on a
+different axis: it makes the eviction \emph{policy} well posed. Under a single
+budget, a diagnostic observation and a standing constraint compete on the same
+footing, and attention-based scoring will sometimes evict the constraint,
+because in a given turn the constraint may genuinely be less attended than a
+salient error. Pinning removes that possibility for the tokens where it is
+intolerable, and the volume cap then bounds everything else.
+
+The design is therefore: one tier that is exempt from competition, one tier that
+competes under a budget, and one tier that is summarized before it ever
+competes.
+
+\subsection{Interaction with the threshold result}
+
+Combining Definition~\ref{def:gc} with Remark~\ref{rem:log} gives a concrete
+sizing rule. With $C_{\mathrm{bound}}$ as the mutable budget,
+Corollary~\ref{cor:cap} becomes
+\begin{equation}
+  \Ainv \;\ge\; \frac{L_u e^{\Delta}}{L_u e^{\Delta} + C_{\mathrm{bound}}},
+\end{equation}
+so a designer targeting $\Ainv \ge 1-\varepsilon$ chooses
+$C_{\mathrm{bound}} \le L_u e^{\Delta}(1/\varepsilon - 1)$. Nothing in this
+depends on the horizon, and nothing in it depends on the model continuing to
+compensate for context growth: the bound is maintained by the controller, not by
+the model's properties.
+
+% ---------------------------------------------------------------------------
+\section{Attention-Weighted Eviction}
+\label{sec:awe}
+
+\subsection{Selection policy}
+
+The guarantee of \S\ref{sec:guarantee} presumes a controller that maintains the
+volume ceiling. We implement eviction as an adaptation of ARC
+\cite{megiddo2003arc}, which already solves recency-versus-frequency allocation
+for paged memory.
+
+The cache maintains a recency list $T_1$, a frequency/saliency list $T_2$, ghost
+registries $B_1, B_2$ recording recently evicted entries, and an adaptation
+parameter $p$ targeting the size of $T_1$. Victim selection within a list uses
+the \emph{Information Density Score}
+\begin{equation}
+  \mathrm{IDS}(E)
+  = \frac{\mathrm{AttnWeight}(E)\cdot 100}{\mathrm{Entropy}(E) + 10^{-4}},
+  \label{eq:ids}
+\end{equation}
+with tier-based priors for entries whose attention statistics have not yet been
+measured. The intuition is that an entry is worth keeping when it receives
+attention predictably rather than diffusely: a high weight spread across a
+dispersed distribution is closer to noise than the same weight concentrated on a
+few tokens.
+
+\subsection{Post-condition}
+
+The invariant the controller enforces is
+\begin{equation}
+  \sum_{e \in T_1 \cup T_2} \mathrm{tokens}(e) \;\le\; C
+  \qquad \text{after every operation},
+  \label{eq:post}
+\end{equation}
+with any single entry larger than $C$ truncated before insertion. Equation
+\eqref{eq:post} is a post-condition rather than a target: it holds after
+insertion, after promotion, and after distillation.
+
+\subsection{Two correctness traps}
+
+Both of these were found by testing rather than by inspection, and both are the
+kind of error that a bound like \eqref{eq:post} would hide if it were assumed
+rather than checked.
+
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+  \item \textbf{Self-eviction on promotion.} Promoting an entry from $T_1$ to
+        $T_2$ can grow the footprint, which triggers eviction, and a naive
+        victim-selection rule can choose the newly promoted entry as its own
+        victim. The entry is then silently lost in the same operation that
+        promoted it, and because the operation reports success the loss is
+        invisible. The fix is to exclude the incoming key from the victim pool:
+        the routine must claim space from \emph{other} entries or fail.
+  \item \textbf{Unbounded ghost registries.} The ghost lists record recently
+        evicted keys so that re-admission can be detected. If they are not
+        themselves bounded, the bookkeeping grows without limit even though the
+        active cache does not, which defeats the purpose of the controller while
+        leaving \eqref{eq:post} satisfied.
+\end{enumerate}
+
+% ---------------------------------------------------------------------------
+\section{The Generational Retention Guarantee}
+\label{sec:guarantee}
+
+\begin{theorem}[General retention guarantee]
+\label{thm:guarantee}
+Fix a query $i$ and let $\Delta$ be the effective logit gap between the
+invariant set and the non-invariant set. If the active non-invariant volume is
+maintained at most $C_{\mathrm{bound}}$ at every turn, then for all $t \ge 1$,
+\begin{equation}
+  \Ainv^{(t)}
+  \;\ge\;
+  \frac{L_u e^{\Delta}}{L_u e^{\Delta} + C_{\mathrm{bound}}}
+  \;>\; 0 .
+  \label{eq:guarantee}
+\end{equation}
+In particular the bound is independent of the horizon $t$.
+\end{theorem}
+
+\begin{proof}
+By Definition~\ref{def:gc} the non-invariant count satisfies
+$N_t \le C_1 + K_0 + C_{\mathrm{overhead}} = C_{\mathrm{bound}}$ at every turn,
+independently of $t$. Apply Corollary~\ref{cor:cap} with $C = C_{\mathrm{bound}}$.
+The right-hand side is positive because $L_u e^{\Delta} > 0$ and
+$C_{\mathrm{bound}} < \infty$.
+\end{proof}
+
+\begin{corollary}[No horizon decay]
+\label{cor:no-decay}
+Under the hypotheses of Theorem~\ref{thm:guarantee},
+$\inf_{t\ge1} \Ainv^{(t)} > 0$.
+\end{corollary}
+
+\begin{remark}[Worst-case variant]
+The same conclusion holds without any assumption on the gap, at the cost of
+sharpness. Replacing $\Delta$ by the norm bound of
+Theorem~\ref{thm:inundation} gives
+\begin{equation}
+  \Ainv^{(t)} \;\ge\; \frac{L_u}{L_u + \kappa\, C_{\mathrm{bound}}},
+\end{equation}
+which is positive, bounded away from zero, and horizon-independent, but
+numerically uninformative at realistic $\kappa$. We state it only to record that
+the qualitative conclusion --- no horizon decay --- does not depend on the gap
+being favourable. The controller prevents \emph{collapse}; the gap determines
+how much share is actually retained.
+\end{remark}
+
+\begin{remark}[What the guarantee is not]
+It is a statement about attention allocation under a maintained volume bound. It
+says that if the controller holds, then volume alone cannot drive the invariant
+share to zero. It does not say the share is large, that the model will follow the
+instruction, or that the task will succeed. An adversary who controls distractor
+\emph{content} rather than count can violate the spirit of the result while
+leaving the bound intact, by constructing distractors whose scores dominate the
+invariant set within any fixed budget.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\section{Intent auditing}
+\label{sec:cic}
+
+The architecture includes a component for checking that a proposed action is
+consistent with the declared objective, and for leaving a verifiable trail of
+those checks. It is an engineering component, and we describe it as such.
+
+An intent is serialized as a canonical digest over the declared goal, values,
+constraints, and priorities, and signed with Ed25519. A proposal is accepted only
+if its authorization token verifies against the current intent digest and its
+signatory holds the required role. Decisions are recorded in an append-only
+hash-chained log, so that a later dispute can be resolved by recomputation
+rather than by trusting the agent's account of what it decided.
+
+Two honest caveats. The threat model is undocumented: we have not specified what
+the adversary is assumed to control, and without that the component should be
+read as a consistency mechanism rather than a security boundary. And the
+scenarios that exercise it are authored by the same team that wrote the checker,
+which is exactly the configuration in which a checker appears more capable than
+it is. Both gaps are addressable, and neither is addressed here.
+
+% ---------------------------------------------------------------------------
+\section{Reference implementation}
+\label{sec:impl}
+
+The architecture is implemented in the \texttt{generational\_context} package
+and depends only on the Python standard library at runtime. It exposes tool
+observation, reasoning recording, and prompt compilation; it enforces the
+capacity post-condition \eqref{eq:post} and the Gen-0 TTL behaviour.
+
+The repository also contains:
+
+\begin{itemize}[leftmargin=*]
+  \item \texttt{ccb\_bench.py}, the deterministic simulation harness reported in
+        the companion paper \cite{sanyal2026softmax};
+  \item \texttt{experiments/live\_attention\_probe.py}, the measurement script
+        behind \S\ref{sec:empirical}, with its outputs committed as CSV;
+  \item \texttt{tests/}, which exercises the tier invariants, the eviction
+        post-condition including the self-eviction case, and the intent-audit
+        primitives. The cryptographic tests skip rather than fail when the
+        optional \texttt{cryptography} dependency is absent, matching the
+        library's documented fallback.
+\end{itemize}
+
+None of this is a substitute for the behavioural experiment described in
+\S\ref{sec:predictions}, and it is not offered as one.
+
+% ---------------------------------------------------------------------------
+\section{Falsifiable predictions}
+\label{sec:predictions}
+
+A theory that cannot be wrong is not useful. The following are stated so they
+can be tested and, if the theory is mistaken, refuted.
+
+\begin{enumerate}[label=\textbf{P\arabic*.}, leftmargin=*]
+  \item \textbf{Slope bound.} For any instruction-tuned model, the regression
+        slope of $\hat{\Delta}$ on $\ln N$ is at most $1$ in the regime where
+        the invariant prefix is a plausible instruction block. A slope
+        materially above $1$ would mean the model \emph{over}-compensates as
+        context grows, which our account of the mechanism does not predict.
+        \emph{Test:} repeat \S\ref{sec:empirical} across model families and
+        sizes.
+
+  \item \textbf{Slope scales with training length.} Models trained or
+        instruction-tuned at longer context lengths should exhibit slope closer
+        to $1$ than models tuned at shorter lengths, because longer training
+        makes the logarithmic compensation more available.
+        \emph{Test:} regress slope against stated training context length across
+        a model family.
+
+  \item \textbf{Distribution sensitivity.} Replacing homogeneous log-line
+        distractors with heterogeneous real tool traces should lower
+        $\hat{\Delta}$ at fixed $N$, because a heterogeneous set produces higher
+        maximum scores against the invariant block.
+        \emph{Test:} rerun the sweep with recorded agent traces in place of
+        templates.
+
+  \item \textbf{Cap constant.} In a capped arm the measured share should be
+        constant in the number of turns to within measurement noise, and should
+        track \eqref{eq:cap} as $C$ varies.
+        \emph{Test:} sweep $C$ and compare against the closed form.
+
+  \item \textbf{Behavioural coupling.} Invariant share at the final position
+        should correlate with instruction adherence in a multi-turn benchmark,
+        weakly but positively. A null correlation would not refute the
+        allocation mathematics, but it would remove the practical reason to care
+        about it.
+        \emph{Test:} run a long-horizon agent benchmark with the controller on
+        and off, reporting both share and success rate.
+\end{enumerate}
+
+Prediction P5 is the one that decides whether this line of work matters. The
+mathematics in \S\S\ref{sec:threshold}--\ref{sec:guarantee} is, we believe,
+correct; the question of whether preserved allocation improves outcomes is
+empirical and open, and it is the experiment we most want to see run.
+
+% ---------------------------------------------------------------------------
+\section{Limitations}
+\label{sec:limits}
+
+We collect the limitations stated throughout, in one place.
+
+\begin{enumerate}[label=(\arabic*), leftmargin=*]
+  \item \textbf{The name is not a claim.} ``Fool's Theorem'' denotes a failure
+        mode. The mathematical content of this paper is
+        Proposition~\ref{prop:identity}, Theorem~\ref{thm:inundation}, and
+        Theorem~\ref{thm:guarantee}, none of which is novel in technique.
+        Proposition~\ref{prop:identity} is a rearrangement of the softmax
+        definition; Theorem~\ref{thm:inundation} is Cauchy--Schwarz.
+
+  \item \textbf{The strongest result is conditional on a gap estimate.} The
+        usable bound \eqref{eq:cap} needs $\Delta$, which is model-,
+        distribution-, layer-, and head-dependent. We measured it for one model
+        on one distractor distribution. Treating it as a constant across
+        settings would be a misuse.
+
+  \item \textbf{The empirical evidence partly undercuts the motivation.} As
+        Result~2 shows, the model we tested already compensates for context
+        growth at roughly the required rate, and the dilution we measured is
+        mild. The remedy is justified by making a property enforceable rather
+        than by rescuing an observed collapse. Presenting it as the latter would
+        misrepresent the data.
+
+  \item \textbf{Single head, single model, synthetic distractors, single
+        position.} See \S\ref{sec:empirical}(a)--(d).
+
+  \item \textbf{No behavioural evidence.} Nothing here shows that any of this
+        improves task outcomes. It is the least interesting limitation to state
+        and the most important.
+
+  \item \textbf{Adversarial content is out of scope.} Volume control bounds
+        count, not score. A bounded number of high-scoring distractors can
+        dominate attention, and no result in this paper forbids it.
+
+  \item \textbf{The intent-audit component is unvalidated} and has no
+        documented threat model.
+\end{enumerate}
+
+% ---------------------------------------------------------------------------
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Attention sinks and streaming inference.} Xiao et al.
+\cite{xiao2023streamingllm} observe that a small number of initial tokens
+absorb disproportionate attention, and exploit this to stream indefinitely. Our
+Observation~\ref{obs:compensation} is consistent with a related effect: the
+prefix's advantage grows with context length rather than remaining fixed, which
+is what permits near-scale-invariant allocation. The two accounts differ in aim
+--- theirs addresses degenerate KV statistics for continuity of generation,
+ours asks whether declared invariants keep competing --- but they are likely
+describing overlapping machinery, and we would not be surprised if the sink
+mechanism is the substrate of the compensation we measure.
+
+\paragraph{Position sensitivity.} \emph{Lost in the Middle}
+\cite{liu2023lost} documents that content in the interior of a long context is
+used less effectively than content at the edges; RULER \cite{hsieh2024ruler}
+shows nominal window size overstates usable context. Both are compatible with
+our account and neither is subsumed by it: position and volume are distinct
+variables, and our measurement holds position fixed (the invariant prefix is
+always first) while varying volume.
+
+\paragraph{KV-cache eviction.} H2O \cite{zhang2023h2o} and SnapKV
+\cite{li2024snapkv} select which KV entries to retain under a memory budget,
+using attention statistics as the salience signal. Attention-Weighted Eviction
+uses the same signal, and IDS \eqref{eq:ids} is a close relative of their
+scoring. The difference is granularity: they operate on KV entries within a
+forward pass to reduce memory, whereas we operate on semantic context entries
+across turns to bound a prompt. A reader who knows that literature should regard
+our eviction component as an application, not a contribution.
+
+\paragraph{Agent memory.} MemGPT \cite{packer2023memgpt} manages a virtual
+context window through function calls, with paging decisions made by the model
+itself. Generational Context makes those decisions with a deterministic
+controller, trading flexibility for predictable cost and for a capacity
+invariant that can be checked rather than hoped for. Pinning invariants
+corresponds to MemGPT's always-in-context core memory; the differences are the
+explicit tiering and the TTL treatment of raw observations.
+
+\paragraph{Cache replacement.} ARC \cite{megiddo2003arc} supplies the adaptation
+mechanism for recency versus frequency. We apply it unchanged in structure.
+
+\paragraph{Attention.} The underlying mechanism is the scaled dot-product
+attention of Vaswani et al. \cite{vaswani2017attention}; the rotary positional
+encoding used by the measured model is due to Su et al. \cite{su2024roformer}.
+
+% ---------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+We set out to explain a failure mode and ended up with a sharper account of its
+mechanism than we started with, and a weaker claim about its severity.
+
+The mechanism is the softmax denominator, and it is best expressed as an
+identity rather than a bound: the invariant attention share equals
+$\sigma(\Delta + \ln(L_u/N))$, so the model must supply a logit gap that grows as
+$\ln N$ merely to hold its allocation constant. That logarithm is the whole
+phenomenon. It explains why compensation is cheap and therefore likely, and it
+explains why no fixed gap survives unbounded volume.
+
+Measuring this on a real transformer produced the result we did not expect. The
+model's effective gap grows at a slope of $0.945$ against $\ln N$, with
+$R^2 = 0.9996$ --- almost exactly the rate required for scale-invariant
+allocation. Dilution is therefore far milder in practice than the uniform-score
+analysis suggests: about $9\%$ over a $32\times$ increase in distractor volume.
+We report this because it is the strongest evidence against our own framing, and
+because a reader who discovers it independently would be right to ask why we
+omitted it.
+
+The systems contribution survives this, but it changes character. Generational
+Context does not rescue a collapsing share; it replaces a property we happened
+to observe with one the controller enforces. The retention guarantee is
+horizon-independent, it is stated in terms of a measurable gap, and it comes
+with an implementation whose capacity invariant is checked rather than assumed.
+Whether that enforced property buys anything in task outcomes is the open
+question, and \S\ref{sec:predictions} states what would settle it.
+
+% ---------------------------------------------------------------------------
+\section*{Acknowledgments}
+
+The term \emph{Artificial Civilization Intelligence} (ACI) was coined by Raja
+Dharma Tej Maddala. The architecture, proofs, implementation, measurements, and
+simulation harness in this document were produced by Team Auralis. The
+measurement in \S\ref{sec:empirical} was run on a single consumer GPU; we thank
+the reader in advance for running it on better hardware.
+
+% ---------------------------------------------------------------------------
+\begin{thebibliography}{9}
+
+\bibitem{hsieh2024ruler}
+C.-P. Hsieh, S. Sun, S. Kriman, S. Acharya, D. Rekesh, F. Jia, Y. Zhang, and
+B. Ginsburg.
+\newblock RULER: What's the real context size of your long-context language
+  models?
+\newblock \emph{arXiv:2404.06654}, 2024.
+
+\bibitem{li2024snapkv}
+Y. Li, Y. Huang, B. Yang, B. Venkitesh, A. Locatelli, H. Ye, T. Cai, P. Lewis,
+  and D. Chen.
+\newblock SnapKV: LLM knows what you are looking for before generation.
+\newblock \emph{arXiv:2404.14469}, 2024.
+
+\bibitem{liu2023lost}
+N.~F. Liu, K. Lin, J. Hewitt, A. Paranjape, M. Bevilacqua, F. Petroni, and
+P. Liang.
+\newblock Lost in the middle: How language models use long contexts.
+\newblock \emph{Transactions of the ACL}, 2024. arXiv:2307.03172.
+
+\bibitem{megiddo2003arc}
+N. Megiddo and D.~S. Modha.
+\newblock ARC: A self-tuning, low overhead replacement cache.
+\newblock In \emph{Proceedings of FAST}, 2003.
+
+\bibitem{packer2023memgpt}
+C. Packer, S. Wooders, K. Lin, V. Fang, S.~G. Patil, I. Stoica, and J.~E.
+  Gonzalez.
+\newblock MemGPT: Towards LLMs as operating systems.
+\newblock \emph{arXiv:2310.08560}, 2023.
+
+\bibitem{sanyal2026softmax}
+S. Sanyal.
+\newblock The Softmax Inundation Bound: Attention Dilution in Long-Context
+  Transformers and Generational Context as a Volume-Bounding Remedy.
+\newblock \emph{Team Auralis technical report}, 2026.
+  \texttt{docs/papers/The\_Softmax\_Inundation\_Theorem.pdf}.
+
+\bibitem{su2024roformer}
+J. Su, M. Ahmed, Y. Lu, S. Pan, W. Bo, and Y. Liu.
+\newblock RoFormer: Enhanced transformer with rotary position embedding.
+\newblock \emph{Neurocomputing}, 2024. arXiv:2104.09864.
+
+\bibitem{vaswani2017attention}
+A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A.~N. Gomez,
+  L. Kaiser, and I. Polosukhin.
+\newblock Attention is all you need.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2017.
+
+\bibitem{xiao2023streamingllm}
+G. Xiao, Y. Tian, B. Chen, S. Han, and M. Lewis.
+\newblock Efficient streaming language models with attention sinks.
+\newblock In \emph{Proceedings of ICLR}, 2024. arXiv:2309.17453.
+
+\bibitem{zhang2023h2o}
+Z. Zhang, Y. Sheng, T. Zhou, T. Chen, L. Zheng, R. Cai, Z. Song, Y. Tian,
+  C. R\'e, C. Barrett, Z. Wang, and B. Li.
+\newblock H2O: Heavy-hitter oracle for efficient generative inference of large
+  language models.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2023.
+  arXiv:2306.14048.
+
+\end{thebibliography}
+
+\end{document}

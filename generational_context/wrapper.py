@@ -3,8 +3,9 @@ Universal ContextOS Wrapper
 Drop-In Middleware for Agent Execution Runtimes
 """
 
-from typing import List, Dict, Optional, Any, Callable
-from .memory import GenerationalMemory, DistilledObservation
+from typing import Any, Dict, List, Optional
+
+from .memory import DistilledObservation, GenerationalMemory
 
 
 class ContextOS:

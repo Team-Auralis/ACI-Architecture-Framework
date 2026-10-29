@@ -3,11 +3,11 @@ Generational Memory Architecture
 3-Tier Context Lifecycle: Gen-0 Ephemeral, Gen-1 Evaporative, Gen-2 Tenured
 """
 
-from dataclasses import dataclass, field
 import hashlib
 import math
 import re
-from typing import List, Dict, Optional, Tuple, Any
+from dataclasses import dataclass
+from typing import Dict, List
 
 from .awe import AdaptiveReplacementAttentionCache, CacheEntry
 

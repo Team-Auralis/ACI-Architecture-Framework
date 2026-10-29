@@ -3,9 +3,8 @@ Attention-Weighted Eviction (AWE) Algorithm
 Adaptive Replacement Cache (ARC) for LLM Attention Memory
 """
 
-import math
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple, Set
+from dataclasses import dataclass
+from typing import Dict, List, Optional
 
 
 @dataclass
