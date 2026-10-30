@@ -272,8 +272,9 @@ Navigate to `http://localhost:8000/research/FOOLS_THEOREM/`.
 
 | Title | Document Type | Source / Download |
 |---|---|---|
-| **The Softmax Inundation Bound & Generational Context** | Academic Whitepaper (PDF, 8 pp.) | [`The_Softmax_Inundation_Theorem.pdf`](docs/papers/The_Softmax_Inundation_Theorem.pdf) |
-| **Softmax Inundation LaTeX Source** | LaTeX Document | [`The_Softmax_Inundation_Theorem.tex`](docs/papers/The_Softmax_Inundation_Theorem.tex) |
+| **The Fool's Theorem** — full exposition: the failure mode, the dilution threshold, live measurements, architecture, and falsifiable predictions | Technical Report (PDF, 16 pp.) | [`The_Fools_Theorem.pdf`](docs/papers/The_Fools_Theorem.pdf) |
+| **The Softmax Inundation Bound & Generational Context** — the shorter formal paper | Academic Whitepaper (PDF, 9 pp.) | [`The_Softmax_Inundation_Theorem.pdf`](docs/papers/The_Softmax_Inundation_Theorem.pdf) |
+| **LaTeX sources** | LaTeX Documents | [`The_Fools_Theorem.tex`](docs/papers/The_Fools_Theorem.tex) · [`The_Softmax_Inundation_Theorem.tex`](docs/papers/The_Softmax_Inundation_Theorem.tex) |
 | **Beyond ASI: The ACI Paradigm** | LaTeX Whitepaper | [`ACI_OCI_WHITEPAPER.tex`](docs/ACI_OCI_WHITEPAPER.tex) |
 | **Executive Summary — Beyond ASI** | Executive Summary (PDF) | [`Beyond_ASI.pdf`](docs/pdfs/Beyond_ASI.pdf) |
 
@@ -283,6 +284,7 @@ The PDF is compiled from the LaTeX source with [Tectonic](https://tectonic-types
 
 ```bash
 cd docs/papers
+tectonic The_Fools_Theorem.tex
 tectonic The_Softmax_Inundation_Theorem.tex
 ```
 

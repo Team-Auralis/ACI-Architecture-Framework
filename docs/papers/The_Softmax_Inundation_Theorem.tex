@@ -559,10 +559,16 @@ We prefer to state these plainly rather than to bury them.
         positional sinks) can preserve information that a per-head bound
         suggests is lost.
 
-  \item \textbf{No live-model validation.} All quantitative results come from a
-        deterministic simulation with hash-based embeddings. We make no claims
-        about behaviour of trained models, and we would regard any such claim
-        drawn from these numbers as unsupported.
+  \item \textbf{Limited live-model validation.} The simulation results come from
+        hash-based embeddings, and the attention measurements of
+        \S\ref{subsec:live} cover a single small model
+        (\texttt{Qwen2.5-0.5B}) under a single synthetic distractor
+        distribution. Those measurements show the mechanism operating, and they
+        also show it operating far more weakly than the uniform-score analysis
+        predicts, because the model's effective logit gap grows roughly as
+        $\ln N$. A full treatment of that finding, and what it means for the
+        remedy, is given in the companion exposition
+        \cite{sanyal2026fools}.
 
   \item \textbf{The retention guarantee is about allocation, not success.}
         Keeping invariants in the attention distribution is necessary at best.
@@ -640,6 +646,13 @@ B. Ginsburg.
 \newblock RULER: What's the real context size of your long-context language
   models?
 \newblock \emph{arXiv:2404.06654}, 2024.
+
+\bibitem{sanyal2026fools}
+S. Sanyal.
+\newblock The Fool's Theorem: Error Gravitation in Long-Horizon Agents,
+  Attention Dilution, the Dilution Threshold, and Bounded Context as a Remedy.
+\newblock \emph{Team Auralis technical report}, 2026.
+  \texttt{docs/papers/The\_Fools\_Theorem.pdf}.
 
 \bibitem{liu2023lost}
 N.~F. Liu, K. Lin, J. Hewitt, A. Paranjape, M. Bevilacqua, F. Petroni, and
