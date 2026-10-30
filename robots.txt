@@ -1,0 +1,20 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://team-auralis.github.io/ACI-Architecture-Framework/sitemap.xml
+
+# LLM crawlers — explicitly welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
