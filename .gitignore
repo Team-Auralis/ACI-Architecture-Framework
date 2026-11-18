@@ -16,3 +16,7 @@ site/
 *.out
 *.xdv
 *.toc
+.pytest_cache/
+*.html
+*.venv/
+env/

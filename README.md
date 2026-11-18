@@ -30,12 +30,10 @@ No API keys, no third-party dependencies, 11 tests passing. Full numbers are in 
 
 ## Table of Contents
 
-- [What is ACI?](#what-is-aci)
 - [Key Breakthrough: The Softmax Inundation Bound & Generational Context](#key-breakthrough-the-softmax-inundation-bound--generational-context)
   - [Theorem 1: The Softmax Inundation Upper Bound](#theorem-1-the-softmax-inundation-upper-bound)
   - [Theorem 2: Invariant Attention Retention Under Generational Context](#theorem-2-invariant-attention-retention-under-generational-context)
   - [Comparative Sensitivity Analysis](#comparative-sensitivity-analysis)
-- [System Architecture](#system-architecture)
 - [The `generational_context` Python Package](#the-generational_context-python-package)
   - [Quickstart](#quickstart)
   - [Memory Tiers Overview](#memory-tiers-overview)
@@ -43,23 +41,14 @@ No API keys, no third-party dependencies, 11 tests passing. Full numbers are in 
   - [CCB-001 Context Benchmark](#ccb-001-context-benchmark)
   - [ACI-001 Institutional Benchmark](#aci-001-institutional-benchmark)
   - [Empirical Validation Status & Roadmap](#empirical-validation-status--roadmap)
+- [System Architecture & Long-Horizon Vision](#system-architecture--long-horizon-vision)
+  - [What is ACI?](#what-is-aci)
+  - [Subsystem Architecture](#subsystem-architecture)
 - [Repository Structure](#repository-structure)
 - [Local Development & Testing](#local-development--testing)
 - [Academic Publications & Downloads](#academic-publications--downloads)
 - [Contributing & Governance](#contributing--governance)
 - [License & Intellectual Property](#license--intellectual-property)
-
----
-
-## What is ACI?
-
-Artificial Civilization Intelligence (ACI) transcends individual-level intelligence. Where **AGI** targets human-level reasoning and **ASI** targets maximal individual cognition, **ACI targets civilizational-scale institutional function**:
-
-* **Causal Persistence**: Maintains persistent causal world models of real-world physical and digital infrastructure despite noisy telemetry, partial observability, and adversarial deception.
-* **Massive Asynchronous Coordination**: Coordinates thousands of heterogeneous, semi-autonomous sub-agents without central bottlenecks or synchronization deadlocks.
-* **Multi-Decadal Scientific Programs**: Formulates, tests, and self-validates long-horizon scientific hypotheses over generational time horizons.
-* **Adversarial Survivability**: Defends against cognitive contamination, reward tampering, prompt injection, and topological attacks on its own reasoning core.
-* **Sandboxed Recursive Self-Improvement**: Recursively redesigns its own operating code, verifying upgrades in hermetic virtual environments prior to atomic hot-swapping into live operations.
 
 ---
 
@@ -107,9 +96,101 @@ Evaluating the lower-bound expression ratio $R(\kappa, N) = \frac{L_u + \kappa N
 
 ---
 
-## System Architecture
+## The `generational_context` Python Package
 
-The reference implementation of the ACI framework comprises nine decoupled, resilient subsystems:
+The framework includes a zero-dependency, production-hardened Python implementation of Generational Context (`generational_context/`) based on the **Attention-Weighted Eviction (AWE)** algorithm.
+
+### Quickstart
+
+```python
+from generational_context import ContextOS
+
+# 1. Initialize ContextOS with invariant constraints
+agent_os = ContextOS(
+    goal="Maintain system reliability",
+    invariants=["INVARIANT: You are a reliable agent. Never emit unverified state changes."],
+    max_working_tokens=2048,
+    egi_threshold=0.3,
+)
+
+# 2. Record agent actions and transient tool observations
+agent_os.observe_tool("query_subsystem_telemetry", {"grid_id": "sector_7"}, "Status: 200 OK. Voltage nominal (230V). ...")
+agent_os.record_reasoning("Telemetry nominal, proceeding with verification.")
+
+# 3. Retrieve formatted context window
+prompt = agent_os.compile_prompt()
+print(f"Prompt length (chars): {len(prompt)}")
+```
+
+### Memory Tiers Overview
+
+1. **Gen-0 Ephemeral**: Incoming tool outputs, terminal logs, and sensory observations. Transient execution traces are automatically distilled to compact 3-line structural signatures upon turn completion.
+2. **Gen-1 Evaporative**: Paged working memory managed by the `AdaptiveReplacementAttentionCache`. Dynamically adapts between recency ($T_1$) and frequency ($T_2$) using attention-weighted eviction scores ($\text{IDS} = \frac{\text{AttentionWeight}}{\text{Entropy}}$).
+3. **Gen-2 Tenured**: Permanently pinned system invariants, constitutional constraints, and architectural axioms. Immune to eviction.
+
+---
+
+## Benchmarks & Empirical Validation
+
+### CCB-001 Context Benchmark
+
+The bundled deterministic simulation evaluates how the memory controller prevents softmax dilution across three representative failure modes:
+
+| Scenario | Unmanaged Tokens ($N$) | Bounded Tokens ($C_{\text{bound}}$) | Invariant Attention Retention | Cognitive Signal Ratio (CSR) Gain |
+|---|---|---|---|---|
+| **S1: Monolithic Traceback** | 8,200 | 122 | $0.0416 \to 0.0742$ | **68.3×** ($0.0030 \to 0.2049$) |
+| **S2: Red Herring Cascade** | 2,982 | 105 | $0.0504 \to 0.0883$ | **28.4×** ($0.0077 \to 0.2190$) |
+| **S3: Cyclic Dependency Loop** | 4,114 | 159 | $0.0354 \to 0.0646$ | **25.9×** ($0.0068 \to 0.1761$) |
+
+**Aggregated Comparative Results (Across Multi-Turn Execution):**
+
+| Metric | Flat Append-Only | Periodic Compaction | Generational Context (ACI) | Advantage |
+|---|---|---|---|---|
+| **Active Token Footprint (final turn, avg.)** | 5,099 tokens | 3,340 tokens | **129 tokens** | **-97.47% reduction** |
+| **Cognitive Signal Ratio (CSR, final turn, avg.)** | 0.0059 | 0.0077 | **0.2000** | **33.9× improvement** |
+| **Invariant Attention Share (Est., final turn, avg.)** | 0.0425* | 0.0553* | **0.0757*** | **1.78×** |
+| **Error Gravitation Index (EGI, final turn, avg.)** | 0.2071 | 0.2071 | **0.2380** | **+14.9%** |
+| **Simulated Active-Context Cost (final turn, avg. sum)** | $0.0459 | $0.0301 | **$0.00116** | **-97.47% reduction** |
+| **Cascading Error Loops** | Simulation metric (EGI) | Simulation metric (EGI) | Simulation metric (EGI) | *Algorithmic simulation only* |
+
+Run the benchmark reproduction script:
+```bash
+python ccb_bench.py
+```
+
+### ACI-001 Institutional Benchmark
+
+Evaluates full-stack architecture stability across simulated stress dimensions:
+
+| Metric | Score / Value |
+|---|---|
+| **Integrated Score** | **90 / 100** |
+| **Phase B Replication Mean ($n=1,000$)** | **90.45 ± 2.19** |
+| **95% Confidence Interval** | **[86.16, 94.74]** |
+| **Threshold Pass Rate ($\ge 70/100$)** | **100%** |
+| **Accumulated Empirical Advantage (AEA)** | **22.9%** |
+
+### Empirical Validation Status & Roadmap
+
+* **Phase 1 (Completed — Theory & Algorithmic Simulation)**: Formal mathematical proofs of Theorems 1 & 2; capacity invariant hardening; proxy benchmark verification via CCB-001 deterministic simulation harness; live-model eager attention probes on Qwen2.5-0.5B.
+* **Phase 2 (Planned Future Work — Scaled Neural Evaluation)**: Rigorous empirical evaluations across 7B–70B open-weight architectures (e.g., Llama-3, Qwen-2.5) on standard agent benchmarks (SWE-bench Lite, GAIA).
+
+---
+
+## System Architecture & Long-Horizon Vision
+
+### Research Vision: Civilizational & Institutional Scale AI
+
+Where traditional agent architectures target single-turn or single-session execution, the long-term vision of Artificial Civilization Intelligence (ACI) investigates persistent, multi-agent institutional reliability:
+
+* **Causal Persistence**: Maintaining persistent causal world models of real-world physical and digital infrastructure despite noisy telemetry, partial observability, and adversarial distraction.
+* **Massive Asynchronous Coordination**: Coordinating heterogeneous sub-agents without central memory bottlenecks or synchronization deadlocks.
+* **Multi-Decadal Scientific Programs**: Formulating, executing, and self-validating scientific hypotheses over extended execution horizons.
+* **Invariant Protection**: Safeguarding constitutional constraints and task invariants against context inundation and reward tampering.
+
+### Subsystem Topology
+
+The reference architecture explores how bounded-context agents interact within a multi-tiered institutional topology:
 
 ```mermaid
 flowchart TD
@@ -128,79 +209,6 @@ flowchart TD
         CHIRON -->|Atomic Upgrade| NEXUS
     end
 ```
-
-### Safety & Civilization Concepts
-- **Civilizational Intent Conservation (CIC)**: Algorithmic preservation of human value attractors preventing generational goal drift.
-- **AI-Mediated Cultural Continuity (AICC)**: Institutional memory preservation preventing knowledge decay across agent generational turnovers.
-- **Evolutionary Governance Engineering (EGE)**: Dynamic constitutional amendment mechanisms validated through multi-agent simulation.
-
----
-
-## The `generational_context` Python Package
-
-The framework includes a zero-dependency, production-hardened Python implementation of Generational Context (`generational_context/`) based on the **Attention-Weighted Eviction (AWE)** algorithm.
-
-### Quickstart
-
-```python
-from generational_context import ContextOS
-
-# 1. Initialize ContextOS with invariant constraints
-agent_os = ContextOS(
-    goal="Maintain system reliability",
-    invariants=["INVARIANT: You are a reliable civilizational agent. Never emit unverified state changes."],
-    max_working_tokens=2048,
-    egi_threshold=0.3,
-)
-
-# 2. Record agent actions and transient tool observations
-agent_os.observe_tool("query_subsystem_telemetry", {"grid_id": "sector_7"}, "Status: 200 OK. Voltage nominal (230V). ...")
-agent_os.record_reasoning("Telemetry nominal, proceeding with verification.")
-
-# 3. Retrieve formatted context window
-prompt = agent_os.compile_prompt()
-print(f"Prompt length (chars): {len(prompt)}")
-```
-
-### Memory Tiers Overview
-
-1. **Gen-0 Ephemeral**: Incoming tool outputs, terminal logs, and sensory observations. Transient execution traces are automatically distilled to compact 3-line structural signatures upon turn completion.
-2. **Gen-1 Evaporative**: Paged working memory managed by the `AdaptiveReplacementAttentionCache`. Dynamically adapts between recency ($T_1$) and frequency ($T_2$) using attention-weighted eviction scores ($\text{IDS} = \frac{\text{AttentionWeight}}{\text{Entropy}}$).
-3. **Gen-2 Tenured**: Permanently pinned system invariants, constitutional constraints, and architectural axioms. Immunes to eviction.
-
----
-
-## Benchmarks & Empirical Validation
-
-### CCB-001 Context Benchmark
-
-The Context Cognitive Benchmark (CCB-001) evaluates context retention and error recovery under high distractor volumes:
-
-| Metric | Flat Append-Only | Periodic Compaction | Generational Context (ACI) | Advantage |
-|---|---|---|---|---|
-| **Active Token Footprint (final turn, avg.)** | 5,099 tokens | 3,340 tokens | **129 tokens** | **-97.47% reduction** |
-| **Cognitive Signal Ratio (CSR, final turn, avg.)** | 0.0059 | 0.0077 | **0.2000** | **33.9× improvement** |
-| **Invariant Attention Share (Est., final turn, avg.)** | 0.0425* | 0.0553* | **0.0757*** | **1.78×** |
-| **Error Gravitation Index (EGI, final turn, avg.)** | 0.2071 | 0.2071 | **0.2380** | **+14.9%** |
-| **Simulated Active-Context Cost (final turn, avg. sum)** | $0.0459 | $0.0301 | **$0.00116** | **-97.47% reduction** |
-| **Cascading Error Loops** | Simulation metric (EGI) | Simulation metric (EGI) | Simulation metric (EGI) | *Algorithmic simulation only* |
-
-### ACI-001 Institutional Benchmark
-
-Evaluates full-stack civilization intelligence across 10 empirical dimensions:
-
-| Metric | Score / Value |
-|---|---|
-| **Integrated Score** | **90 / 100** |
-| **Phase B Replication Mean ($n=1,000$)** | **90.45 ± 2.19** |
-| **95% Confidence Interval** | **[86.16, 94.74]** |
-| **Threshold Pass Rate ($\ge 70/100$)** | **100%** |
-| **Accumulated Empirical Advantage (AEA)** | **22.9%** |
-
-### Empirical Validation Status & Roadmap
-
-* **Phase 1 (Completed — Theory & Algorithmic Simulation)**: Formal mathematical proofs of Theorems 1 & 2; capacity invariant hardening; proxy benchmark verification via CCB-001 deterministic simulation harness.
-* **Phase 2 (Planned Future Work — Live Neural Model Evaluation)**: Rigorous empirical evaluations with frontier neural LLMs (e.g., Claude 3.5 Sonnet, GPT-4o, Llama-3-70B) across SWE-bench Verified and multi-turn agent benchmarks.
 
 ---
 
