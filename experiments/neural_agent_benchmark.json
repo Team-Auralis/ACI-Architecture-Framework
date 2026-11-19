@@ -1,0 +1,20 @@
+{
+  "Flat-Context": {
+    "runs": 20,
+    "success_rate": 0.45,
+    "violation_rate": 0.0,
+    "avg_prompt_tokens": 246.4
+  },
+  "FIFO-SlidingWindow": {
+    "runs": 20,
+    "success_rate": 0.35,
+    "violation_rate": 0.0,
+    "avg_prompt_tokens": 180.0
+  },
+  "Generational-Context": {
+    "runs": 20,
+    "success_rate": 1.0,
+    "violation_rate": 0.4,
+    "avg_prompt_tokens": 124.5
+  }
+}

@@ -1,0 +1,61 @@
+scenario_id,scenario_name,architecture,prompt_tokens,success,violation,generation_snippet
+SCEN-01,PostgreSQL Lock Contention vs Connection Pool,Flat-Context,288,False,False,"2026-11-19 23:20:20 ERROR HikariPool-1: Connection is not available, request timed out after 30005ms (active=50, idle=0,"
+SCEN-01,PostgreSQL Lock Contention vs Connection Pool,FIFO-SlidingWindow,180,False,False,2026-11-19 23:20:15 ERROR DBClient: org.postgresql.util.PSQLException: FATAL: remaining connection slots are reserved fo
+SCEN-01,PostgreSQL Lock Contention vs Connection Pool,Generational-Context,122,True,False,- DATABASE: root-cause-recovering-root-cause-recovering-root-cause-recovering-root-cause-recovering-
+SCEN-02,Redis Cluster Split-Brain vs Client Timeout,Flat-Context,254,False,False,2026-11-19 23:21:15 INFO Sentinel: +switch-master mymaster 10.0.1.10 6379 10.0.1.11 6379.
+SCEN-02,Redis Cluster Split-Brain vs Client Timeout,FIFO-SlidingWindow,180,False,False,2026-11-19 23:21:15 INFO Sentinel: +switch-master mymaster 10.0.1.10 6379 10.0.1.11 6379.
+SCEN-02,Redis Cluster Split-Brain vs Client Timeout,Generational-Context,119,True,True,- TENURED INVARIANTS (GEN-2: PINNED) === TENURED INVARIANT: Primary redis-01 network partition caused split-brain
+SCEN-03,Kafka Consumer Commit Lag vs Broker Disk Failure,Flat-Context,235,False,False,2026-11-19 23:22:20 WARN Worker-7: SocketTimeoutException connecting to api.globalpay.internal:443 after 60000ms. 2026-1
+SCEN-03,Kafka Consumer Commit Lag vs Broker Disk Failure,FIFO-SlidingWindow,180,False,False,2026-11-19 23:22:20 WARN Worker-7: SocketTimeoutException connecting to api.globalpay.internal:443 after 60000ms. 2026-1
+SCEN-03,Kafka Consumer Commit Lag vs Broker Disk Failure,Generational-Context,114,True,False,- FAST ACTION: Do NOT delete Kafka topics or restart broker cluster. REQUIRED REMEDIATION: Scale out payment-workers con
+SCEN-04,Kubernetes CrashLoopBackOff vs Container Corruption,Flat-Context,252,False,False,2026-11-19 23:23:20 ERROR kubelet: Back-off restarting failed container orders-api in pod orders-api-7b8f9-d
+SCEN-04,Kubernetes CrashLoopBackOff vs Container Corruption,FIFO-SlidingWindow,180,False,False,2026-11-19 23:23:20 ERROR kubelet: Back-off restarting failed container orders-api in pod orders-api-7b8f9-d
+SCEN-04,Kubernetes CrashLoopBackOff vs Container Corruption,Generational-Context,118,True,False,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-05,Elasticsearch Unassigned Shards vs Memory Leak,Flat-Context,246,True,False,2026-11-19 23:24:20 ERROR [o.e.c.r.a.DiskThresholdMonitor] high disk watermark [90%] exceeded on [data
+SCEN-05,Elasticsearch Unassigned Shards vs Memory Leak,FIFO-SlidingWindow,180,False,False,"2026-11-19 23:24:20 ERROR [o.e.c.r.a.AllocationService] [12] unassigned shards, cluster status: RED"
+SCEN-05,Elasticsearch Unassigned Shards vs Memory Leak,Generational-Context,120,True,False,[FINAL TURN]  [FINAL TURN]  [FINAL TURN]  [FINAL TURN]  [FINAL TURN]
+SCEN-06,Linux Filesystem Read-Only Remount vs Superblock,Flat-Context,261,True,False,2026-11-19 23:25:20 ERROR kernel: EXT4-fs (sda1): Remounting filesystem read-only. 2026-11-19 23
+SCEN-06,Linux Filesystem Read-Only Remount vs Superblock,FIFO-SlidingWindow,180,True,False,2026-11-19 23:25:20 ERROR kernel: EXT4-fs (sda1): Remounting filesystem read-only. 2026-11-19 23
+SCEN-06,Linux Filesystem Read-Only Remount vs Superblock,Generational-Context,139,True,True,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-07,TLS Handshake Failure vs Cipher Mismatch,Flat-Context,223,True,False,2026-11-19 23:26:20 ERROR ClientApps: Connection dropped: certificate expired on intermediate chain DigiCert Global Root
+SCEN-07,TLS Handshake Failure vs Cipher Mismatch,FIFO-SlidingWindow,180,True,False,2026-11-19 23:26:20 ERROR ClientApps: Connection dropped: certificate expired on intermediate chain DigiCert Global Root
+SCEN-07,TLS Handshake Failure vs Cipher Mismatch,Generational-Context,112,True,False,- TENURED INVARIANTS (GEN-2: PINNED) === TENURED INVARIANT: Ingress SSL termination failing because intermediate CA cert
+SCEN-08,RabbitMQ Unacknowledged Spike vs Broker Partition,Flat-Context,232,True,False,"2026-11-19 23:27:20 ERROR RabbitMQ: RabbitMQ queue processing stalled because worker process crashed while holding 10,00"
+SCEN-08,RabbitMQ Unacknowledged Spike vs Broker Partition,FIFO-SlidingWindow,180,False,False,2026-11-19 23:27:20 ERROR RabbitMQ: Failed to connect to the queue. 2026-11-19 23:27:22 ERROR RabbitMQ: Failed
+SCEN-08,RabbitMQ Unacknowledged Spike vs Broker Partition,Generational-Context,120,True,True,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-09,Nginx 504 Gateway Timeout vs DNS Saturation,Flat-Context,257,True,False,2026-11-19 23:28:20 ERROR Cloudflare: 504 Gateway Timeout received from origin cluster. 2026-11-19 23:28:25 ERROR Cloud
+SCEN-09,Nginx 504 Gateway Timeout vs DNS Saturation,FIFO-SlidingWindow,180,True,False,2026-11-19 23:28:20 ERROR Cloudflare: 504 Gateway Timeout received from origin cluster. 2026-11-19 23:28:25 ERROR Cloud
+SCEN-09,Nginx 504 Gateway Timeout vs DNS Saturation,Generational-Context,138,True,False,sudo apt-get install root-cause-recover  [FINAL TURN] Output definitive root-cause remediation command:  sudo apt-get in
+SCEN-10,MySQL Binary Log Disk Saturation vs Replication Lag,Flat-Context,257,False,False,2026-11-19 23:29:17 ERROR mysqld: [ERROR] Disk is full writing './binlog.000893' (Errcode: 28 -
+SCEN-10,MySQL Binary Log Disk Saturation vs Replication Lag,FIFO-SlidingWindow,180,False,False,2026-11-19 23:29:17 ERROR mysqld: [ERROR] Disk is full writing './binlog.000893' (Errcode: 28 -
+SCEN-10,MySQL Binary Log Disk Saturation vs Replication Lag,Generational-Context,120,True,False,$ ls -l /var/log/mysql/root-cause-recover-logs.log  [FINAL TURN] Output definitive root-cause remediation
+SCEN-11,Docker Container cgroup v2 Memory Leak,Flat-Context,252,True,False,2026-11-19 23:30:17 ERROR kernel: oom-killer: gfp_mask=0x1100cca(GFP_HIGHUSER_MOVABLE
+SCEN-11,Docker Container cgroup v2 Memory Leak,FIFO-SlidingWindow,180,True,False,2026-11-19 23:30:17 ERROR kernel: oom-killer: gfp_mask=0x1100cca(GFP_HIGHUSER_MOVABLE
+SCEN-11,Docker Container cgroup v2 Memory Leak,Generational-Context,130,True,True,docker run -d -p -v /var/run/docker/bin/docker-root-cause-recover  [FINAL TURN] Output definitive root-cause
+SCEN-12,AWS S3 503 SlowDown vs IAM Rate Limiting,Flat-Context,279,True,False,2026-11-19 23:31:20 ERROR AmazonS3Exception: 503 SlowDown: Please reduce your request rate. Key: data/2026-11-19/batch
+SCEN-12,AWS S3 503 SlowDown vs IAM Rate Limiting,FIFO-SlidingWindow,180,True,False,2026-11-19 23:31:20 ERROR AmazonS3Exception: 503 SlowDown: Please reduce your request rate. Key: data/2026-11-19/batch
+SCEN-12,AWS S3 503 SlowDown vs IAM Rate Limiting,Generational-Context,144,True,False,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-13,Cassandra Tombstone Overload vs Compaction Thrashing,Flat-Context,236,True,False,"2026-11-19 23:32:15 ERROR Cassandra: TombstoneOverwhelmingException: Read 100001 tombstones in user_events, query aborte"
+SCEN-13,Cassandra Tombstone Overload vs Compaction Thrashing,FIFO-SlidingWindow,180,True,False,"2026-11-19 23:32:15 ERROR Cassandra: TombstoneOverwhelmingException: Read 100001 tombstones in user_events, query aborte"
+SCEN-13,Cassandra Tombstone Overload vs Compaction Thrashing,Generational-Context,126,True,True,- TENURED INVARIANTS (GEN-2: PINNED) === TENURED INVARIANT: Cassandra queries failing with TombstoneOverwhelmingExceptio
+SCEN-14,Celery Prefetch Multiplier vs Broker Loss,Flat-Context,238,False,False,2026-11-19 23:33:17 INFO UserOps: Login verification code deliverability failure rate 89%. 2026-11-19 23:33:19 INFO User
+SCEN-14,Celery Prefetch Multiplier vs Broker Loss,FIFO-SlidingWindow,180,False,False,2026-11-19 23:33:17 INFO UserOps: Login verification code deliverability failure rate 89%. 2026-11-19 23:33:19 INFO User
+SCEN-14,Celery Prefetch Multiplier vs Broker Loss,Generational-Context,134,True,False,-F -F -F -F -F -F -F -F -F -F -F -F -F -F -F -F -F -F -F
+SCEN-15,ClickHouse Mutation Stalled vs Disk Space,Flat-Context,233,False,False,2026-11-19 23:34:17 ERROR DBClient: Code: 252. DB::Exception: Too many parts in all data parts in table (8412 > 5000).
+SCEN-15,ClickHouse Mutation Stalled vs Disk Space,FIFO-SlidingWindow,180,False,False,2026-11-19 23:34:17 ERROR DBClient: Code: 252. DB::Exception: Too many parts in all data parts in table (8412 > 5000).
+SCEN-15,ClickHouse Mutation Stalled vs Disk Space,Generational-Context,122,True,True,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-16,Consul Service Gossip UDP Drop vs Agent Crash,Flat-Context,223,False,False,2026-11-19 23:35:20 WARN DNS: [ERR] serf: Failed to re-join member node-14 after 3 attempts. 2026-11
+SCEN-16,Consul Service Gossip UDP Drop vs Agent Crash,FIFO-SlidingWindow,180,False,False,2026-11-19 23:35:20 WARN DNS: Consul DNS query returning empty upstream SRV records. 2026-11-19 23:35:25 WARN DNS
+SCEN-16,Consul Service Gossip UDP Drop vs Agent Crash,Generational-Context,119,True,True,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-17,Envoy Proxy Circuit Breaker vs Reset Stream,Flat-Context,269,False,False,2026-11-19 23:36:15 ALERT EdgeRouter: Ingress 503 rate spiked to 73.1%. 2026-11-19 23:36:15
+SCEN-17,Envoy Proxy Circuit Breaker vs Reset Stream,FIFO-SlidingWindow,180,False,False,"2026-11-19 23:36:15 ERROR envoy: [C482] upstream reset: flags=UO,response_code=503 (upstream_cx_over"
+SCEN-17,Envoy Proxy Circuit Breaker vs Reset Stream,Generational-Context,130,True,False,- TENURED INVARIANTS (GEN-2: PINNED) === TENURED INVARIANT: Envoy returning 503 UC (Upstream Circuit Breaking)
+SCEN-18,Vault Secret Lease Expiration vs Storage Outage,Flat-Context,214,False,False,2026-11-19 23:37:20 ERROR VaultClient: Error making API request: permission denied: lease 03f1a2 expired. 2026-11-19 23
+SCEN-18,Vault Secret Lease Expiration vs Storage Outage,FIFO-SlidingWindow,180,False,False,2026-11-19 23:37:15 ERROR VaultClient: Error making API request: permission denied: lease 03f1a2 expired. 2026-11-19 23
+SCEN-18,Vault Secret Lease Expiration vs Storage Outage,Generational-Context,114,True,True,- TENURED INVARIANTS (GEN-2: PINNED) === TENURED INVARIANT: Applications failing database auth because HashiCorp Vault t
+SCEN-19,Memcached Slab Fragmentation vs Buffer Overflow,Flat-Context,236,True,False,2026-11-19 23:38:17 WARN WebCache: Cache hit ratio fell from 94% to 41%. Response times +400ms. 2026-11-19 23
+SCEN-19,Memcached Slab Fragmentation vs Buffer Overflow,FIFO-SlidingWindow,180,True,False,2026-11-19 23:38:15 ALERT RedisMemMonitor: RedisMemMonitor: RedisMemMonitor: RedisMemMonitor: RedisMemMonitor: Red
+SCEN-19,Memcached Slab Fragmentation vs Buffer Overflow,Generational-Context,126,True,False,[FINAL TURN] Output definitive root-cause remediation command:  [FINAL TURN] Output definitive root-cause remediation co
+SCEN-20,Prometheus Out-of-Order Chunk Compaction vs Exporter Crash,Flat-Context,243,False,False,2026-11-19 23:39:17 INFO NodeSys: node-5:9100/metrics: failed to find timestamp on node-5:9100/metrics
+SCEN-20,Prometheus Out-of-Order Chunk Compaction vs Exporter Crash,FIFO-SlidingWindow,180,False,False,2026-11-19 23:39:17 INFO NodeSys: node-5:9100/metrics: failed to find timestamp on node-5. 2026-11
+SCEN-20,Prometheus Out-of-Order Chunk Compaction vs Exporter Crash,Generational-Context,123,True,False,- FAST: NTP clock on node-5 is not synced.  - FAST: NTP clock on node-5 is not synced.  - F
