@@ -96,6 +96,30 @@ To understand how attention distributes across depth, we extracted the attention
 
 ---
 
+### 3.4 Comparative Model Compensation Dynamics: GPT-2 ($\\alpha = 0.695$) vs. Qwen-2.5 ($\\alpha = 0.945$)
+
+A critical theoretical finding in *The Fool's Theorem* is that holding the invariant share constant requires the effective logit gap to scale logarithmically with context length:
+
+\\hat{\\Delta}(N) = \\alpha \\ln N + \\beta
+
+Where $\\alpha = 1.0$ represents exact mathematical compensation ({i,\\text{inv}} = \\text{constant}$).
+
+We performed linear regression of empirical logit gaps $\\hat{\\Delta}(N)$ on $\\ln N$ across both model families:
+
+| Architecture | Parameters | Attention Heads | Empirical Slope $\\alpha$ | Intercept $\\beta$ | Goodness of Fit (^2$) | Invariant Retention Decay (=0 \\to 896$) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **GPT-2 (Local GPU)** | 124M | 12 Layers, 12 Heads | **0.695** | -2.950 | **0.9830** | .457 \\to 0.316$ (**-30.9% drop**) |
+| **Qwen-2.5-0.5B** | 490M | 24 Layers, 14 Heads | **0.945** | -4.195 | **0.9996** | .427 \\to 0.388$ (**-9.1% drop**) |
+
+#### Theoretical & Systems Implications:
+1. **The Compensation Deficit ( - \\alpha$):** 
+   - GPT-2 compensates at only **69.5%** of the rate required to preserve invariant attention, resulting in significant attention mass collapse into distractor tokens as $ grows.
+   - Qwen-2.5 compensates at **94.5%** of the theoretical rate, leaving a small residual drift of .5\%$.
+2. **Universality of Residual Dilution:** Because $\\alpha < 1.0$ in all evaluated physical architectures, **unmanaged context accumulation will asymptotically dilute invariant attention to zero** as  \\to \\infty$.
+3. **The Systems Remedy:** Rather than relying on fragile internal model logit scaling ($\\alpha \\approx 1$), Generational Context bounds the physical distractor token count {\\text{bound}}$, converting an asymptotic decay into a constant lower bound {i,\\text{inv}} \\ge \\frac{L_u}{L_u + \\kappa C_{\\text{bound}}}$.
+
+---
+
 ## 4. Multi-Turn Autonomous Agent Diagnostic Benchmark (20 Scenarios)
 
 ### 4.1 Methodology & Operational Dilemma
