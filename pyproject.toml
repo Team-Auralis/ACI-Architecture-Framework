@@ -35,6 +35,9 @@ dev = [
 [tool.setuptools]
 packages = ["generational_context"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [project.urls]
 Homepage = "https://github.com/Team-Auralis/ACI-Architecture-Framework"
 Repository = "https://github.com/Team-Auralis/ACI-Architecture-Framework"
