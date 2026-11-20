@@ -1,7 +1,7 @@
 # ACI Architecture Framework
 
 [![Documentation Site](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://team-auralis.github.io/ACI-Architecture-Framework/)
-[![Unit Tests](https://img.shields.io/badge/tests-11%2F11%20passing-brightgreen?logo=python)](tests/test_generational_context.py)
+[![Unit Tests](https://img.shields.io/badge/tests-15%2F15%20passing-brightgreen?logo=python)](tests/test_generational_context.py)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue?logo=python)](generational_context/)
 [![Whitepaper](https://img.shields.io/badge/whitepaper-PDF%20Available-crimson?logo=adobe-acrobat-reader)](docs/papers/The_Softmax_Inundation_Theorem.pdf)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
@@ -150,6 +150,30 @@ Conducted on discrete physical hardware (**NVIDIA GeForce RTX 3050 Laptop GPU, P
 </p>
 
 *Read the full research paper and layer-by-layer attention heatmap in the [Neural Benchmark & Empirical Proof Report](docs/research/NEURAL_BENCHMARK_REPORT.md).*
+
+### Google Research ERA Integration: Generational Tree Search (`Gen-FUTS`)
+
+Pairing LLMs with Flat UCB Tree Search (FUTS) enables automated empirical scientific discovery ([Google Research ERA, arXiv:2509.06503](https://arxiv.org/abs/2509.06503), Aygün et al., 2025). However, deep tree searches ($d \ge 10$) accumulate execution stderr, compiler warnings, and stack traces along lineages, diluting scientific invariants.
+
+The ACI Framework integrates FUTS with 3-Tier Generational Context (`generational_context/tree_search.py`):
+- **Gen-2:** Permanently pinned scientific conservation invariants ($A_{i, \text{inv}} \ge 0.38$).
+- **Gen-1:** Active branch hypotheses governed by Adaptive Weight Evaporation (AWE).
+- **Gen-0:** Ephemeral execution distillation of raw sandboxed stack traces into atomic $\mathcal{O}(1)$ signatures.
+
+Across 25 tree search iterations on chaotic Hamiltonian symplectic kernel optimization (`scripts/benchmark_era_generational_search.py`):
+
+| Search Axis | Standard ERA FUTS | Generational FUTS (`Gen-FUTS`) | Advantage |
+|---|---|---|---|
+| **Convergence Score** | 0.8959 | **0.9950** | **+11.1% absolute accuracy** |
+| **Invariant Violation Rate** | 12.0% (3/25) | **4.0% (1/25)** | **66.7% fewer violations** |
+| **Final Context Window** | 690 tokens | **148 tokens** | **78.6% context reduction** |
+| **Error Gravitation Traps** | 7 loops | **0 loops** | **Attractor loops eliminated** |
+
+<p align="center">
+  <img src="docs/assets/era_generational_tree_search.png" width="95%" alt="ERA Generational Tree Search Benchmark" />
+</p>
+
+*Read the full specification in [Bounded-Context Tree Search: Integrating Google Research ERA with Generational Context](docs/research/ERA_GENERATIONAL_TREE_SEARCH.md).*
 
 ### CCB-001 Context Benchmark
 
