@@ -1,0 +1,46 @@
+{
+  "trials_count": 5,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "iterations_per_trial": 6,
+  "standard_google_era": {
+    "mean_rmse": 0.6473705106937195,
+    "std_rmse": 0.020396634632614156,
+    "all_rmses": [
+      0.6324749148464212,
+      0.6324749148464212,
+      0.6697139044646674,
+      0.6697139044646674,
+      0.6324749148464212
+    ],
+    "total_invariant_violations": 10,
+    "average_final_tokens": 503.8
+  },
+  "generational_google_era": {
+    "mean_rmse": 0.6324749148464212,
+    "std_rmse": 0.0,
+    "all_rmses": [
+      0.6324749148464212,
+      0.6324749148464212,
+      0.6324749148464212,
+      0.6324749148464212,
+      0.6324749148464212
+    ],
+    "total_invariant_violations": 0,
+    "average_final_tokens": 219.0
+  },
+  "statistical_tests": {
+    "t_statistic": -1.6329931618554399,
+    "p_value_one_tailed": 0.0889039041781119,
+    "p_value_two_tailed": 0.1778078083562238,
+    "statistically_significant": false,
+    "rmse_improvement_percentage": 2.300938272788534,
+    "token_reduction_percentage": 56.53036919412465,
+    "violation_reduction_percentage": 100.0
+  }
+}

@@ -23,8 +23,12 @@ from .domain_invariants import (
     create_breakthrough_problem,
     distill_domain_execution,
 )
+from .era_adapter import (
+    StandardERAGenerator,
+    GenerationalERAGenerator,
+)
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __all__ = [
     "AdaptiveReplacementAttentionCache",
     "CacheEntry",
@@ -45,4 +49,6 @@ __all__ = [
     "DomainBreakthroughSpec",
     "create_breakthrough_problem",
     "distill_domain_execution",
+    "StandardERAGenerator",
+    "GenerationalERAGenerator",
 ]
