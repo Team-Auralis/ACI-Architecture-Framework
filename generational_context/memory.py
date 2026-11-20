@@ -98,6 +98,17 @@ class GenerationalMemory:
         )
         self.gen2_invariants[key] = entry
 
+    def record_attention(self, key: str, attention_weight: float, entropy: float):
+        """
+        Updates empirical attention telemetry in either Gen-2 Tenured Invariants
+        or active AWE cache (T1/T2).
+        """
+        if key in self.gen2_invariants:
+            self.gen2_invariants[key].attention_weight = attention_weight
+            self.gen2_invariants[key].entropy = entropy
+        else:
+            self.cache.record_attention(key, attention_weight, entropy)
+
     def record_tool_result(
         self, command: str, stdout: str, stderr: str, exit_code: int
     ) -> DistilledObservation:
