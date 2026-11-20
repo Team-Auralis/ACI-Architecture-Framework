@@ -17,8 +17,14 @@ from .tree_search import (
     backpropagate_visit,
     distill_execution_result,
 )
+from .domain_invariants import (
+    BREAKTHROUGH_CATALOG,
+    DomainBreakthroughSpec,
+    create_breakthrough_problem,
+    distill_domain_execution,
+)
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __all__ = [
     "AdaptiveReplacementAttentionCache",
     "CacheEntry",
@@ -35,4 +41,8 @@ __all__ = [
     "compute_pucts",
     "backpropagate_visit",
     "distill_execution_result",
+    "BREAKTHROUGH_CATALOG",
+    "DomainBreakthroughSpec",
+    "create_breakthrough_problem",
+    "distill_domain_execution",
 ]
