@@ -1,0 +1,67 @@
+[
+  {
+    "candidate_index": 0,
+    "candidate_name": "Linear Regression Baseline",
+    "status": "SUCCESS",
+    "real_rmse": 0.7096899155737152,
+    "elapsed_seconds": 2.3656744956970215,
+    "standard_prompt_tokens": 69,
+    "generational_prompt_tokens": 179,
+    "token_reduction_pct": -159.4,
+    "raw_traceback_tokens": 1,
+    "distilled_signature_tokens": 8,
+    "root_cause_captured": null
+  },
+  {
+    "candidate_index": 1,
+    "candidate_name": "Ridge Regression with Feature Cross",
+    "status": "SUCCESS",
+    "real_rmse": 0.7105707475401366,
+    "elapsed_seconds": 2.3058831691741943,
+    "standard_prompt_tokens": 93,
+    "generational_prompt_tokens": 200,
+    "token_reduction_pct": -115.1,
+    "raw_traceback_tokens": 1,
+    "distilled_signature_tokens": 8,
+    "root_cause_captured": null
+  },
+  {
+    "candidate_index": 2,
+    "candidate_name": "Faulty Model with Feature Mismatch",
+    "status": "EXCEPTION",
+    "real_rmse": null,
+    "elapsed_seconds": 2.2702696323394775,
+    "standard_prompt_tokens": 121,
+    "generational_prompt_tokens": 203,
+    "token_reduction_pct": -67.8,
+    "raw_traceback_tokens": 60,
+    "distilled_signature_tokens": 20,
+    "root_cause_captured": "ValueError: (\"DimensionMismatch: feature dimension (9) does not match fitted estimator coeff"
+  },
+  {
+    "candidate_index": 3,
+    "candidate_name": "Model Violating Forbidden Library Invariant",
+    "status": "INVARIANT_VIOLATION",
+    "real_rmse": null,
+    "elapsed_seconds": 0.0,
+    "standard_prompt_tokens": 155,
+    "generational_prompt_tokens": 212,
+    "token_reduction_pct": -36.8,
+    "raw_traceback_tokens": 8,
+    "distilled_signature_tokens": 15,
+    "root_cause_captured": "InvariantViolation: violated physical or computational bound"
+  },
+  {
+    "candidate_index": 4,
+    "candidate_name": "Gradient Boosting Regressor within Bounded Envelope",
+    "status": "SUCCESS",
+    "real_rmse": 0.6419008051810924,
+    "elapsed_seconds": 2.6032464504241943,
+    "standard_prompt_tokens": 188,
+    "generational_prompt_tokens": 221,
+    "token_reduction_pct": -17.6,
+    "raw_traceback_tokens": 1,
+    "distilled_signature_tokens": 8,
+    "root_cause_captured": null
+  }
+]
