@@ -99,6 +99,7 @@ nav:
     - Neural Benchmark & Empirical Proof: research/NEURAL_BENCHMARK_REPORT.md
     - Bounded-Context Tree Search (ERA): research/ERA_GENERATIONAL_TREE_SEARCH.md
     - 15 Real-World Breakthroughs: research/REAL_WORLD_BREAKTHROUGHS_COMPENDIUM.md
+    - Academic Literature Verification: research/ACADEMIC_LITERATURE_VERIFICATION.md
     - CCB-001 Benchmark Report: research/CCB_BENCHMARK_REPORT.md
     - ACI-001 Benchmark: research/ACI_001_BENCHMARK.md
     - Recursive Improvement: research/RECURSIVE_IMPROVEMENT.md
