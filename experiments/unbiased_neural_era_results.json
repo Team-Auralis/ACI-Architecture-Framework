@@ -1,0 +1,101 @@
+{
+  "evaluation_type": "Genuine PyTorch Neural Evaluation (GPT-2 on GPU)",
+  "tokenizer": "tiktoken (cl100k_base)",
+  "completed_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+  ],
+  "total_seeds": 8,
+  "iterations_per_trial": 6,
+  "total_steps_per_condition": 48,
+  "conditions": {
+    "Standard_Google_ERA": {
+      "mean_best_rmse": 0.6381749999999999,
+      "std_best_rmse": 0.010508058132418483,
+      "all_best_rmses": [
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6552,
+        0.6325,
+        0.6552,
+        0.6325,
+        0.6325
+      ],
+      "total_violations": 1,
+      "violation_rate": 0.020833333333333332,
+      "mean_final_bpe_tokens": 327.875,
+      "mean_average_bpe_tokens": 252.85416666666666
+    },
+    "Ablation_Gen2_Only": {
+      "mean_best_rmse": 0.6381749999999999,
+      "std_best_rmse": 0.010508058132418483,
+      "all_best_rmses": [
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6552,
+        0.6325,
+        0.6552,
+        0.6325,
+        0.6325
+      ],
+      "total_violations": 1,
+      "violation_rate": 0.020833333333333332,
+      "mean_final_bpe_tokens": 325.875,
+      "mean_average_bpe_tokens": 250.85416666666669
+    },
+    "Ablation_Gen0_Only": {
+      "mean_best_rmse": 0.6381749999999999,
+      "std_best_rmse": 0.010508058132418483,
+      "all_best_rmses": [
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6552,
+        0.6325,
+        0.6552,
+        0.6325,
+        0.6325
+      ],
+      "total_violations": 1,
+      "violation_rate": 0.020833333333333332,
+      "mean_final_bpe_tokens": 257.0,
+      "mean_average_bpe_tokens": 223.75
+    },
+    "Full_ACI": {
+      "mean_best_rmse": 0.6325,
+      "std_best_rmse": 0.0,
+      "all_best_rmses": [
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6325,
+        0.6325
+      ],
+      "total_violations": 4,
+      "violation_rate": 0.08333333333333333,
+      "mean_final_bpe_tokens": 191.75,
+      "mean_average_bpe_tokens": 185.66666666666666
+    }
+  },
+  "statistical_tests": {
+    "rmse_welch_t_statistic": -1.5275252316519394,
+    "rmse_welch_p_value": 0.17047066078705558,
+    "rmse_mann_whitney_u_statistic": 24.0,
+    "rmse_mann_whitney_p_value": 0.1699515583739133,
+    "fisher_exact_p_value_violations": 0.36162988115449907,
+    "bpe_token_reduction_percentage": 41.51734654975219,
+    "statistically_significant_rmse": false,
+    "statistically_significant_tokens": true
+  }
+}
